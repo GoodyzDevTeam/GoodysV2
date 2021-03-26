@@ -9,27 +9,27 @@ import {
 } from 'src/components/Animate';
 import { alpha, makeStyles } from '@material-ui/core/styles';
 import { Grid, Card, Container, Typography } from '@material-ui/core';
+import HomeIcon from '@material-ui/icons/Home';
 
 // ----------------------------------------------------------------------
 
 const CARDS = [
   {
-    icon: '/static/icons/ic_design.svg',
-    title: 'UI & UX Design',
+    icon: `https://pngimage.net/wp-content/uploads/2018/06/green-address-icon-png-2.png`,
+    title: 'Your Personal Hub',
     description:
-      'The set is built on the principles of the atomic design system. It helps you to create projects fastest and easily customized packages for your projects.'
+      "Goody's was designed and built to be your personal hub for everything cannabis. With your own easy to customize dashboard where you can save all your favorites! Even share your favorite goodys in your dashboard with friends."
   },
   {
     icon: '/static/icons/ic_code.svg',
-    title: 'Development',
-    description:
-      'Easy to customize and extend each component, saving you time and money.'
+    title: 'Discover',
+    description: 'Easy to dicover new deals, products, brands, and more.'
   },
   {
     icon: '/static/brand/logo_single.svg',
-    title: 'Branding',
+    title: 'Convience',
     description:
-      'Consistent design in colors, fonts ... makes brand recognition easy.'
+      "When we made Goody's we made it with the user in mind and we know your busy. With Goody's you can reorder your favorites, schedule pick ups, and even pay right through Goody's. Easy Peezy...Lemon Squeezy"
   }
 ];
 
@@ -106,7 +106,7 @@ const useStyles = makeStyles((theme) => {
       width: 40,
       height: 40,
       margin: 'auto',
-      marginBottom: theme.spacing(10)
+      marginBottom: theme.spacing(5)
     },
     cardIconLeft: shadowIcon('info'),
     cardIconCenter: shadowIcon('error'),
@@ -140,7 +140,7 @@ function MinimalHelps({ className }) {
           </MotionInView>
           <MotionInView variants={varFadeInDown}>
             <Typography variant="h2" align="center">
-              What Minimal Helps You?
+              What Is Goody's?
             </Typography>
           </MotionInView>
         </div>

@@ -35,6 +35,12 @@ function Footer({ className }) {
         <br /> Made by &nbsp;
         <Link href="https://minimals.cc/">minimals.cc</Link>
       </Typography>
+
+      <Typography variant="caption">
+        © All rights reserved
+        <br /> Made by &nbsp;
+        <Link href="https://minimals.cc/">minimals.cc</Link>
+      </Typography>
     </Container>
   );
 }
