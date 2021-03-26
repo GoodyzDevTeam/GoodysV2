@@ -8,6 +8,7 @@ import Advertisement from './Advertisement';
 import CleanInterfaces from './CleanInterfaces';
 import HugePackElements from './HugePackElements';
 import { makeStyles } from '@material-ui/core/styles';
+import LandingPageLearn from './LandingPageLearn';
 
 // ----------------------------------------------------------------------
 
@@ -35,9 +36,10 @@ function LandingPageView() {
       <div className={classes.content}>
         <Minimal />
         <HugePackElements />
-        <DarkMode />
-        <CleanInterfaces />
-        <Advertisement />
+        <LandingPageLearn />
+        {/* <DarkMode /> */}
+        {/* <CleanInterfaces /> */}
+        {/* <Advertisement /> */}
         <Footer />
       </div>
     </Page>

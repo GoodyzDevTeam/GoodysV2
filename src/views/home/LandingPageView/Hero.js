@@ -16,6 +16,7 @@ import {
 } from 'src/components/Animate';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button, Box, Link, Container, Typography } from '@material-ui/core';
+import AddressInput from './AddressInput';
 
 // ----------------------------------------------------------------------
 
@@ -34,8 +35,9 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   content: {
+    // backgroundColor: 'red',
     zIndex: 10,
-    maxWidth: 520,
+    maxWidth: 820,
     margin: 'auto',
     textAlign: 'center',
     position: 'relative',
@@ -45,6 +47,9 @@ const useStyles = makeStyles((theme) => ({
       margin: 'unset',
       textAlign: 'left'
     }
+  },
+  address: {
+    marginTop: theme.spacing(3)
   },
   heroOverlay: {
     zIndex: 9,
@@ -112,7 +117,7 @@ function Hero({ className }) {
       >
         <motion.img
           alt="overlay"
-          src="/static/images/overlay.svg"
+          src="https://image.freepik.com/free-photo/cannabis-leaves-marijuana-leaves-yellow-background-with-copy-space_106006-2959.jpg"
           variants={varFadeIn}
           className={classes.heroOverlay}
         />
@@ -132,27 +137,28 @@ function Hero({ className }) {
           <div className={classes.content}>
             <motion.div variants={varFadeInRight}>
               <Typography variant="h1" sx={{ color: 'common.white' }}>
-                Start a <br />
-                New Project <br /> with
+                Goody's <br />
+                Your Personal Hub For Everything
                 <Typography
                   component="span"
                   variant="h1"
                   sx={{ color: 'primary.main' }}
                 >
-                  &nbsp;Minimal
+                  &nbsp;Cannabis
                 </Typography>
               </Typography>
             </motion.div>
 
-            <motion.div variants={varFadeInRight}>
-              <Box component="p" sx={{ color: 'common.white', py: 5 }}>
+            <motion.div variants={varFadeInRight} className={classes.address}>
+              <AddressInput />
+              {/* <Box component="p" sx={{ color: 'common.white', py: 5 }}>
                 The starting point for your next project based on
                 easy-to-customize Material-UI © helps you build apps faster and
                 better.
-              </Box>
+              </Box> */}
             </motion.div>
 
-            <motion.div variants={varFadeInRight} className={classes.link}>
+            {/* <motion.div variants={varFadeInRight} className={classes.link}>
               <Box
                 component="img"
                 alt="sketch icon"
@@ -202,7 +208,7 @@ function Hero({ className }) {
                 variants={varFadeInRight}
                 src="/static/icons/ic_m_redux.svg"
               />
-            </div>
+            </div> */}
           </div>
         </Container>
       </motion.div>
