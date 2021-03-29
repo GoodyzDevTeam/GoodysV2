@@ -7,7 +7,6 @@ function path(root, sublink) {
 const ROOTS = {
   auth: '/auth',
   app: '/app',
-  learn: '/learn',
   docs: '/docs'
 };
 
@@ -152,11 +151,6 @@ export const PATH_APP = {
     carousel: path(ROOTS.app, '/extra-components/carousel'),
     multiLanguage: path(ROOTS.app, '/extra-components/multi-language')
   }
-};
-
-export const PATH_LEARN = {
-  root: ROOTS.learn,
-  learn: path(ROOTS.learn, '/learn')
 };
 
 export const PATH_DOCS = {

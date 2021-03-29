@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import React from 'react';
 import PropTypes from 'prop-types';
-import { PATH_HOME, PATH_APP } from 'src/routes/paths';
+import { PATH_HOME } from 'src/routes/paths';
 import { BASE_IMG } from 'src/utils/getImages';
 import { Link as RouterLink } from 'react-router-dom';
 import useBreakpoints from 'src/hooks/useBreakpoints';
@@ -127,15 +127,14 @@ function HugePackElements({ className }) {
 
               <MotionInView variants={textAnimate}>
                 <Typography variant="h2" paragraph>
-                  Discover
+                  Huge Pack of Elements
                 </Typography>
               </MotionInView>
 
               <MotionInView variants={textAnimate}>
                 <Typography sx={{ color: 'text.secondary' }}>
-                  From your neigborhood dispensary to the medical dispensary
-                  choose from over thousands of local and national favorites
-                  across the U.S.
+                  We collected most popular elements. Menu, sliders, buttons,
+                  inputs etc. are all here. Just dive in!
                 </Typography>
               </MotionInView>
 
@@ -145,9 +144,9 @@ function HugePackElements({ className }) {
                   color="inherit"
                   variant="outlined"
                   component={RouterLink}
-                  to={PATH_APP.general.ecommerce}
+                  to={PATH_HOME.components}
                 >
-                  View All
+                  View All Components
                 </Button>
               </MotionInView>
             </div>
@@ -164,14 +163,31 @@ function HugePackElements({ className }) {
               pl: { sm: '16% !important', md: '0 !important' }
             }}
           >
-            <Box
-              component="img"
-              alt="friends enjoying cannabis"
-              src="https://weedmaps.com/learn/wp-content/uploads/2020/07/181008_OutdoorSesh064-1.jpg"
-              variants={varFadeInUp}
-              className="lazyload"
-              sx={{ width: { xs: '80%', sm: '100%' } }}
-            />
+            {[...Array(3)].map((screen, index) => (
+              <MotionInView
+                key={index}
+                variants={
+                  (index === 0 && screenLeftAnimate) ||
+                  (index === 1 && screenCenterAnimate) ||
+                  screenRightAnimate
+                }
+                transition={transition}
+                className={clsx(classes.screen, {
+                  [classes.screenLeft]: index === 0,
+                  [classes.screenCenter]: index === 1,
+                  [classes.screenRight]: index === 2
+                })}
+              >
+                <Box
+                  component="img"
+                  alt={`screen ${index + 1}`}
+                  src={getImg(720, index)}
+                  variants={varFadeInUp}
+                  className="lazyload"
+                  sx={{ width: { xs: '80%', sm: '100%' } }}
+                />
+              </MotionInView>
+            ))}
           </Grid>
         </Grid>
       </Container>

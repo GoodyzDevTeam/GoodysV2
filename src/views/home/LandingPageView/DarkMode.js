@@ -11,12 +11,38 @@ import {
   varFadeInRight
 } from 'src/components/Animate';
 import { makeStyles } from '@material-ui/core/styles';
-import Brightness4Icon from '@material-ui/icons/Brightness4';
 import { Box, Grid, Container, Typography } from '@material-ui/core';
 
 // ----------------------------------------------------------------------
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    padding: theme.spacing(20, 0),
+    backgroundColor: theme.palette.grey[900]
+  },
+  content: {
+    textAlign: 'center',
+    position: 'relative',
+    marginBottom: theme.spacing(10),
+    [theme.breakpoints.up('md')]: {
+      height: '100%',
+      marginBottom: 0,
+      textAlign: 'left',
+      display: 'inline-flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'flex-start'
+    }
+  },
+  image: {
+    WebkitPerspective: 1000,
+    WebkitTransform: 'translateZ(0)',
+    WebkitBackfaceVisibility: 'hidden',
+    filter: 'drop-shadow(-80px 80px 120px #000000)',
+    [theme.breakpoints.up('md')]: {
+      maxWidth: 'calc(100% - 48px)'
+    }
+  },
   switch: {
     width: 56,
     height: 24,
@@ -83,7 +109,7 @@ function DarkMode({ className }) {
 
   return (
     <div className={clsx(classes.root, className)}>
-      {/* <Container maxWidth="lg" sx={{ position: 'relative' }}>
+      <Container maxWidth="lg" sx={{ position: 'relative' }}>
         <Box
           component="img"
           alt="image shape"
@@ -128,13 +154,12 @@ function DarkMode({ className }) {
                 <Typography>
                   A dark theme that feels easier on the eyes.
                 </Typography>
-              </MotionInView> */}
+              </MotionInView>
 
-      <MotionInView variants={varFadeInRight}>
-        {/* <ToggleSwitch isChecked={!isLight} onToggleTheme={toggleMode} /> */}
-        <Brightness4Icon isChecked={!isLight} onClick={toggleMode} />
-      </MotionInView>
-      {/* </div>
+              <MotionInView variants={varFadeInRight}>
+                <ToggleSwitch isChecked={!isLight} onToggleTheme={toggleMode} />
+              </MotionInView>
+            </div>
           </Grid>
 
           <Grid item xs={12} md={8}>
@@ -152,7 +177,7 @@ function DarkMode({ className }) {
             </MotionInView>
           </Grid>
         </Grid>
-      </Container> */}
+      </Container>
     </div>
   );
 }

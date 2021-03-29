@@ -7,7 +7,7 @@ import homeFill from '@iconify-icons/eva/home-fill';
 import PopoverMenu from 'src/components/PopoverMenu';
 import roundSpeed from '@iconify-icons/ic/round-speed';
 import menu2Fill from '@iconify-icons/eva/menu-2-fill';
-import { PATH_HOME, PATH_APP, PATH_LEARN } from 'src/routes/paths';
+import { PATH_HOME, PATH_DOCS } from 'src/routes/paths';
 import bookOpenFill from '@iconify-icons/eva/book-open-fill';
 import roundStreetview from '@iconify-icons/ic/round-streetview';
 import { NavLink as RouterLink, useLocation } from 'react-router-dom';
@@ -23,19 +23,17 @@ import {
   MenuItem,
   Container,
   ListItemIcon,
-  ListItemText,
-  Typography
+  ListItemText
 } from '@material-ui/core';
 import { MIconButton } from 'src/theme';
-import DarkMode from 'src/views/home/LandingPageView/DarkMode';
 
 // ----------------------------------------------------------------------
 
 const MENU_LINKS = [
   { title: 'Home', icon: homeFill, href: '/' },
-  { title: 'Discover', icon: roundStreetview, href: PATH_HOME.components },
-  { title: "Goody's Hub", icon: roundSpeed, href: PATH_HOME.dashboard },
-  { title: 'Learn', icon: bookOpenFill, href: PATH_LEARN.learn }
+  { title: 'Components', icon: roundStreetview, href: PATH_HOME.components },
+  { title: 'Dashboard', icon: roundSpeed, href: PATH_HOME.dashboard },
+  { title: 'Documentation', icon: bookOpenFill, href: PATH_DOCS.root }
 ];
 
 const APP_BAR_MOBILE = 64;
@@ -45,7 +43,6 @@ const useStyles = makeStyles((theme) => ({
   root: {},
   toolbar: {
     height: APP_BAR_MOBILE,
-    // backgroundColor: 'red',
     transition: theme.transitions.create(['height', 'background-color'], {
       easing: theme.transitions.easing.easeInOut,
       duration: theme.transitions.duration.shorter
@@ -53,12 +50,6 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('md')]: {
       height: APP_BAR_DESKTOP
     }
-  },
-  logo: {
-    textDecoration: 'none'
-  },
-  switch: {
-    marginLeft: theme.spacing(3)
   },
   isHome: {
     color: theme.palette.common.white
@@ -100,7 +91,7 @@ function TopBar() {
   const isHome = pathname === '/';
 
   const renderMenuDesktop = (
-    <div className={classes.display}>
+    <div>
       {MENU_LINKS.map((link) => (
         <Link
           exact
@@ -165,14 +156,8 @@ function TopBar() {
             justifyContent: 'space-between'
           }}
         >
-          <RouterLink to="/" className={classes.logo}>
-            <Typography
-              underline="none"
-              variant="h4"
-              sx={{ color: 'common.white' }}
-            >
-              Goody's
-            </Typography>
+          <RouterLink to="/">
+            <Logo />
           </RouterLink>
           <Box sx={{ flexGrow: 1 }} />
 
@@ -185,12 +170,8 @@ function TopBar() {
             target="_blank"
             href={PATH_HOME.purchase}
           >
-            Sign Up
+            Purchase Now
           </Button>
-
-          <div className={classes.switch}>
-            <DarkMode />
-          </div>
 
           <Hidden mdUp>
             <MIconButton
