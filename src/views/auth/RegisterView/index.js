@@ -102,9 +102,10 @@ function RegisterView() {
           setSubmitting(false);
         }
       } catch (error) {
-        console.error(error);
         if (isMountedRef.current) {
-          setErrors({ afterSubmit: error.code || error.message });
+          setErrors({
+            afterSubmit: error.status || error.response.data.message
+          });
           setSubmitting(false);
         }
       }

@@ -7,11 +7,13 @@ import homeFill from '@iconify-icons/eva/home-fill';
 import PopoverMenu from 'src/components/PopoverMenu';
 import roundSpeed from '@iconify-icons/ic/round-speed';
 import menu2Fill from '@iconify-icons/eva/menu-2-fill';
-import { PATH_HOME, PATH_APP, PATH_LEARN } from 'src/routes/paths';
+import { PATH_HOME, PATH_APP, PATH_LEARN, PATH_PAGE } from 'src/routes/paths';
 import bookOpenFill from '@iconify-icons/eva/book-open-fill';
 import roundStreetview from '@iconify-icons/ic/round-streetview';
 import { NavLink as RouterLink, useLocation } from 'react-router-dom';
 import { makeStyles, alpha } from '@material-ui/core/styles';
+import useAuth from 'src/hooks/useAuth';
+import Account from 'src/layouts/DashboardLayout/TopBar/Account';
 import {
   Box,
   List,
@@ -98,6 +100,7 @@ function TopBar() {
   const offset = useOffSetTop(100);
   const [openMenu, setOpenMenu] = useState(false);
   const isHome = pathname === '/';
+  const { user } = useAuth();
 
   const renderMenuDesktop = (
     <div className={classes.display}>
@@ -178,16 +181,20 @@ function TopBar() {
 
           <Hidden mdDown>{renderMenuDesktop}</Hidden>
 
-          <Button
-            underline="none"
-            variant="contained"
-            component={Link}
-            target="_blank"
-            href={PATH_HOME.purchase}
-          >
-            Sign Up
-          </Button>
-
+          {user ? (
+            <Account />
+          ) : (
+            <Button
+              underline="none"
+              variant="contained"
+              component={Link}
+              //target="_blank"
+              //href={PATH_HOME.purchase}
+              href={PATH_PAGE.auth.login}
+            >
+              Sign In/Up
+            </Button>
+          )}
           <div className={classes.switch}>
             <DarkMode />
           </div>

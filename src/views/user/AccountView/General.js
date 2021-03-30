@@ -9,6 +9,7 @@ import { UploadAvatar } from 'src/components/Upload';
 import useIsMountedRef from 'src/hooks/useIsMountedRef';
 import { Form, FormikProvider, useFormik } from 'formik';
 import { makeStyles } from '@material-ui/core/styles';
+import { ajaxUrl } from '../../../config';
 import {
   Box,
   Grid,
