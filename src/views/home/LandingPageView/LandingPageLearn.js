@@ -1,7 +1,7 @@
-import clsx from 'clsx';
 import React from 'react';
+import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import { PATH_HOME, PATH_APP } from 'src/routes/paths';
+import { PATH_APP } from 'src/routes/paths';
 import { BASE_IMG } from 'src/utils/getImages';
 import { Link as RouterLink } from 'react-router-dom';
 import useBreakpoints from 'src/hooks/useBreakpoints';
@@ -13,10 +13,8 @@ import {
 import { alpha, makeStyles, useTheme } from '@material-ui/core/styles';
 import { Button, Box, Grid, Container, Typography } from '@material-ui/core';
 
-// ----------------------------------------------------------------------
-
 const useStyles = makeStyles((theme) => {
-  const isRTL = theme.direction === 'rtl';
+  const isLTR = theme.direction === 'ltr';
 
   return {
     root: {
@@ -55,10 +53,10 @@ const useStyles = makeStyles((theme) => {
       position: 'relative',
       zIndex: 2,
       bottom: 20,
-      transform: isRTL ? 'translateX(-24%)' : 'translateX(24%)',
+      transform: isLTR ? 'translateX(-24%)' : 'translateX(24%)',
       [theme.breakpoints.up('sm')]: {
         bottom: 40,
-        transform: isRTL ? 'translateX(-32%)' : 'translateX(32%)'
+        transform: isLTR ? 'translateX(-32%)' : 'translateX(32%)'
       }
     }
   };
@@ -88,26 +86,21 @@ const transition = { duration: 0.5, ease: 'easeOut' };
 
 // ----------------------------------------------------------------------
 
-HugePackElements.propTypes = {
+LandingPageLearn.propTypes = {
   className: PropTypes.string
 };
 
-function HugePackElements({ className }) {
+function LandingPageLearn({ className }) {
   const classes = useStyles();
   const theme = useTheme();
   const upSm = useBreakpoints('up', 'sm');
   const upMd = useBreakpoints('up', 'md');
   const textAnimate = upMd ? varFadeInRight : varFadeInUp;
-  const screenLeftAnimate = upSm ? variantScreenLeft : variantScreenLeftMoblie;
-  const screenCenterAnimate = variantScreenCenter;
-  const screenRightAnimate = upSm
-    ? variantScreenRight
-    : variantScreenRightMobile;
 
-  const getImg = (width, index) =>
-    `${BASE_IMG}w_${width}/v1611472901/upload_minimal/home/screen_${
-      theme.palette.mode === 'light' ? 'light' : 'dark'
-    }_${index + 1}.png`;
+  // const getImg = (width, index) =>
+  //   `${BASE_IMG}w_${width}/v1611472901/upload_minimal/home/screen_${
+  //     theme.palette.mode === 'light' ? 'light' : 'dark'
+  //   }_${index + 1}.png`;
 
   return (
     <div className={clsx(classes.root, className)}>
@@ -127,15 +120,14 @@ function HugePackElements({ className }) {
 
               <MotionInView variants={textAnimate}>
                 <Typography variant="h2" paragraph>
-                  Discover
+                  Learn
                 </Typography>
               </MotionInView>
 
               <MotionInView variants={textAnimate}>
                 <Typography sx={{ color: 'text.secondary' }}>
-                  From your neigborhood dispensary to the medical dispensary
-                  choose from over thousands of local and national favorites
-                  across the U.S.
+                  Educate yourself on different cannabis products, topics and
+                  laws.
                 </Typography>
               </MotionInView>
 
@@ -145,7 +137,7 @@ function HugePackElements({ className }) {
                   color="inherit"
                   variant="outlined"
                   component={RouterLink}
-                  to={PATH_APP.general.ecommerce}
+                  to={PATH_APP.general.learn}
                 >
                   View All
                 </Button>
@@ -154,7 +146,7 @@ function HugePackElements({ className }) {
           </Grid>
 
           <Grid
-            dir="ltr"
+            dir="rtl"
             item
             xs={12}
             md={8}
@@ -167,7 +159,7 @@ function HugePackElements({ className }) {
             <Box
               component="img"
               alt="friends enjoying cannabis"
-              src="https://weedmaps.com/learn/wp-content/uploads/2020/07/181008_OutdoorSesh064-1.jpg"
+              src="https://weedmaps.com/learn/wp-content/uploads/2020/10/CRTV-3440_May-Social-Ask0121-scaled.jpg"
               variants={varFadeInUp}
               className="lazyload"
               sx={{ width: { xs: '80%', sm: '100%' } }}
@@ -179,4 +171,4 @@ function HugePackElements({ className }) {
   );
 }
 
-export default HugePackElements;
+export default LandingPageLearn;

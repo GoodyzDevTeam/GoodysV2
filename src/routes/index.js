@@ -1,14 +1,15 @@
 import NProgress from 'nprogress';
 import AppRoutes from './AppRoutes';
-import { PATH_PAGE } from './paths';
+import LearnRoutes from './LearnRoutes';
+import DiscoverRoutes from './DiscoverRoutes';
+import { PATH_PAGE, PATH_LEARN, PATH_DISCOVER, PATH_PICKUP } from './paths';
+import HomeLayout from 'src/layouts/HomeLayout';
 import HomeRoutes from './HomeRoutes';
-import DocsRoutes from './DocsRoutes';
 import LoadingScreen from 'src/components/LoadingScreen';
 import GuestProtect from 'src/components/Auth/GuestProtect';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import React, { Suspense, Fragment, lazy, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-
 // ----------------------------------------------------------------------
 
 const nprogressStyle = makeStyles((theme) => ({
@@ -159,15 +160,39 @@ const routes = [
     path: PATH_PAGE.auth.root,
     component: () => <Redirect to={PATH_PAGE.auth.login} />
   },
+  {
+    exact: true,
+    path: PATH_LEARN.general2.learn,
+    layout: HomeLayout,
+    component: lazy(() => import('src/views/Learn/index'))
+  },
+  {
+    exact: true,
+    path: PATH_DISCOVER.general1.discover,
+    layout: HomeLayout,
+    component: lazy(() => import('src/views/DiscoverPage/index'))
+  },
+  {
+    exact: true,
+    path: PATH_PICKUP.general3.pickup,
+    layout: HomeLayout,
+    component: lazy(() => import('src/views/pick-up/index'))
+  },
 
   // App Routes
   AppRoutes,
 
   // Docs Routes
-  DocsRoutes,
+  // DocsRoutes,
 
   // Home Routes
   HomeRoutes
+
+  //Learn Routes
+  // LearnRoutes,
+
+  //Discover Routes
+  // DiscoverRoutes
 ];
 
 export default routes;
