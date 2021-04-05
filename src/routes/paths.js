@@ -4,13 +4,16 @@ function path(root, sublink) {
   return `${root}${sublink}`;
 }
 
+// ROOTS
 const ROOTS = {
   auth: '/auth',
   app: '/app',
+  discover: '/discover',
   learn: '/learn',
-  docs: '/docs'
+  pickup: '/pickup'
 };
 
+// PAGE PATHS
 export const PATH_PAGE = {
   auth: {
     root: ROOTS.auth,
@@ -27,41 +30,27 @@ export const PATH_PAGE = {
   payment: '/payment'
 };
 
+// HOME PAGE PATHS
 export const PATH_HOME = {
   components: '/components',
-  cloud: 'https://www.sketch.com/s/0fa4699d-a3ff-4cd5-a3a7-d851eb7e17f0',
-  purchase: 'https://material-ui.com/store/items/minimal-dashboard/',
+  // cloud: 'https://www.sketch.com/s/0fa4699d-a3ff-4cd5-a3a7-d851eb7e17f0',
+  // purchase: 'https://material-ui.com/store/items/minimal-dashboard/',
   dashboard: ROOTS.app
 };
 
+// APP PATHS
+//USERS WILL BE ABLE TO ACCESS THE PATHS BELOW AFTER THEY HAVE CREATED AN ACCOUNT OR SIGNED IN.
+//THE PATHS BELOW LEAD TO THE USERS PERSONAL GOODY'S HUB (DASHBOARD)
 export const PATH_APP = {
   root: ROOTS.app,
   general: {
-    root: path(ROOTS.app, '/dashboard'),
+    root: path(ROOTS.app, '/dashboard'), // GOODYS-HUB MAIN USER DASHBOARD PATH
     dashboard: path(ROOTS.app, '/dashboard'),
-    ecommerce: path(ROOTS.app, '/dashboard/ecommerce/dicover'),
-    learn: path(ROOTS.app, '/management/blog/learn'),
+    discover: path(ROOTS.app, '/general/discover'), // DISCOVER PATH FOR USERS GOODY'S HUB(DASHBOARD)
+    learn: path(ROOTS.app, '/management/blog/learn'), // LEARN PATH FOR USERS GOODY'S HUB(DASHBOARD)
     posts: path(ROOTS.app, '/management/blog'),
+    pickup: path(ROOTS.app, '/managment/pickup'), // PICK UP PATH FOR USERS GOODY'S HUB(DASHBOARD)
     analytics: path(ROOTS.app, '/dashboard/analytics')
-  },
-  app: {
-    mail: {
-      root: path(ROOTS.app, '/mail'),
-      all: path(ROOTS.app, '/mail/all'),
-      labels: [
-        path(ROOTS.app, '/mail/label/:customLabel/:mailId?'),
-        path(ROOTS.app, '/mail/:systemLabel/:mailId?')
-      ]
-    },
-    chat: {
-      root: path(ROOTS.app, '/chat'),
-      new: path(ROOTS.app, '/chat/new'),
-      conversation: [
-        path(ROOTS.app, '/chat/new'),
-        path(ROOTS.app, '/chat/:conversationKey')
-      ]
-    },
-    calendar: path(ROOTS.app, '/calendar')
   },
   management: {
     root: path(ROOTS.app, '/management'),
@@ -95,94 +84,29 @@ export const PATH_APP = {
       ),
       newPost: path(ROOTS.app, '/management/blog/new-post')
     }
-  },
-  foundations: {
-    root: path(ROOTS.app, '/foundations'),
-    colors: path(ROOTS.app, '/foundations/colors'),
-    typography: path(ROOTS.app, '/foundations/typography'),
-    shadows: path(ROOTS.app, '/foundations/shadows'),
-    grid: path(ROOTS.app, '/foundations/grid'),
-    icons: path(ROOTS.app, '/foundations/icons')
-  },
-  components: {
-    root: path(ROOTS.app, '/components'),
-    accordion: path(ROOTS.app, '/components/accordion'),
-    alert: path(ROOTS.app, '/components/alert'),
-    autocomplete: path(ROOTS.app, '/components/autocomplete'),
-    avatar: path(ROOTS.app, '/components/avatars'),
-    badge: path(ROOTS.app, '/components/badges'),
-    breadcrumbs: path(ROOTS.app, '/components/breadcrumbs'),
-    buttons: path(ROOTS.app, '/components/buttons'),
-    chip: path(ROOTS.app, '/components/chips'),
-    dialog: path(ROOTS.app, '/components/dialogs'),
-    textfield: path(ROOTS.app, '/components/text-fields'),
-    label: path(ROOTS.app, '/components/labels'),
-    lists: path(ROOTS.app, '/components/lists'),
-    menu: path(ROOTS.app, '/components/menu'),
-    pagination: path(ROOTS.app, '/components/pagination'),
-    pickers: path(ROOTS.app, '/components/pickers'),
-    popover: path(ROOTS.app, '/components/popover'),
-    progress: path(ROOTS.app, '/components/progress'),
-    rating: path(ROOTS.app, '/components/rating'),
-    selectionControls: path(ROOTS.app, '/components/selection-controls'),
-    snackbar: path(ROOTS.app, '/components/snackbars'),
-    slider: path(ROOTS.app, '/components/slider'),
-    stepper: path(ROOTS.app, '/components/steppers'),
-    tabs: path(ROOTS.app, '/components/tabs'),
-    table: path(ROOTS.app, '/components/table'),
-    timeline: path(ROOTS.app, '/components/timeline'),
-    tooltip: path(ROOTS.app, '/components/tooltips'),
-    transferList: path(ROOTS.app, '/components/transfer-list'),
-    treeView: path(ROOTS.app, '/components/tree-view'),
-
-    // Extra
-    chart: {
-      root: path(ROOTS.app, '/extra-components/chart'),
-      apexcharts: path(ROOTS.app, '/extra-components/chart/apexcharts'),
-      recharts: path(ROOTS.app, '/extra-components/chart/recharts')
-    },
-    map: {
-      root: path(ROOTS.app, '/extra-components/map'),
-      google: path(ROOTS.app, '/extra-components/map/googlemap'),
-      mapbox: path(ROOTS.app, '/extra-components/map/mapbox')
-    },
-    editor: path(ROOTS.app, '/extra-components/editor'),
-    copyToClipboard: path(ROOTS.app, '/extra-components/copy-to-clipboard'),
-    upload: path(ROOTS.app, '/extra-components/upload'),
-    carousel: path(ROOTS.app, '/extra-components/carousel'),
-    multiLanguage: path(ROOTS.app, '/extra-components/multi-language')
   }
 };
 
-export const PATH_LEARN = {
-  root: ROOTS.learn,
-  learn: path(ROOTS.learn, '/learn')
+//DISCOVER PATH FOR LANDING PAGE USER DOES NOT HAVE TO BE SIGNED IN TO SEE THIS PAGE
+export const PATH_DISCOVER = {
+  root: ROOTS.discover,
+  general1: {
+    discover: path(ROOTS.discover, '/discover')
+  }
 };
 
-export const PATH_DOCS = {
-  root: ROOTS.docs,
-  introduction: path(ROOTS.docs, '/introduction'),
-  started: path(ROOTS.docs, '/getting-started'),
-  // Theme UI
-  color: path(ROOTS.docs, '/color'),
-  typography: path(ROOTS.docs, '/typography'),
-  icon: path(ROOTS.docs, '/icon'),
-  shadows: path(ROOTS.docs, '/shadows'),
-  components: path(ROOTS.docs, '/components'),
-  tips: path(ROOTS.docs, '/tips'),
+// LEARN PATH FOR LANDING PAGE USER DOES NOT HAVE TO BE SIGNED IN TO SEE THIS PAGE
+export const PATH_LEARN = {
+  root: ROOTS.learn,
+  general2: {
+    learn: path(ROOTS.learn, '/learn')
+  }
+};
 
-  // Development
-  routing: path(ROOTS.docs, '/routing'),
-  environmentVariables: path(ROOTS.docs, '/environment-variables'),
-  stateManagement: path(ROOTS.docs, '/state-management'),
-  apiCalls: path(ROOTS.docs, '/api-calls'),
-  analytics: path(ROOTS.docs, '/analytics'),
-  authentication: path(ROOTS.docs, '/authentication'),
-  multiLanguage: path(ROOTS.docs, '/multi-language'),
-  lazyload: path(ROOTS.docs, '/lazyload-image'),
-  formHelper: path(ROOTS.docs, '/form-helper'),
-
-  // Changelog
-  support: path(ROOTS.docs, '/support'),
-  changelog: path(ROOTS.docs, '/changelog')
+//PICK UP PATH FOR LANDING PAGE USER DOES NOT HAVE TO BE SIGNED IN TO SEE THIS PAGE
+export const PATH_PICKUP = {
+  root: ROOTS.pickup,
+  general3: {
+    pickup: path(ROOTS.pickup, '/pickup')
+  }
 };

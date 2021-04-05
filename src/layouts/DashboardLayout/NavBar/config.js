@@ -1,11 +1,18 @@
 import React from 'react';
 import { MLabel, MIcon } from 'src/theme';
-import { PATH_APP, PATH_PAGE } from 'src/routes/paths';
+import {
+  PATH_APP,
+  PATH_PAGE,
+  PATH_LEARN,
+  PATH_DISCOVER
+} from 'src/routes/paths';
+import DashboardLayout from 'src/layouts/DashboardLayout';
 
 // ----------------------------------------------------------------------
 
 const path = (name) => `/static/icons/navbar/${name}.svg`;
 
+// LABEL ICONS
 const ICONS = {
   authenticator: <MIcon src={path('ic_authenticator')} />,
   blog: <MIcon src={path('ic_blog')} />,
@@ -28,6 +35,7 @@ const ICONS = {
   language: <MIcon src={path('ic_language')} />
 };
 
+//GOODY'S HUB DASHBOARD SIDBAR NAV CONFIG
 const navConfig = [
   // GENERAL
   // ----------------------------------------------------------------------
@@ -45,20 +53,16 @@ const navConfig = [
           },
           {
             title: 'Discover',
-            href: PATH_APP.management.eCommerce.discover
+            href: PATH_APP.general.discover
           },
-          // {
-          //   title: 'Shop',
-          //   href: PATH_APP.management.eCommerce.products
-          // },
-          // {
-          //   title: 'Pick Up',
-          //   href: PATH_APP.general.analytics
-          // },
-          // {
-          //   title: 'Orders',
-          //   href: PATH_APP.general.analytics
-          // },
+          {
+            title: 'Pick Up',
+            href: PATH_APP.general.pickup
+          },
+          {
+            title: 'orders',
+            href: PATH_APP.management.user.cards
+          },
           {
             title: 'Learn',
             href: PATH_APP.management.blog.learn
@@ -84,14 +88,6 @@ const navConfig = [
           {
             title: 'profile',
             href: PATH_APP.management.user.profile
-          },
-          {
-            title: 'cards',
-            href: PATH_APP.management.user.cards
-          },
-          {
-            title: 'list',
-            href: PATH_APP.management.user.list
           },
           {
             title: 'account',

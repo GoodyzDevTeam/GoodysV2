@@ -1,77 +1,232 @@
 import clsx from 'clsx';
-import React from 'react';
-import PropTypes from 'prop-types';
 import { Icon } from '@iconify/react';
-import Logo from 'src/components/Logo';
-import { PATH_APP } from 'src/routes/paths';
-import Settings from 'src/layouts/Common/Settings';
-import { Link as RouterLink } from 'react-router-dom';
+// import Logo from 'src/components/Logo';
+import React, { useState, useRef } from 'react';
+import useOffSetTop from 'src/hooks/useOffSetTop';
+import homeFill from '@iconify-icons/eva/home-fill';
+import PopoverMenu from 'src/components/PopoverMenu';
+import roundSpeed from '@iconify-icons/ic/round-speed';
 import menu2Fill from '@iconify-icons/eva/menu-2-fill';
-import arrowIosForwardFill from '@iconify-icons/eva/arrow-ios-forward-fill';
-import { alpha, makeStyles } from '@material-ui/core/styles';
+import {
+  PATH_HOME,
+  PATH_APP,
+  PATH_LEARN,
+  PATH_DISCOVER
+} from 'src/routes/paths';
+import bookOpenFill from '@iconify-icons/eva/book-open-fill';
+import roundStreetview from '@iconify-icons/ic/round-streetview';
+import { NavLink as RouterLink, useLocation } from 'react-router-dom';
+import { makeStyles, alpha } from '@material-ui/core/styles';
 import {
   Box,
+  List,
+  Link,
   Button,
   AppBar,
   Hidden,
   Toolbar,
-  IconButton
+  MenuItem,
+  Container,
+  ListItemIcon,
+  ListItemText,
+  Typography
 } from '@material-ui/core';
+import { MIconButton } from 'src/theme';
+import DarkMode from 'src/views/home/LandingPageView/DarkMode';
 
 // ----------------------------------------------------------------------
 
-const APPBAR_HEIGHT = 64;
+const MENU_LINKS = [
+  { title: 'Home', icon: homeFill, href: '/' },
+  { title: 'Discover', icon: roundStreetview, href:  PATH_DISCOVER.general1.discover },
+  { title: "Goody's Hub", icon: roundSpeed, href: PATH_HOME.dashboard },
+  { title: 'Learn', icon: bookOpenFill, href: PATH_APP.general.root }
+];
+
+const APP_BAR_MOBILE = 64;
+const APP_BAR_DESKTOP = 96;
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    zIndex: 999,
-    backdropFilter: 'blur(8px)',
-    boxShadow: theme.shadows[25].z8,
-    color: theme.palette.text.primary,
-    backgroundColor: alpha(theme.palette.background.default, 0.72),
+  root: {},
+  toolbar: {
+    height: APP_BAR_MOBILE,
+    // backgroundColor: 'red',
+    transition: theme.transitions.create(['height', 'background-color'], {
+      easing: theme.transitions.easing.easeInOut,
+      duration: theme.transitions.duration.shorter
+    }),
     [theme.breakpoints.up('md')]: {
-      zIndex: 1999
+      height: APP_BAR_DESKTOP
+    }
+  },
+  logo: {
+    textDecoration: 'none'
+  },
+  switch: {
+    marginLeft: theme.spacing(3)
+  },
+  isHome: {
+    color: theme.palette.common.white
+  },
+  isDesktopActive: {
+    color: theme.palette.primary.main
+  },
+  isMobileActive: {
+    color: theme.palette.primary.main,
+    fontWeight: theme.typography.fontWeightMedium,
+    backgroundColor: alpha(
+      theme.palette.primary.main,
+      theme.palette.action.selectedOpacity
+    )
+  },
+  onScroll: {
+    '& $toolbar': {
+      backgroundColor: theme.palette.background.default
+    },
+    '& $isHome': {
+      color: theme.palette.text.primary
+    },
+    [theme.breakpoints.up('md')]: {
+      '& $toolbar': {
+        height: APP_BAR_DESKTOP - 20
+      }
     }
   }
 }));
 
 // ----------------------------------------------------------------------
 
-TopBar.propTypes = {
-  onOpenNav: PropTypes.func
-};
-
-function TopBar({ onOpenNav, className }) {
+function TopBar() {
   const classes = useStyles();
+  const anchorRef = useRef(null);
+  const { pathname } = useLocation();
+  const offset = useOffSetTop(100);
+  const [openMenu, setOpenMenu] = useState(false);
+  const isHome = pathname === '/';
+
+  const renderMenuDesktop = (
+    <div className={classes.display}>
+      {MENU_LINKS.map((link) => (
+        <Link
+          exact
+          to={link.href}
+          key={link.title}
+          underline="none"
+          variant="subtitle2"
+          component={RouterLink}
+          activeClassName={classes.isDesktopActive}
+          className={clsx({
+            [classes.isHome]: isHome
+          })}
+          sx={{ mr: 5, color: 'text.primary' }}
+        >
+          {link.title}
+        </Link>
+      ))}
+    </div>
+  );
+
+  const renderMenuMobile = (
+    <PopoverMenu
+      width={220}
+      open={openMenu}
+      anchorEl={anchorRef.current}
+      onClose={() => setOpenMenu(false)}
+    >
+      <List>
+        {MENU_LINKS.map((link) => (
+          <MenuItem
+            exact
+            to={link.href}
+            key={link.title}
+            component={RouterLink}
+            onClick={() => setOpenMenu(false)}
+            activeClassName={classes.isMobileActive}
+            sx={{ color: 'text.secondary' }}
+          >
+            <ListItemIcon>
+              <Icon icon={link.icon} width={20} height={20} />
+            </ListItemIcon>
+            <ListItemText>{link.title}</ListItemText>
+          </MenuItem>
+        ))}
+      </List>
+    </PopoverMenu>
+  );
 
   return (
-    <AppBar className={clsx(classes.root, className)}>
-      <Toolbar className={classes.toolbar} sx={{ minHeight: APPBAR_HEIGHT }}>
-        <Hidden mdUp>
-          <IconButton onClick={onOpenNav} color="inherit">
-            <Icon icon={menu2Fill} />
-          </IconButton>
-        </Hidden>
-
-        <Hidden mdDown>
-          <RouterLink to="/">
-            <Logo />
-          </RouterLink>
-        </Hidden>
-
-        <Box sx={{ flexGrow: 1 }} />
-
-        <Settings />
-
-        <Button
-          disableRipple
-          to={PATH_APP.root}
-          component={RouterLink}
-          endIcon={<Icon icon={arrowIosForwardFill} />}
+    <AppBar
+      color="transparent"
+      className={clsx(classes.root, { [classes.onScroll]: offset })}
+      sx={{ boxShadow: 'none' }}
+    >
+      <Toolbar disableGutters className={classes.toolbar}>
+        <Container
+          maxWidth="lg"
+          sx={{
+            lineHeight: 0,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between'
+          }}
         >
-          Dashboard
-        </Button>
+          <RouterLink to="/" className={classes.logo}>
+            <Typography
+              underline="none"
+              variant="h4"
+              sx={{ color: 'common.white' }}
+            >
+              Goody's
+            </Typography>
+          </RouterLink>
+          <Box sx={{ flexGrow: 1 }} />
+
+          <Hidden mdDown>{renderMenuDesktop}</Hidden>
+
+          <Button
+            underline="none"
+            variant="contained"
+            component={Link}
+            target="_blank"
+            href={PATH_HOME.purchase}
+          >
+            Sign Up
+          </Button>
+
+          <div className={classes.switch}>
+            <DarkMode />
+          </div>
+
+          <Hidden mdUp>
+            <MIconButton
+              ref={anchorRef}
+              onClick={() => setOpenMenu(true)}
+              className={clsx({
+                [classes.isHome]: isHome
+              })}
+            >
+              <Icon icon={menu2Fill} />
+            </MIconButton>
+            {renderMenuMobile}
+          </Hidden>
+        </Container>
       </Toolbar>
+      {offset && (
+        <Box
+          sx={{
+            left: 0,
+            right: 0,
+            bottom: 0,
+            height: 24,
+            zIndex: -1,
+            margin: 'auto',
+            borderRadius: '50%',
+            position: 'absolute',
+            width: `calc(100% - 48px)`,
+            boxShadow: (theme) => theme.shadows[25].z8
+          }}
+        />
+      )}
     </AppBar>
   );
 }

@@ -4,7 +4,10 @@ import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
+<<<<<<< HEAD
 import MenuIcon from '@material-ui/icons/Menu';
+=======
+>>>>>>> 054e0ff3bc42f80b9c10ee9a044b472ce7f57700
 import SearchIcon from '@material-ui/icons/Search';
 import DirectionsIcon from '@material-ui/icons/Directions';
 

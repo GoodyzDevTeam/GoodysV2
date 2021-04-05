@@ -1,24 +1,15 @@
 import clsx from 'clsx';
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Icon } from '@iconify/react';
-import ReactApexChart from 'react-apexcharts';
 import { fNumber, fPercent } from 'src/utils/formatNumber';
-import trendingUpFill from '@iconify-icons/eva/trending-up-fill';
-import trendingDownFill from '@iconify-icons/eva/trending-down-fill';
-import { alpha, useTheme, makeStyles } from '@material-ui/core/styles';
-import { Box, Button, Card, Typography } from '@material-ui/core';
-import { red } from '@material-ui/core/colors';
+import { useTheme, makeStyles } from '@material-ui/core/styles';
+import { Button, Card, Typography } from '@material-ui/core';
 import { getImgProduct } from 'src/utils/getImages';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardHeader from '@material-ui/core/CardHeader';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
-import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
-import PlayArrowIcon from '@material-ui/icons/PlayArrow';
-import SkipNextIcon from '@material-ui/icons/SkipNext';
-import { map } from 'lodash';
 import CardActions from '@material-ui/core/CardActions';
 import Collapse from '@material-ui/core/Collapse';
 import FavoriteIcon from '@material-ui/icons/Favorite';
@@ -30,11 +21,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    // display: 'flex',
-    // flexDirection: 'row',
-    // alignItems: 'center',
     width: theme.spacing(45),
-    // height: theme.spacing(60),
     padding: theme.spacing(3.5),
     margin: theme.spacing(1),
     cursor: 'pointer'
@@ -82,78 +69,22 @@ const useStyles = makeStyles((theme) => ({
   },
   cover: {
     width: 150,
-    // marginTop: theme.spacing(6),
     borderRadius: theme.spacing(1)
   }
-  // controls: {
-  //   display: 'flex',
-  //   alignItems: 'center',
-  //   paddingLeft: theme.spacing(1),
-  //   paddingBottom: theme.spacing(1)
-  // },
-  // playIcon: {
-  //   height: 38,
-  //   width: 38
-  // },
-  // trending: {
-  //   display: 'flex',
-  //   alignItems: 'center',
-  //   marginTop: theme.spacing(1.5),
-  //   marginBottom: theme.spacing(0.5)
-  // },
-  // trendingIcon: {
-  //   width: 24,
-  //   height: 24,
-  //   display: 'flex',
-  //   borderRadius: '50%',
-  //   alignItems: 'center',
-  //   justifyContent: 'center',
-  //   marginRight: theme.spacing(1),
-  //   color: theme.palette.primary.main,
-  //   backgroundColor: alpha(theme.palette.primary.main, 0.16)
-  // },
-  // isTrendingDown: {
-  //   color: theme.palette.error.main,
-  //   backgroundColor: alpha(theme.palette.error.main, 0.16)
-  // }
 }));
 
 // ----------------------------------------------------------------------
 
-DiscoverDispensaries.propTypes = {
+DiscoverDeals.propTypes = {
   className: PropTypes.string
 };
 
-const PERCENT = 2.6;
-const TOTAL_USER = 18765;
-
-function DiscoverDispensaries({ className, ...other }) {
+function DiscoverDeals({ className, ...other }) {
   const classes = useStyles();
   const theme = useTheme();
 
-  const chartData = [
-    { data: [2532, 6632, 4132, 8932, 6332, 2532, 4432, 1232, 3632, 932, 3354] }
-  ];
-  const chartOptions = {
-    colors: [theme.palette.primary.main],
-    chart: { sparkline: { enabled: true } },
-    plotOptions: { bar: { columnWidth: '68%', endingShape: 'rounded' } },
-    labels: [1, 2, 3, 4, 5, 6, 7, 8],
-    tooltip: {
-      x: { show: false },
-      y: {
-        formatter: (seriesName) => fNumber(seriesName),
-        title: {
-          formatter: function (seriesName) {
-            return '';
-          }
-        }
-      },
-      marker: { show: false }
-    }
-  };
-
-  const demoDeliveryService = [
+  // DEMO FILLER(DATA) FOR DEALS
+  const demoDeals = [
     {
       id: 'The Syndicate',
       image1: `https://images.weedmaps.com/dispensaries/000/042/360/avatar/original/1535233097-Shop___1_of_1_.jpg?w=274&dpr=1&auto=format`,
@@ -209,13 +140,13 @@ function DiscoverDispensaries({ className, ...other }) {
   return (
     <div>
       <div className={classes.header}>
-        <h1>Discover Dispensaries</h1>
+        <h1>Discover Deals</h1>
         <Button className={classes.HeaderBtn} variant="outlined">
           View All
         </Button>
       </div>
       <div className={classes.display}>
-        {demoDeliveryService.map(
+        {demoDeals.map(
           ({ id, image1, letter, rating, status, intro, type, orderType }) => (
             <Card className={classes.root}>
               <CardHeader
@@ -276,4 +207,4 @@ function DiscoverDispensaries({ className, ...other }) {
   );
 }
 
-export default DiscoverDispensaries;
+export default DiscoverDeals;

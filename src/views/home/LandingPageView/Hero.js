@@ -174,7 +174,6 @@ function Hero({ className }) {
                 Preview in Sketch Cloud
               </Link>
             </motion.div>
-
             <motion.div variants={varFadeInRight}>
               <Button
                 size="large"
@@ -186,7 +185,6 @@ function Hero({ className }) {
                 Live Preview
               </Button>
             </motion.div>
-
             <div className={classes.listIcon}>
               <motion.img
                 variants={varFadeInRight}

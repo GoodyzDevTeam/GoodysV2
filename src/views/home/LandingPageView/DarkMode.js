@@ -98,7 +98,6 @@ function DarkMode({ className }) {
             display: { xs: 'none', md: 'block' }
           }}
         />
-
         <Grid container spacing={5} direction="row-reverse">
           <Grid item xs={12} md={4}>
             <div className={classes.content}>
@@ -111,7 +110,6 @@ function DarkMode({ className }) {
                   Easy switch between styles.
                 </Typography>
               </MotionInView>
-
               <MotionInView
                 variants={varFadeInUp}
                 sx={{ color: 'common.white' }}
@@ -120,7 +118,6 @@ function DarkMode({ className }) {
                   Dark Mode
                 </Typography>
               </MotionInView>
-
               <MotionInView
                 variants={varFadeInUp}
                 sx={{ color: 'common.white', mb: 5 }}
@@ -136,7 +133,6 @@ function DarkMode({ className }) {
       </MotionInView>
       {/* </div>
           </Grid>
-
           <Grid item xs={12} md={8}>
             <MotionInView variants={varZoomInOut}>
               <img

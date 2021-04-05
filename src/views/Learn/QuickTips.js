@@ -43,6 +43,8 @@ QuickTips.propTypes = {
 
 function QuickTips({ className, ...other }) {
   const classes = useStyles();
+
+  // DEMO FILLER(DATA) FOR TIPS
   const tips = [
     {
       title: 'Difference Between Bad And Good Weed',

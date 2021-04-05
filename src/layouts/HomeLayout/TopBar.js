@@ -7,13 +7,17 @@ import homeFill from '@iconify-icons/eva/home-fill';
 import PopoverMenu from 'src/components/PopoverMenu';
 import roundSpeed from '@iconify-icons/ic/round-speed';
 import menu2Fill from '@iconify-icons/eva/menu-2-fill';
-import { PATH_HOME, PATH_APP, PATH_LEARN, PATH_PAGE } from 'src/routes/paths';
+import {
+  PATH_HOME,
+  PATH_APP,
+  PATH_LEARN,
+  PATH_DISCOVER,
+  PATH_PICKUP
+} from 'src/routes/paths';
 import bookOpenFill from '@iconify-icons/eva/book-open-fill';
 import roundStreetview from '@iconify-icons/ic/round-streetview';
 import { NavLink as RouterLink, useLocation } from 'react-router-dom';
 import { makeStyles, alpha } from '@material-ui/core/styles';
-import useAuth from 'src/hooks/useAuth';
-import Account from 'src/layouts/DashboardLayout/TopBar/Account';
 import {
   Box,
   List,
@@ -35,9 +39,14 @@ import DarkMode from 'src/views/home/LandingPageView/DarkMode';
 
 const MENU_LINKS = [
   { title: 'Home', icon: homeFill, href: '/' },
-  { title: 'Discover', icon: roundStreetview, href: PATH_HOME.components },
+  {
+    title: 'Discover',
+    icon: roundStreetview,
+    href: PATH_DISCOVER.general1.discover
+  },
+  { title: 'Pick Up', icon: roundSpeed, href: PATH_PICKUP.general3.pickup },
   { title: "Goody's Hub", icon: roundSpeed, href: PATH_HOME.dashboard },
-  { title: 'Learn', icon: bookOpenFill, href: PATH_LEARN.learn }
+  { title: 'Learn', icon: bookOpenFill, href: PATH_LEARN.general2.learn }
 ];
 
 const APP_BAR_MOBILE = 64;
@@ -100,7 +109,6 @@ function TopBar() {
   const offset = useOffSetTop(100);
   const [openMenu, setOpenMenu] = useState(false);
   const isHome = pathname === '/';
-  const { user } = useAuth();
 
   const renderMenuDesktop = (
     <div className={classes.display}>
@@ -181,20 +189,16 @@ function TopBar() {
 
           <Hidden mdDown>{renderMenuDesktop}</Hidden>
 
-          {user ? (
-            <Account />
-          ) : (
-            <Button
-              underline="none"
-              variant="contained"
-              component={Link}
-              //target="_blank"
-              //href={PATH_HOME.purchase}
-              href={PATH_PAGE.auth.login}
-            >
-              Sign In/Up
-            </Button>
-          )}
+          <Button
+            underline="none"
+            variant="contained"
+            component={Link}
+            target="_blank"
+            href={PATH_HOME.purchase}
+          >
+            Sign Up
+          </Button>
+
           <div className={classes.switch}>
             <DarkMode />
           </div>
