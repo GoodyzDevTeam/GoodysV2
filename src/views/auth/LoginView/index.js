@@ -99,11 +99,12 @@ function LoginView() {
           setSubmitting(false);
         }
       } catch (error) {
-        console.error(error);
         resetForm();
         if (isMountedRef.current) {
           setSubmitting(false);
-          setErrors({ afterSubmit: error.code || error.message });
+          setErrors({
+            afterSubmit: error.status || error.response.data.message
+          });
         }
       }
     }
@@ -144,7 +145,7 @@ function LoginView() {
           <Box sx={{ mb: 5, display: 'flex', alignItems: 'center' }}>
             <Box sx={{ flexGrow: 1 }}>
               <Typography variant="h4" gutterBottom>
-                Sign in to Minimal
+                Sign in to Goody's
               </Typography>
               <Typography sx={{ color: 'text.secondary' }}>
                 Enter your details below.

@@ -211,7 +211,7 @@ function TotalInstalled({ className, ...other }) {
       <div className={classes.display}>
         {demoProduct.map(({ id, price, image1, weight }) => (
           <Card className={clsx(classes.root, className)} {...other}>
-            <Box sx={{ flexGrow: 1 }}>
+            <Box sx={{ flexGrow: 1, width: '50%' }}>
               <div className={classes.details}>
                 <CardContent className={classes.content}>
                   <Typography

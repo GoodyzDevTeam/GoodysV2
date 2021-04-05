@@ -1,6 +1,8 @@
 import jwtDecode from 'jwt-decode';
-import axios from 'src/utils/axios';
+//import axios from 'src/utils/axios';
+import axios from 'axios';
 import { createSlice } from '@reduxjs/toolkit';
+import { ajaxUrl } from 'src/config';
 
 // ----------------------------------------------------------------------
 
@@ -34,6 +36,11 @@ const slice = createSlice({
 
     // REGISTER
     registerSuccess(state, action) {
+      state.isAuthenticated = true;
+      state.user = action.payload.user;
+    },
+
+    updateProfileSuccess(state, action) {
       state.isAuthenticated = true;
       state.user = action.payload.user;
     },
@@ -75,11 +82,12 @@ const setSession = (accessToken) => {
 
 export function login({ email, password }) {
   return async (dispatch) => {
-    const response = await axios.post('/api/account/login', {
+    const response = await axios.post(`${ajaxUrl}/api/account/login`, {
       email,
       password
     });
     const { accessToken, user } = response.data;
+    console.log(response);
     setSession(accessToken);
     dispatch(slice.actions.loginSuccess({ user }));
   };
@@ -89,16 +97,51 @@ export function login({ email, password }) {
 
 export function register({ email, password, firstName, lastName }) {
   return async (dispatch) => {
-    const response = await axios.post('/api/account/register', {
+    const response = await axios.post(`${ajaxUrl}/api/account/register`, {
       email,
       password,
       firstName,
       lastName
     });
     const { accessToken, user } = response.data;
+    //console.log(user, accessToken);
 
     window.localStorage.setItem('accessToken', accessToken);
     dispatch(slice.actions.registerSuccess({ user }));
+  };
+}
+
+// ----------------------------------------------------------------------
+
+export function updateProfile({
+  displayName,
+  photoURL,
+  phoneNumber,
+  country,
+  state,
+  city,
+  address,
+  zipCode,
+  about,
+  isPublic
+}) {
+  return async (dispatch) => {
+    const response = await axios.post(`${ajaxUrl}/api/account/update-profile`, {
+      displayName,
+      photoURL,
+      phoneNumber,
+      country,
+      state,
+      city,
+      address,
+      zipCode,
+      about,
+      isPublic
+    });
+    const { accessToken, user } = response.data;
+
+    window.localStorage.setItem('accessToken', accessToken);
+    dispatch(slice.actions.updateProfileSuccess({ user }));
   };
 }
 
@@ -123,7 +166,7 @@ export function getInitialize() {
       if (accessToken && isValidToken(accessToken)) {
         setSession(accessToken);
 
-        const response = await axios.get('/api/account/my-account');
+        const response = await axios.get(`${ajaxUrl}/api/account/my-account`);
         dispatch(
           slice.actions.getInitialize({
             isAuthenticated: true,
