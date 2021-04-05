@@ -78,7 +78,7 @@ function InfoItem(number) {
         variant="caption"
         sx={{ mb: 0.5, color: 'text.secondary', display: 'block' }}
       >
-        Follower
+        Date
       </Typography>
       <Typography variant="subtitle1">{fShortenNumber(number)}</Typography>
     </Grid>
@@ -97,6 +97,9 @@ function UserItem({ user, className }) {
     cover,
     position,
     follower,
+    date,
+    total,
+    merchant,
     totalPost,
     avatarUrl,
     following
@@ -158,9 +161,9 @@ function UserItem({ user, className }) {
       <Divider />
 
       <Grid container sx={{ py: 3 }}>
-        {InfoItem(follower)}
-        {InfoItem(following)}
-        {InfoItem(totalPost)}
+        {InfoItem(date)}
+        {InfoItem(merchant)}
+        {InfoItem(total)}
       </Grid>
     </Card>
   );

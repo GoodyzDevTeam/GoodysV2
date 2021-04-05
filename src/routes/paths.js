@@ -48,6 +48,7 @@ export const PATH_APP = {
     dashboard: path(ROOTS.app, '/dashboard'),
     discover: path(ROOTS.app, '/general/discover'), // DISCOVER PATH FOR USERS GOODY'S HUB(DASHBOARD)
     learn: path(ROOTS.app, '/management/blog/learn'), // LEARN PATH FOR USERS GOODY'S HUB(DASHBOARD)
+    learnTopics: path(ROOTS.app, '/management/learn/topics'),
     posts: path(ROOTS.app, '/management/blog'),
     pickup: path(ROOTS.app, '/managment/pickup'), // PICK UP PATH FOR USERS GOODY'S HUB(DASHBOARD)
     analytics: path(ROOTS.app, '/dashboard/analytics')
@@ -77,6 +78,8 @@ export const PATH_APP = {
     blog: {
       root: path(ROOTS.app, '/management/blog'),
       learn: path(ROOTS.app, '/management/blog/learn'),
+      learnTopics: path(ROOTS.app, '/management/learn/topics'),
+      learnArticles: path(ROOTS.app, '/management/learn/articles'),
       post: path(ROOTS.app, '/management/blog/post/:title'),
       postById: path(
         ROOTS.app,
@@ -99,7 +102,8 @@ export const PATH_DISCOVER = {
 export const PATH_LEARN = {
   root: ROOTS.learn,
   general2: {
-    learn: path(ROOTS.learn, '/learn')
+    learn: path(ROOTS.learn, '/learn'),
+    learnTopics: path(ROOTS.learn, '/learn/topics')
   }
 };
 

@@ -29,11 +29,22 @@ const AppRoutes = {
       // component: lazy(() => import('src/views/general/DashboardEcommerceView'))
     },
 
+    // LEARN ROUTES
     //GOODY'S HUB LEARN ROUTE
     {
       exact: true,
       path: PATH_APP.general.learn,
       component: lazy(() => import('src/views/Learn'))
+    },
+    {
+      exact: true,
+      path: PATH_APP.general.learnTopics,
+      component: lazy(() => import('src/views/Learn/topics/index'))
+    },
+    {
+      exact: true,
+      path: PATH_APP.management.blog.learnArticles,
+      component: lazy(() => import('src/views/Learn/learnArticles/index'))
     },
 
     //GOODY'S HUB PICK UP ROUTE

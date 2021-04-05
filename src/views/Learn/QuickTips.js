@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/core';
+import { Link, makeStyles } from '@material-ui/core';
 import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
@@ -9,6 +9,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import { PATH_APP } from 'src/routes/paths';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -103,7 +104,9 @@ function QuickTips({ className, ...other }) {
                 Share
               </Button>
               <Button size="small" color="primary">
-                Learn More
+                <Link href={PATH_APP.management.blog.learnArticles}>
+                  Learn More
+                </Link>
               </Button>
             </CardActions>
           </Card>
