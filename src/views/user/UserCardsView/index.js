@@ -26,12 +26,12 @@ function UserCardsView() {
   }, [dispatch]);
 
   return (
-    <Page title="User Cards-Management | Minimal-UI" className={classes.root}>
+    <Page title="Orders | Goody'z" className={classes.root}>
       <Container>
         <HeaderDashboard
-          heading="User Cards"
+          heading="Orders"
           links={[
-            { name: 'Dashboard', href: PATH_APP.root },
+            { name: 'Home', href: PATH_APP.root },
             { name: 'Management', href: PATH_APP.management.root },
             { name: 'User', href: PATH_APP.management.user.root },
             { name: 'Cards' }

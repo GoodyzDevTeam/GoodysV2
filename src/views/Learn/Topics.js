@@ -97,7 +97,7 @@ function Topics({ className, ...other }) {
               <div className={classes.details}>
                 <CardContent className={classes.content}>
                   <Typography component="h5" variant="h5">
-                    <Link href={PATH_APP.management.eCommerce.products}>
+                    <Link href={PATH_APP.management.blog.learnTopics}>
                       {id}
                     </Link>
                   </Typography>
