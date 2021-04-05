@@ -69,7 +69,7 @@ export function renderRoutes(routes = []) {
 
           return (
             <RouteProgress
-              key={i}
+              key={ i }
               path={route.path}
               exact={route.exact}
               render={(props) => (

@@ -1,6 +1,11 @@
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { login, register, logout } from 'src/redux/slices/authJwt';
+import {
+  login,
+  register,
+  logout,
+  updateProfile
+} from 'src/redux/slices/authJwt';
 import {
   isEmpty,
   isLoaded,
@@ -56,7 +61,32 @@ export default function useAuth(method = 'jwt') {
 
       resetPassword: () => {},
 
-      updateProfile: () => {}
+      updateProfile: ({
+        displayName,
+        photoURL,
+        phoneNumber,
+        country,
+        state,
+        city,
+        address,
+        zipCode,
+        about,
+        isPublic
+      }) =>
+        dispatch(
+          updateProfile({
+            displayName,
+            photoURL,
+            phoneNumber,
+            country,
+            state,
+            city,
+            address,
+            zipCode,
+            about,
+            isPublic
+          })
+        )
     };
   }
 
