@@ -8,6 +8,7 @@ import { useFormik, Form, FormikProvider } from 'formik';
 import { makeStyles } from '@material-ui/core/styles';
 import { Box, Card, TextField } from '@material-ui/core';
 import { LoadingButton } from '@material-ui/lab';
+import useAuth from 'src/hooks/useAuth';
 
 // ----------------------------------------------------------------------
 
@@ -29,6 +30,7 @@ ChangePassword.propTypes = {
 function ChangePassword({ className }) {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
+  const { user, resetPassword } = useAuth();
 
   const ChangePassWordSchema = Yup.object().shape({
     oldPassword: Yup.string().required('Old Password is required'),
@@ -43,16 +45,23 @@ function ChangePassword({ className }) {
 
   const formik = useFormik({
     initialValues: {
+      email: user.email,
       oldPassword: '',
       newPassword: '',
       confirmNewPassword: ''
     },
     validationSchema: ChangePassWordSchema,
-    onSubmit: async (values, { setSubmitting }) => {
-      await fakeRequest(500);
-      setSubmitting(false);
-      alert(JSON.stringify(values, null, 2));
-      enqueueSnackbar('Save success', { variant: 'success' });
+    onSubmit: async (values, { setErrors, setSubmitting }) => {
+      //await fakeRequest(500);
+      try {
+        await resetPassword({ ...values });
+        setSubmitting(false);
+        alert(JSON.stringify(values, null, 2));
+        enqueueSnackbar('Save success', { variant: 'success' });
+      } catch (error) {
+        setErrors({ oldPassword: 'Pasword Mismatch' });
+        setSubmitting(false);
+      }
     }
   });
 
