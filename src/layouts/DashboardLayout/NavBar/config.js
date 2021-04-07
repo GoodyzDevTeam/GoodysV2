@@ -40,10 +40,10 @@ const navConfig = [
   // GENERAL
   // ----------------------------------------------------------------------
   {
-    subheader: "your goody's hub",
+    // subheader: "your goody's hub",
     items: [
       {
-        title: 'dashboard',
+        title: "your goody's hub",
         icon: ICONS.dashboard,
         href: PATH_APP.general.root,
         items: [
@@ -66,11 +66,11 @@ const navConfig = [
           {
             title: 'Learn',
             href: PATH_APP.management.blog.learn
-          },
-          {
-            title: 'Blog',
-            href: PATH_APP.management.blog.root
           }
+          // {
+          //   title: 'Blog',
+          //   href: PATH_APP.management.blog.root
+          // }
         ]
       }
     ]
@@ -78,7 +78,7 @@ const navConfig = [
   // MANAGEMENT
   // ----------------------------------------------------------------------
   {
-    subheader: 'manage',
+    // subheader: 'manage',
     items: [
       {
         title: 'user',

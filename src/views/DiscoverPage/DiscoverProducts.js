@@ -7,7 +7,8 @@ import { Box, Card, Link, Typography } from '@material-ui/core';
 import { getImgProduct } from 'src/utils/getImages';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import { PATH_APP } from 'src/routes/paths';
+import { PATH_APP, PATH_DISCOVER } from 'src/routes/paths';
+import { useLocation } from 'react-router';
 // ----------------------------------------------------------------------
 
 const useStyles = makeStyles((theme) => ({
@@ -60,6 +61,7 @@ DiscoverProducts.propTypes = {
 function DiscoverProducts({ className, ...other }) {
   const classes = useStyles();
   const theme = useTheme();
+  const [location, setLocation] = React.useState(useLocation());
 
   // DEMO FILLER(DATA) FOR PRODUCTS
   const demoProduct = [
@@ -110,7 +112,13 @@ function DiscoverProducts({ className, ...other }) {
               <div className={classes.details}>
                 <CardContent className={classes.content}>
                   <Typography component="h5" variant="h5">
-                    <Link href={PATH_APP.management.eCommerce.products}>
+                    <Link
+                      href={
+                        location.pathname == '/app/general/discover'
+                          ? PATH_APP.management.eCommerce.products
+                          : PATH_DISCOVER.general1.products
+                      }
+                    >
                       {id}
                     </Link>
                   </Typography>

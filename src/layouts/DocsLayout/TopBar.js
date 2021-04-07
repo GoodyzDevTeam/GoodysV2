@@ -190,7 +190,7 @@ function TopBar() {
             target="_blank"
             href={PATH_HOME.purchase}
           >
-            Sign Up
+            Sign In
           </Button>
 
           <div className={classes.switch}>

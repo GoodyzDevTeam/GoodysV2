@@ -115,9 +115,7 @@ function RegisterView() {
   return (
     <Page title="Register | Minimal-UI" className={classes.root}>
       <header className={classes.header}>
-        <RouterLink to="/">
-          <Logo />
-        </RouterLink>
+        <RouterLink to="/"> Goody's </RouterLink>
         <Hidden smDown>
           <Typography variant="body2" sx={{ mt: { md: -2 } }}>
             Already have an account? &nbsp;
@@ -141,12 +139,12 @@ function RegisterView() {
         <div className={classes.content}>
           <Box sx={{ mb: 5, display: 'flex', alignItems: 'center' }}>
             <Box sx={{ flexGrow: 1 }}>
-              <Typography variant="h4" gutterBottom>
+              {/* <Typography variant="h4" gutterBottom>
                 Get started absolutely free.
               </Typography>
               <Typography sx={{ color: 'text.secondary' }}>
                 Free forever. No credit card needed.
-              </Typography>
+              </Typography> */}
             </Box>
             <Box
               component="img"

@@ -24,7 +24,7 @@ function Section({ className }) {
   return (
     <Card className={clsx(classes.root, className)}>
       <Typography variant="h3" sx={{ px: 5, mt: 5, mb: 15 }}>
-        Manage the job more effectively with Minimal
+        Manage your cannabis needs effortlessy with Goody's
       </Typography>
       <img
         alt="register"

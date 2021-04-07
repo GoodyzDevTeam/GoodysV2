@@ -113,9 +113,7 @@ function LoginView() {
   return (
     <Page title="Login | Minimal-UI" className={classes.root}>
       <header className={classes.header}>
-        <RouterLink to="/">
-          <Logo />
-        </RouterLink>
+        <RouterLink to="/"> Goody's </RouterLink>
         <Hidden smDown>
           <Typography
             variant="body2"

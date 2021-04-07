@@ -94,7 +94,9 @@ export const PATH_APP = {
 export const PATH_DISCOVER = {
   root: ROOTS.discover,
   general1: {
-    discover: path(ROOTS.discover, '/discover')
+    discover: path(ROOTS.discover, '/discover'),
+    products: path(ROOTS.app, '/discover/products'),
+    product: path(ROOTS.app, '/e-commerce/product/:name')
   }
 };
 

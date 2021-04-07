@@ -34,6 +34,7 @@ import {
 } from '@material-ui/core';
 import { MIconButton } from 'src/theme';
 import DarkMode from 'src/views/home/LandingPageView/DarkMode';
+import { LinkedCamera } from '@material-ui/icons';
 
 // ----------------------------------------------------------------------
 
@@ -45,7 +46,7 @@ const MENU_LINKS = [
     href: PATH_DISCOVER.general1.discover
   },
   { title: 'Pick Up', icon: roundSpeed, href: PATH_PICKUP.general3.pickup },
-  { title: "Goody's Hub", icon: roundSpeed, href: PATH_HOME.dashboard },
+  // { title: "Goody's Hub", icon: roundSpeed, href: PATH_HOME.dashboard },
   { title: 'Learn', icon: bookOpenFill, href: PATH_LEARN.general2.learn }
 ];
 
@@ -196,7 +197,9 @@ function TopBar() {
             target="_blank"
             href={PATH_HOME.purchase}
           >
-            Sign Up
+            <Link href={PATH_APP.general.root} color="white">
+              Sign In
+            </Link>
           </Button>
 
           <div className={classes.switch}>

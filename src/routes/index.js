@@ -69,7 +69,7 @@ export function renderRoutes(routes = []) {
 
           return (
             <RouteProgress
-              key={ i }
+              key={i}
               path={route.path}
               exact={route.exact}
               render={(props) => (
@@ -168,9 +168,33 @@ const routes = [
   },
   {
     exact: true,
+    path: PATH_LEARN.general2.learnTopics,
+    layout: HomeLayout,
+    component: lazy(() => import('src/views/Learn/topics/index'))
+  },
+  // {
+  //   exact: true,
+  //   path: PATH_LEARN.general2.learnTopic,
+  //   layout: HomeLayout,
+  //   component: lazy(() => import('src/views/Learn/topics/index'))
+  // },
+  {
+    exact: true,
     path: PATH_DISCOVER.general1.discover,
     layout: HomeLayout,
     component: lazy(() => import('src/views/DiscoverPage/index'))
+  },
+  {
+    exact: true,
+    path: PATH_DISCOVER.general1.products,
+    layout: HomeLayout,
+    component: lazy(() => import('src/views/e-commerce/ShopView'))
+  },
+  {
+    exact: true,
+    path: PATH_DISCOVER.general1.product,
+    layout: HomeLayout,
+    component: lazy(() => import('src/views/e-commerce/ProductDetailsView'))
   },
   {
     exact: true,
