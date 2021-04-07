@@ -1,11 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-<<<<<<< HEAD
-import { PATH_HOME, PATH_APP } from 'src/routes/paths';
-=======
 import { PATH_APP } from 'src/routes/paths';
->>>>>>> 054e0ff3bc42f80b9c10ee9a044b472ce7f57700
 import { BASE_IMG } from 'src/utils/getImages';
 import { Link as RouterLink } from 'react-router-dom';
 import useBreakpoints from 'src/hooks/useBreakpoints';
@@ -100,24 +96,11 @@ function LandingPageLearn({ className }) {
   const upSm = useBreakpoints('up', 'sm');
   const upMd = useBreakpoints('up', 'md');
   const textAnimate = upMd ? varFadeInRight : varFadeInUp;
-<<<<<<< HEAD
-  const screenLeftAnimate = upSm ? variantScreenLeft : variantScreenLeftMoblie;
-  const screenCenterAnimate = variantScreenCenter;
-  const screenRightAnimate = upSm
-    ? variantScreenRight
-    : variantScreenRightMobile;
-
-  const getImg = (width, index) =>
-    `${BASE_IMG}w_${width}/v1611472901/upload_minimal/home/screen_${
-      theme.palette.mode === 'light' ? 'light' : 'dark'
-    }_${index + 1}.png`;
-=======
 
   // const getImg = (width, index) =>
   //   `${BASE_IMG}w_${width}/v1611472901/upload_minimal/home/screen_${
   //     theme.palette.mode === 'light' ? 'light' : 'dark'
   //   }_${index + 1}.png`;
->>>>>>> 054e0ff3bc42f80b9c10ee9a044b472ce7f57700
 
   return (
     <div className={clsx(classes.root, className)}>

@@ -45,6 +45,10 @@ const slice = createSlice({
       state.user = action.payload.user;
     },
 
+    resetPasswordSuccess(state, action) {
+      state.isAuthenticated = true;
+      state.user = action.payload.user;
+    },
     // LOGOUT
     logoutSuccess(state) {
       state.isAuthenticated = false;
@@ -142,6 +146,22 @@ export function updateProfile({
 
     window.localStorage.setItem('accessToken', accessToken);
     dispatch(slice.actions.updateProfileSuccess({ user }));
+  };
+}
+
+// ----------------------------------------------------------------------
+
+export function resetPassword({ email, password, newPassword }) {
+  return async (dispatch) => {
+    const response = await axios.post(`${ajaxUrl}/api/account/reset-password`, {
+      email,
+      password,
+      newPassword
+    });
+    const { accessToken, user } = response.data;
+
+    window.localStorage.setItem('accessToken', accessToken);
+    dispatch(slice.actions.resetPasswordSuccess({ user }));
   };
 }
 
