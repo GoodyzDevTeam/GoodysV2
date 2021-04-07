@@ -4,6 +4,7 @@ import {
   login,
   register,
   logout,
+  resetPassword,
   updateProfile
 } from 'src/redux/slices/authJwt';
 import {
@@ -59,7 +60,14 @@ export default function useAuth(method = 'jwt') {
 
       logout: () => dispatch(logout()),
 
-      resetPassword: () => {},
+      resetPassword: ({ email, oldPassword, newPassword }) =>
+        dispatch(
+          resetPassword({
+            email: email,
+            password: oldPassword,
+            newPassword: newPassword
+          })
+        ),
 
       updateProfile: ({
         displayName,

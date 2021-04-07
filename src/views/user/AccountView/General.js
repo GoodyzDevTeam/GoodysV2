@@ -69,7 +69,7 @@ function General({ className }) {
         }
       } catch (error) {
         if (isMountedRef.current) {
-          setErrors({ afterSubmit: error.code });
+          setErrors({ afterSubmit: error.response.data.message });
           setSubmitting(false);
         }
       }
