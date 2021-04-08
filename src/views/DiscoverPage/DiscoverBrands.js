@@ -70,6 +70,9 @@ const useStyles = makeStyles((theme) => ({
   cover: {
     width: 150,
     borderRadius: theme.spacing(1)
+  },
+  visitBtn: {
+    marginLeft: 'auto'
   }
 }));
 
@@ -182,7 +185,10 @@ function DiscoverBrands({ className, ...other }) {
                 <IconButton aria-label="share">
                   <ShareIcon />
                 </IconButton>
-                <IconButton
+                <Button variant="outlined" className={classes.visitBtn}>
+                  Visit
+                </Button>
+                {/* <IconButton
                   className={clsx(classes.expand, {
                     [classes.expandOpen]: expanded
                   })}
@@ -191,9 +197,9 @@ function DiscoverBrands({ className, ...other }) {
                   aria-label="show more"
                 >
                   <ExpandMoreIcon />
-                </IconButton>
+                </IconButton> */}
               </CardActions>
-              <Collapse in={expanded} timeout="auto" unmountOnExit>
+              {/* <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <CardContent>
                   <Typography paragraph>{status}</Typography>
                   <Typography paragraph>{intro}</Typography>
@@ -201,7 +207,7 @@ function DiscoverBrands({ className, ...other }) {
                   <Typography paragraph></Typography>
                   <Typography></Typography>
                 </CardContent>
-              </Collapse>
+              </Collapse> */}
             </Card>
           )
         )}
