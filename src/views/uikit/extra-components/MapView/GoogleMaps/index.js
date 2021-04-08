@@ -71,7 +71,7 @@ const SkeletonLoad = (
 
 const baseSettings = {
   id: 'script-loader',
-  googleMapsApiKey: mapConfig.apiGoogle,
+  googleMapsApiKey: 'AIzaSyBHzyhqumh61czRRfaokoN8cU9sOybSJGc',
   loadingElement: SkeletonLoad,
   language: 'en',
   region: 'EN',
@@ -101,16 +101,16 @@ function GoogleMaps() {
   const classes = useStyles();
 
   return (
-    <Page title="Google Map-Components | Minimal-UI" className={classes.root}>
+    <Page title="Goody's| Pick Up" className={classes.root}>
       <Container maxWidth="lg">
         <HeaderDashboard
-          heading="Google Map"
+          // heading="Google Map"
           links={[
             { name: 'Dashboard', href: PATH_APP.root },
-            { name: 'Map', href: PATH_APP.components.map.root },
+            // { name: 'Map', href: PATH_APP.components.map.root },
             { name: 'Google Map' }
           ]}
-          moreLink="https://react-google-maps-api-docs.netlify.app"
+          // moreLink="AIzaSyBHzyhqumh61czRRfaokoN8cU9sOybSJGc"
         />
 
         <Suspense fallback={SkeletonLoad}>
@@ -119,177 +119,9 @@ function GoogleMaps() {
             <Grid container spacing={3}>
               <Grid item xs={12}>
                 <Card className={classes.margin}>
-                  <CardHeader title="Google Map Circle" />
-                  <CardContent dir="ltr">
-                    <GoogleMapCircle
-                      themes={MAP_THEMES}
-                      className={classes.map}
-                    />
-                  </CardContent>
-                </Card>
-              </Grid>
-
-              <Grid item xs={12}>
-                <Card className={classes.margin}>
-                  <CardHeader title="Google Map Polygon" />
-                  <CardContent dir="ltr">
-                    <GoogleMapPolygon
-                      themes={MAP_THEMES}
-                      className={classes.map}
-                    />
-                  </CardContent>
-                </Card>
-              </Grid>
-
-              <Grid item xs={12}>
-                <Card className={classes.margin}>
-                  <CardHeader title="Google Map Polyline" />
-                  <CardContent dir="ltr">
-                    <GoogleMapPolyline
-                      themes={MAP_THEMES}
-                      className={classes.map}
-                    />
-                  </CardContent>
-                </Card>
-              </Grid>
-
-              <Grid item xs={12}>
-                <Card className={classes.margin}>
-                  <CardHeader title="Google Map Rectangle" />
-                  <CardContent dir="ltr">
-                    <GoogleMapRectangle
-                      themes={MAP_THEMES}
-                      className={classes.map}
-                    />
-                  </CardContent>
-                </Card>
-              </Grid>
-
-              <Grid item xs={12}>
-                <Card className={classes.margin}>
-                  <CardHeader title="Google Map Marker" />
-                  <CardContent dir="ltr">
-                    <GoogleMapMarker
-                      themes={MAP_THEMES}
-                      className={classes.map}
-                    />
-                  </CardContent>
-                </Card>
-              </Grid>
-
-              <Grid item xs={12}>
-                <Card className={classes.margin}>
-                  <CardHeader title="Google Map HeatmapLayer" />
-                  <CardContent dir="ltr">
-                    <GoogleMapHeatmapLayer
-                      themes={MAP_THEMES}
-                      className={classes.map}
-                    />
-                  </CardContent>
-                </Card>
-              </Grid>
-
-              <Grid item xs={12}>
-                <Card className={classes.margin}>
-                  <CardHeader title="Google Map DrawingManager" />
-                  <CardContent dir="ltr">
-                    <GoogleMapDrawingManager
-                      themes={MAP_THEMES}
-                      className={classes.map}
-                    />
-                  </CardContent>
-                </Card>
-              </Grid>
-
-              <Grid item xs={12}>
-                <Card className={classes.margin}>
-                  <CardHeader title="Google Map BicyclingLayer" />
-                  <CardContent dir="ltr">
-                    <GoogleMapBicyclingLayer
-                      themes={MAP_THEMES}
-                      className={classes.map}
-                    />
-                  </CardContent>
-                </Card>
-              </Grid>
-
-              <Grid item xs={12}>
-                <Card className={classes.margin}>
-                  <CardHeader title="Google Map TrafficLayer" />
-                  <CardContent dir="ltr">
-                    <GoogleMapTrafficLayer
-                      themes={MAP_THEMES}
-                      className={classes.map}
-                    />
-                  </CardContent>
-                </Card>
-              </Grid>
-
-              <Grid item xs={12}>
-                <Card className={classes.margin}>
-                  <CardHeader title="Google Map TransitLayer" />
-                  <CardContent dir="ltr">
-                    <GoogleMapTransitLayer
-                      themes={MAP_THEMES}
-                      className={classes.map}
-                    />
-                  </CardContent>
-                </Card>
-              </Grid>
-
-              <Grid item xs={12}>
-                <Card className={classes.margin}>
-                  <CardHeader title="Google Map Ground Overlay" />
-                  <CardContent dir="ltr">
-                    <GoogleMapGroundOverlay
-                      themes={MAP_THEMES}
-                      className={classes.map}
-                    />
-                  </CardContent>
-                </Card>
-              </Grid>
-
-              <Grid item xs={12}>
-                <Card className={classes.margin}>
-                  <CardHeader title="Google Map Autocomplete" />
+                  {/* <CardHeader title="Google Map Autocomplete" /> */}
                   <CardContent dir="ltr">
                     <GoogleMapAutocomplete
-                      themes={MAP_THEMES}
-                      className={classes.map}
-                    />
-                  </CardContent>
-                </Card>
-              </Grid>
-
-              <Grid item xs={12}>
-                <Card className={classes.margin}>
-                  <CardHeader title="Google Map StreetViewPanorama" />
-                  <CardContent dir="ltr">
-                    <GoogleMapStreetViewPanorama
-                      themes={MAP_THEMES}
-                      className={classes.map}
-                    />
-                  </CardContent>
-                </Card>
-              </Grid>
-
-              <Grid item xs={12}>
-                <Card className={classes.margin}>
-                  <CardHeader title="Google Map StreetView" />
-                  <CardContent dir="ltr">
-                    <GoogleMapStreetView
-                      themes={MAP_THEMES}
-                      className={classes.map}
-                    />
-                  </CardContent>
-                </Card>
-              </Grid>
-
-              <Grid item xs={12}>
-                <Card>
-                  <CardHeader title="Google Map Change Theme" />
-                  <CardContent dir="ltr">
-                    <GoogleMapChangeTheme
                       themes={MAP_THEMES}
                       className={classes.map}
                     />

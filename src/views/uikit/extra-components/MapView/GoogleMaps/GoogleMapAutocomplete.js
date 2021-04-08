@@ -40,16 +40,16 @@ function GoogleMapAutocomplete({ themes, className, ...other }) {
   const classes = useStyles();
   const [autocomplete, setAutocomplete] = useState(null);
 
-  const center = { lat: 38.685, lng: -115.234 };
+  const center = { lat: 34.052235, lng: -118.243683 };
   const mapOptions = {
-    zoom: 2,
+    zoom: 14,
     minZoom: 2,
-    maxZoom: 16,
+    maxZoom: 24,
     center: center,
     controlSize: 24,
     scaleControl: true,
-    streetViewControl: false,
-    styles: themes.silver
+    streetViewControl: true
+    // styles: themes.silver
   };
 
   const onLoad = (autocomplete) => {
@@ -77,7 +77,7 @@ function GoogleMapAutocomplete({ themes, className, ...other }) {
           <OutlinedInput
             type="text"
             size="small"
-            placeholder="Customized your placeholder"
+            placeholder="Enter your address"
             className={classes.search}
           />
         </Autocomplete>
