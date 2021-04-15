@@ -36,11 +36,6 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2.5),
     cursor: 'pointer',
     display: 'flex'
-    //tablet
-    // ['@media (min-width:768)']:{
-    //   marginLeft: theme.spacing(5),
-    //   marginRight: 'auto'
-    // }
   },
   media: {
     height: 0,
@@ -60,17 +55,6 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     backgroundColor: '#00AB55'
   },
-  header: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    marginTop: theme.spacing(5),
-    marginBottom: theme.spacing(2),
-    marginLeft: theme.spacing(2)
-  },
-  HeaderBtn: {
-    marginLeft: theme.spacing(2)
-  },
   display: {
     display: 'flex',
     flexDirection: 'row',
@@ -79,32 +63,10 @@ const useStyles = makeStyles((theme) => ({
     height: theme.spacing(40),
     textAlign: 'center'
   },
-  // details: {
-  //   display: "flex",
-  //   flexDirection: "column"
-  // },
-  content: {
-    flex: '1 0 auto'
-  },
-  cover: {
-    width: 150,
-    borderRadius: theme.spacing(1)
-  },
-  fullList: {
-    width: 'auto'
-  },
-  drawercontainer: {
-    backgroundColor: 'red',
-    height: theme.spacing(10)
-  },
-  // drawer: {
-  //   position: 'absolute',
-  //   bottom: '0%'
-  // },
-  container: {
+  cardDetailsLeftContainer: {
     borderRight: 'solid 1px white'
   },
-  container1: {
+  cardDetailsLeft: {
     display: 'flex',
     flexDirection: 'column'
   },
@@ -112,7 +74,7 @@ const useStyles = makeStyles((theme) => ({
     width: theme.spacing(15),
     height: theme.spacing(15)
   },
-  line: {
+  drawerDragLine: {
     marginTop: theme.spacing(2)
   }
 }));
@@ -215,13 +177,13 @@ function DispensaryPickup() {
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
-      <MaximizeIcon className={classes.line} />
+      <MaximizeIcon className={classes.drawerDragLine} />
       <div className={classes.display}>
         {demoDispensary.map(({ id, image1, letter, rating, type, status }) => (
           <Card className={classes.root}>
-            <div className={classes.container}>
+            <div className={classes.cardDetailsLeftContainer}>
               <CardHeader
-                className={classes.container1}
+                className={classes.cardDetailsLeft}
                 avatar={
                   <Avatar aria-label="recipe" className={classes.avatar}>
                     {letter}
@@ -232,7 +194,7 @@ function DispensaryPickup() {
                 subheader={rating}
               />
             </div>
-            <div className={classes.container2}>
+            <div>
               <CardMedia
                 className={classes.media}
                 image={image1}
@@ -240,18 +202,6 @@ function DispensaryPickup() {
                 className={classes.img}
               />
             </div>
-            {/* <CardContent>
-              <Typography>{type}</Typography>
-            </CardContent>
-            <CardActions disableSpacing>
-              <IconButton aria-label="add to favorites">
-                <FavoriteIcon />
-              </IconButton>
-              <IconButton aria-label="share">
-                <ShareIcon />
-              </IconButton>
-              <Button variant="outlined">Visit</Button>
-            </CardActions> */}
           </Card>
         ))}
       </div>
@@ -261,10 +211,10 @@ function DispensaryPickup() {
   const anchor1 = 'bottom';
 
   return (
-    <div className={classes.drawer}>
+    <div>
       {['view'].map((anchor) => (
         <React.Fragment key={anchor}>
-          <div className={classes.btn}>
+          <div>
             <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button>
           </div>
           <SwipeableDrawer
@@ -272,7 +222,6 @@ function DispensaryPickup() {
             open={state[anchor]}
             onClose={toggleDrawer(anchor, false)}
             onOpen={toggleDrawer(anchor, false)}
-            // className={classes.drawercontainer}
           >
             {list(anchor)}
           </SwipeableDrawer>

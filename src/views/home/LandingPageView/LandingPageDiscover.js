@@ -104,11 +104,11 @@ const transition = { duration: 0.5, ease: 'easeOut' };
 
 // ----------------------------------------------------------------------
 
-HugePackElements.propTypes = {
+LandingPageDiscover.propTypes = {
   className: PropTypes.string
 };
 
-function HugePackElements({ className }) {
+function LandingPageDiscover({ className }) {
   const classes = useStyles();
   const theme = useTheme();
   const upSm = useBreakpoints('up', 'sm');
@@ -131,16 +131,6 @@ function HugePackElements({ className }) {
         <Grid container spacing={5}>
           <Grid item xs={12} md={4} lg={5}>
             <div className={classes.content}>
-              {/* <MotionInView variants={textAnimate}>
-                <Typography
-                  gutterBottom
-                  variant="overline"
-                  sx={{ color: 'text.secondary', display: 'block' }}
-                >
-                  Interface Starter Kit
-                </Typography>
-              </MotionInView> */}
-
               <MotionInView variants={textAnimate}>
                 <Typography variant="h2" paragraph>
                   Discover
@@ -196,4 +186,4 @@ function HugePackElements({ className }) {
   );
 }
 
-export default HugePackElements;
+export default LandingPageDiscover;

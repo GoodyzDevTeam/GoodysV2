@@ -40,9 +40,34 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   header: {
-    marginTop: theme.spacing(2),
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    marginTop: theme.spacing(5),
     marginBottom: theme.spacing(2),
     marginLeft: theme.spacing(2)
+  },
+  HeaderBtn: {
+    marginLeft: 'auto',
+    marginRight: theme.spacing(1),
+    //tablet
+    ['@media (min-width: 650px) and (max-width: 1175px)']: {
+      marginRight: theme.spacing(0),
+      marginLeft: theme.spacing(3),
+      width: theme.spacing(10)
+    },
+    //desktop
+    ['@media (min-width: 1024px)']: {
+      marginRight: theme.spacing(0),
+      marginLeft: theme.spacing(3),
+      width: theme.spacing(15)
+    },
+    //large desktop
+    ['@media (min-width: 1524px)']: {
+      marginRight: theme.spacing(0),
+      marginLeft: theme.spacing(3),
+      width: theme.spacing(20)
+    }
   },
   display: {
     display: 'flex',
@@ -116,6 +141,9 @@ function QuickTips({ className, ...other }) {
     <div>
       <div className={classes.header}>
         <h1>Quick Tips</h1>
+        <Button className={classes.HeaderBtn} variant="outlined">
+          View All
+        </Button>
       </div>
       <div className={classes.display}>
         {tips.map(({ title, image }) => (

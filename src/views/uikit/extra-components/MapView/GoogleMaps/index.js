@@ -42,25 +42,19 @@ const useStyles = makeStyles((theme) => ({
   container: {
     backgroundColor: 'red',
     marginTop: theme.spacing(8)
-    // width: '100%'
   },
   dashboard: {
     backgroundColor: 'blue',
     marginTop: theme.spacing(-5)
-    // width: '100%'
   },
   margin: {
     marginBottom: theme.spacing(3)
   },
   map: {
     zIndex: -2,
-    // height: 560,
     width: '100%'
-    // overflow: 'hidden'
-    // position: 'relative'
-    // borderRadius: theme.shape.borderRadius
   },
-  options: {
+  pickUpOptions: {
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -73,7 +67,6 @@ const useStyles = makeStyles((theme) => ({
     position: 'fixed',
     bottom: 0,
     justifyContent: 'center'
-    // alignItems: 'center'
   }
 }));
 
@@ -106,20 +99,7 @@ const baseSettings = {
   libraries: ['drawing', 'visualization', 'places']
 };
 
-// const GoogleMapCircle = lazy(() => import('./GoogleMapCircle'));
-// const GoogleMapMarker = lazy(() => import('./GoogleMapMarker'));
-// const GoogleMapPolygon = lazy(() => import('./GoogleMapPolygon'));
-// const GoogleMapPolyline = lazy(() => import('./GoogleMapPolyline'));
-// const GoogleMapRectangle = lazy(() => import('./GoogleMapRectangle'));
-// const GoogleMapStreetView = lazy(() => import('./GoogleMapStreetView'));
-// const GoogleMapChangeTheme = lazy(() => import('./GoogleMapChangeTheme'));
 const GoogleMapAutocomplete = lazy(() => import('./GoogleMapAutocomplete'));
-// const GoogleMapHeatmapLayer = lazy(() => import('./GoogleMapHeatmapLayer'));
-// const GoogleMapTrafficLayer = lazy(() => import('./GoogleMapTrafficLayer'));
-// const GoogleMapTransitLayer = lazy(() => import('./GoogleMapTransitLayer'));
-// const GoogleMapGroundOverlay = lazy(() => import('./GoogleMapGroundOverlay'));
-// const GoogleMapDrawingManager = lazy(() => import('./GoogleMapDrawingManager'));
-// const GoogleMapBicyclingLayer = lazy(() => import('./GoogleMapBicyclingLayer'));
 const GoogleMapStreetViewPanorama = lazy(() =>
   import('./GoogleMapStreetViewPanorama')
 );
@@ -130,7 +110,7 @@ function GoogleMaps() {
 
   return (
     <Page
-      title="Goody's| Pick Up"
+      title="Pick Up | Goody'z"
       className={
         location.pathname == '/app/managment/pickup'
           ? classes.dashboard
@@ -152,20 +132,15 @@ function GoogleMaps() {
         <LoadScript {...baseSettings}>
           <Grid container spacing={0}>
             <Grid item xs={12}>
-              {/* <Card className={classes.margin}>
-                <CardHeader title="Google Map Autocomplete" />
-                <CardContent dir="ltr"> */}
               <GoogleMapAutocomplete
                 themes={MAP_THEMES}
                 className={classes.map}
               />
-              {/* </CardContent>
-              </Card> */}
             </Grid>
           </Grid>
         </LoadScript>
       </Suspense>
-      <div className={classes.options}>
+      <div className={classes.pickUpOptions}>
         <DispensaryPickup />
       </div>
     </Page>

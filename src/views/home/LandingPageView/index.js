@@ -4,9 +4,7 @@ import Footer from './Footer';
 import DarkMode from './DarkMode';
 import Page from 'src/components/Page';
 import Minimal from './Minimal';
-import Advertisement from './Advertisement';
-import CleanInterfaces from './CleanInterfaces';
-import HugePackElements from './HugePackElements';
+import LandingPageDiscover from './LandingPageDiscover';
 import { makeStyles } from '@material-ui/core/styles';
 import LandingPageLearn from './LandingPageLearn';
 
@@ -35,11 +33,8 @@ function LandingPageView() {
       <Hero />
       <div className={classes.content}>
         <Minimal />
-        <HugePackElements />
+        <LandingPageDiscover />
         <LandingPageLearn />
-        {/* <DarkMode /> */}
-        {/* <CleanInterfaces /> */}
-        {/* <Advertisement /> */}
         <Footer />
       </div>
     </Page>

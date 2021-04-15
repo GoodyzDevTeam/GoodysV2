@@ -2,10 +2,6 @@ import clsx from 'clsx';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Icon } from '@iconify/react';
-import ReactApexChart from 'react-apexcharts';
-import { fNumber, fPercent } from 'src/utils/formatNumber';
-import trendingUpFill from '@iconify-icons/eva/trending-up-fill';
-import trendingDownFill from '@iconify-icons/eva/trending-down-fill';
 import { alpha, useTheme, makeStyles } from '@material-ui/core/styles';
 import { Box, Button, Card, Typography } from '@material-ui/core';
 import { getImgProduct } from 'src/utils/getImages';
@@ -79,36 +75,14 @@ const useStyles = makeStyles((theme) => ({
 
 // ----------------------------------------------------------------------
 
-TotalActiveUsers.propTypes = {
+FavoriteProducts.propTypes = {
   product: PropTypes.object,
   className: PropTypes.string
 };
 
-function TotalActiveUsers({ product, className, ...other }) {
+function FavoriteProducts({ product, className, ...other }) {
   const classes = useStyles();
   const theme = useTheme();
-
-  const chartData = [
-    { data: [2532, 6632, 4132, 8932, 6332, 2532, 4432, 1232, 3632, 932, 3354] }
-  ];
-  const chartOptions = {
-    colors: [theme.palette.primary.main],
-    chart: { sparkline: { enabled: true } },
-    plotOptions: { bar: { columnWidth: '68%', endingShape: 'rounded' } },
-    labels: [1, 2, 3, 4, 5, 6, 7, 8],
-    tooltip: {
-      x: { show: false },
-      y: {
-        formatter: (seriesName) => fNumber(seriesName),
-        title: {
-          formatter: function (seriesName) {
-            return '';
-          }
-        }
-      },
-      marker: { show: false }
-    }
-  };
 
   const demoProduct = [
     {
@@ -196,4 +170,4 @@ function TotalActiveUsers({ product, className, ...other }) {
   );
 }
 
-export default TotalActiveUsers;
+export default FavoriteProducts;

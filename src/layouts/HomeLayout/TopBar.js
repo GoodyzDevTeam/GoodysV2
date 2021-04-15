@@ -181,7 +181,7 @@ function TopBar() {
             <Typography
               underline="none"
               variant="h4"
-              sx={{ color: 'common.white' }}
+              // sx={{ color: 'common.white' }}
             >
               Goody's
             </Typography>

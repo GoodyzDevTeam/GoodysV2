@@ -139,7 +139,16 @@ function NavBar({ isOpenNav, onCloseNav }) {
   const renderContent = (
     <Scrollbars>
       <Box sx={{ px: 2.5, py: 3 }}>
-        <RouterLink to="/"> Goody's </RouterLink>
+        <RouterLink
+          to="/"
+          style={{
+            textDecoration: 'none',
+            marginLeft: 'auto',
+            marginRight: 'auto'
+          }}
+        >
+          Goody'z
+        </RouterLink>
       </Box>
 
       <Link

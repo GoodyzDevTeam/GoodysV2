@@ -116,11 +116,11 @@ function CarouselItem({ item, isActive }) {
   );
 }
 
-FeaturedApp.propTypes = {
+HomePageHubDeals.propTypes = {
   className: PropTypes.string
 };
 
-function FeaturedApp({ className, ...other }) {
+function HomePageHubDeals({ className, ...other }) {
   const classes = useStyles();
   const theme = useTheme();
   const carouselRef = useRef();
@@ -172,4 +172,4 @@ function FeaturedApp({ className, ...other }) {
   );
 }
 
-export default FeaturedApp;
+export default HomePageHubDeals;

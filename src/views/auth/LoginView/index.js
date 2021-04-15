@@ -111,9 +111,16 @@ function LoginView() {
   });
 
   return (
-    <Page title="Login | Minimal-UI" className={classes.root}>
+    <Page title="Login | Goody'z" className={classes.root}>
       <header className={classes.header}>
-        <RouterLink to="/"> Goody's </RouterLink>
+        <RouterLink
+          to="/"
+          style={{
+            textDecoration: 'none'
+          }}
+        >
+          Goody'z
+        </RouterLink>
         <Hidden smDown>
           <Typography
             variant="body2"

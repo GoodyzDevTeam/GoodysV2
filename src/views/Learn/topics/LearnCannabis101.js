@@ -8,6 +8,8 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
+import { PATH_APP } from 'src/routes/paths';
+import { HeaderDashboard } from 'src/layouts/Common';
 import Typography from '@material-ui/core/Typography';
 import NextPageBtn from './NextPageBtn';
 
@@ -152,81 +154,90 @@ function LearnCannabis101({ className, ...other }) {
 
   return (
     <div>
-      <h1 className={classes.header}> Cannabis 101 </h1>
-      <div className={classes.display}>
-        {demoCannabis101MainTopic.map(({ title, aurthor, date, image }) => (
-          <Card className={clsx(classes.root, className)} {...other}>
-            <CardActionArea>
-              <CardMedia
-                className={classes.img}
-                component="img"
-                alt="Contemplative Reptile"
-                height="140"
-                image={image}
-                title="Contemplative Reptile"
-              />
-              <CardContent>
-                <Typography
-                  gutterBottom
-                  variant="h5"
-                  component="h2"
-                  className={classes.title}
-                >
-                  {title}
-                </Typography>
-                {/* <Typography variant="body2" color="textSecondary" component="p">
-                Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica
-                </Typography> */}
-              </CardContent>
-            </CardActionArea>
-            <CardActions className={classes.actions}>
-              <Button size="small" color="primary">
-                Share
-              </Button>
-              <Button size="small" color="primary">
-                Learn More
-              </Button>
-            </CardActions>
-          </Card>
-        ))}
-        {demoCannabis101SubTopics.map(({ title, aurthor, date, image }) => (
-          <Card className={clsx(classes.subTopicRoot, className)} {...other}>
-            <CardActionArea>
-              <CardMedia
-                className={classes.img}
-                component="img"
-                alt="Contemplative Reptile"
-                height="140"
-                image={image}
-                title="Contemplative Reptile"
-              />
-              <CardContent>
-                <Typography
-                  gutterBottom
-                  variant="h5"
-                  component="h2"
-                  className={classes.title}
-                >
-                  {title}
-                </Typography>
-                {/* <Typography variant="body2" color="textSecondary" component="p">
-                Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica
-                </Typography> */}
-              </CardContent>
-            </CardActionArea>
-            <CardActions className={classes.actions}>
-              <Button size="small" color="primary">
-                Share
-              </Button>
-              <Button size="small" color="primary">
-                Learn More
-              </Button>
-            </CardActions>
-          </Card>
-        ))}
-      </div>
-      <div className={classes.nextBtn}>
-        <NextPageBtn />
+      <HeaderDashboard
+        heading="Learn Topics"
+        links={[
+          { name: 'Learn', href: PATH_APP.general.learn },
+          { name: 'Learn Topics' }
+        ]}
+      />
+      <div>
+        <h1 className={classes.header}> Cannabis 101 </h1>
+        <div className={classes.display}>
+          {demoCannabis101MainTopic.map(({ title, aurthor, date, image }) => (
+            <Card className={clsx(classes.root, className)} {...other}>
+              <CardActionArea>
+                <CardMedia
+                  className={classes.img}
+                  component="img"
+                  alt="Contemplative Reptile"
+                  height="140"
+                  image={image}
+                  title="Contemplative Reptile"
+                />
+                <CardContent>
+                  <Typography
+                    gutterBottom
+                    variant="h5"
+                    component="h2"
+                    className={classes.title}
+                  >
+                    {title}
+                  </Typography>
+                  {/* <Typography variant="body2" color="textSecondary" component="p">
+                  Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica
+                  </Typography> */}
+                </CardContent>
+              </CardActionArea>
+              <CardActions className={classes.actions}>
+                <Button size="small" color="primary">
+                  Share
+                </Button>
+                <Button size="small" color="primary">
+                  Learn More
+                </Button>
+              </CardActions>
+            </Card>
+          ))}
+          {demoCannabis101SubTopics.map(({ title, aurthor, date, image }) => (
+            <Card className={clsx(classes.subTopicRoot, className)} {...other}>
+              <CardActionArea>
+                <CardMedia
+                  className={classes.img}
+                  component="img"
+                  alt="Contemplative Reptile"
+                  height="140"
+                  image={image}
+                  title="Contemplative Reptile"
+                />
+                <CardContent>
+                  <Typography
+                    gutterBottom
+                    variant="h5"
+                    component="h2"
+                    className={classes.title}
+                  >
+                    {title}
+                  </Typography>
+                  {/* <Typography variant="body2" color="textSecondary" component="p">
+                  Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica
+                  </Typography> */}
+                </CardContent>
+              </CardActionArea>
+              <CardActions className={classes.actions}>
+                <Button size="small" color="primary">
+                  Share
+                </Button>
+                <Button size="small" color="primary">
+                  Learn More
+                </Button>
+              </CardActions>
+            </Card>
+          ))}
+        </div>
+        <div className={classes.nextBtn}>
+          <NextPageBtn />
+        </div>
       </div>
     </div>
   );
