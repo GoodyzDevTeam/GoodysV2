@@ -20,6 +20,7 @@ const useStyles = makeStyles((theme) => {
 
   return {
     root: {
+      // backgroundColor: 'green',
       padding: theme.spacing(15, 0),
       backgroundImage:
         theme.palette.mode === 'light'
@@ -29,6 +30,7 @@ const useStyles = makeStyles((theme) => {
           : 'none'
     },
     content: {
+      // backgroundColor: 'red',
       maxWidth: 520,
       margin: 'auto',
       textAlign: 'center',
@@ -60,6 +62,20 @@ const useStyles = makeStyles((theme) => {
         bottom: 40,
         transform: isRTL ? 'translateX(-32%)' : 'translateX(32%)'
       }
+    },
+    lazyload: {
+      marginLeft: theme.spacing(3),
+      marginTop: theme.spacing(-4),
+      ['@media (min-width:768px) and (max-width: 780px)']: {
+        marginLeft: theme.spacing(-5)
+      },
+      [theme.breakpoints.up('md')]: {
+        marginLeft: theme.spacing(0),
+        marginTop: theme.spacing(0)
+      }
+    },
+    img: {
+      borderRadius: theme.spacing(2)
     }
   };
 });
@@ -115,7 +131,7 @@ function HugePackElements({ className }) {
         <Grid container spacing={5}>
           <Grid item xs={12} md={4} lg={5}>
             <div className={classes.content}>
-              <MotionInView variants={textAnimate}>
+              {/* <MotionInView variants={textAnimate}>
                 <Typography
                   gutterBottom
                   variant="overline"
@@ -123,7 +139,7 @@ function HugePackElements({ className }) {
                 >
                   Interface Starter Kit
                 </Typography>
-              </MotionInView>
+              </MotionInView> */}
 
               <MotionInView variants={textAnimate}>
                 <Typography variant="h2" paragraph>
@@ -163,14 +179,15 @@ function HugePackElements({ className }) {
               position: 'relative',
               pl: { sm: '16% !important', md: '0 !important' }
             }}
+            className={classes.lazyload}
           >
             <Box
               component="img"
               alt="friends enjoying cannabis"
               src="https://weedmaps.com/learn/wp-content/uploads/2020/07/181008_OutdoorSesh064-1.jpg"
               variants={varFadeInUp}
-              className="lazyload"
               sx={{ width: { xs: '80%', sm: '100%' } }}
+              className={classes.img}
             />
           </Grid>
         </Grid>

@@ -11,14 +11,20 @@ import { PATH_APP } from 'src/routes/paths';
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
-    flexDirection: 'row',
     margin: theme.spacing(1),
-    width: theme.spacing(38),
-    height: theme.spacing(20),
+    flexDirection: 'row',
+    width: theme.spacing(40),
+    height: theme.spacing(22),
     cursor: 'pointer',
-    ['@media (max-width: 1367px)']: {
+    //tablet
+    ['@media (min-width: 768px) and (max-width: 1023px)']: {
       margin: theme.spacing(1),
       width: theme.spacing(28),
+      height: theme.spacing(20)
+    },
+    //desktop
+    ['@media (min-width: 1024px)']: {
+      width: theme.spacing(38),
       height: theme.spacing(20)
     }
   },
@@ -45,7 +51,12 @@ const useStyles = makeStyles((theme) => ({
   },
   cover: {
     width: '50%',
-    borderRadius: theme.spacing(1)
+    borderRadius: theme.spacing(1),
+    ['@media (max-width: 1367px)']: {
+      margin: theme.spacing(1),
+      width: theme.spacing(28),
+      height: theme.spacing(20)
+    }
   }
 }));
 

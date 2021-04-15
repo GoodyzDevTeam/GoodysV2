@@ -1,5 +1,5 @@
 import { Link, makeStyles } from '@material-ui/core';
-import React from 'react';
+import React, { useState } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import Card from '@material-ui/core/Card';
@@ -8,19 +8,35 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 import Typography from '@material-ui/core/Typography';
 import { PATH_APP } from 'src/routes/paths';
+import { useLocation } from 'react-router';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     margin: theme.spacing(1),
     width: theme.spacing(65),
-    height: theme.spacing(52),
+    height: theme.spacing(33),
     cursor: 'pointer',
-    ['@media (max-width: 1367px)']: {
+    //tablet
+    ['@media (min-width: 650px) and (max-width: 1023px)']: {
       margin: theme.spacing(1),
-      width: theme.spacing(28),
-      height: theme.spacing(20)
+      width: theme.spacing(40),
+      height: theme.spacing(40)
+    },
+    //desktop
+    ['@media (min-width: 1024px)']: {
+      margin: theme.spacing(1),
+      width: theme.spacing(50),
+      height: theme.spacing(45)
+    },
+    //large desktop
+    ['@media (min-width: 2024px)']: {
+      margin: theme.spacing(1),
+      width: theme.spacing(65),
+      height: theme.spacing(45)
     }
   },
   header: {
@@ -34,7 +50,28 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: 'wrap'
   },
   img: {
-    height: theme.spacing(35)
+    height: theme.spacing(15),
+    //tablet
+    ['@media (min-width: 650px) and (max-width: 1023px)']: {
+      width: theme.spacing(40),
+      height: theme.spacing(20)
+    },
+    //desktop
+    ['@media (min-width: 1024px)']: {
+      width: theme.spacing(55),
+      height: theme.spacing(26)
+    },
+    //large desktop
+    ['@media (min-width: 2024px)']: {
+      width: theme.spacing(65),
+      height: theme.spacing(30)
+    }
+  },
+  favBtn: {
+    marginLeft: 'auto'
+  },
+  actions: {
+    marginTop: theme.spacing(-2)
   }
 }));
 
@@ -44,6 +81,8 @@ QuickTips.propTypes = {
 
 function QuickTips({ className, ...other }) {
   const classes = useStyles();
+  const [location, setLocation] = useState(useLocation()); //GRAB USE LOCATION OBJECT REACT-ROUTER
+  // const [favBtn, setFavBtn] = useState(false);
 
   // DEMO FILLER(DATA) FOR TIPS
   const tips = [
@@ -94,12 +133,9 @@ function QuickTips({ className, ...other }) {
                 <Typography gutterBottom variant="h5" component="h2">
                   {title}
                 </Typography>
-                {/* <Typography variant="body2" color="textSecondary" component="p">
-                    Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica
-                </Typography> */}
               </CardContent>
             </CardActionArea>
-            <CardActions>
+            <CardActions className={classes.actions}>
               <Button size="small" color="primary">
                 Share
               </Button>

@@ -19,12 +19,16 @@ const useStyles = makeStyles((theme) => {
   return {
     root: {
       padding: theme.spacing(15, 0),
+      marginTop: theme.spacing(-15),
       backgroundImage:
         theme.palette.mode === 'light'
           ? `linear-gradient(180deg, ${alpha(theme.palette.grey[300], 0)} 0%, ${
               theme.palette.grey[300]
             } 100%)`
-          : 'none'
+          : 'none',
+      [theme.breakpoints.up('md')]: {
+        marginTop: theme.spacing(0)
+      }
     },
     content: {
       maxWidth: 520,
@@ -58,6 +62,17 @@ const useStyles = makeStyles((theme) => {
         bottom: 40,
         transform: isLTR ? 'translateX(-32%)' : 'translateX(32%)'
       }
+    },
+    lazyload: {
+      marginLeft: theme.spacing(-5),
+      marginTop: theme.spacing(-8),
+      [theme.breakpoints.up('md')]: {
+        marginLeft: theme.spacing(0),
+        marginTop: theme.spacing(0)
+      }
+    },
+    img: {
+      borderRadius: theme.spacing(2)
     }
   };
 });
@@ -109,16 +124,6 @@ function LandingPageLearn({ className }) {
           <Grid item xs={12} md={4} lg={5}>
             <div className={classes.content}>
               <MotionInView variants={textAnimate}>
-                <Typography
-                  gutterBottom
-                  variant="overline"
-                  sx={{ color: 'text.secondary', display: 'block' }}
-                >
-                  Interface Starter Kit
-                </Typography>
-              </MotionInView>
-
-              <MotionInView variants={textAnimate}>
                 <Typography variant="h2" paragraph>
                   Learn
                 </Typography>
@@ -155,14 +160,15 @@ function LandingPageLearn({ className }) {
               position: 'relative',
               pl: { sm: '16% !important', md: '0 !important' }
             }}
+            className={classes.lazyload}
           >
             <Box
               component="img"
               alt="friends enjoying cannabis"
               src="https://weedmaps.com/learn/wp-content/uploads/2020/10/CRTV-3440_May-Social-Ask0121-scaled.jpg"
               variants={varFadeInUp}
-              className="lazyload"
               sx={{ width: { xs: '80%', sm: '100%' } }}
+              className={classes.img}
             />
           </Grid>
         </Grid>

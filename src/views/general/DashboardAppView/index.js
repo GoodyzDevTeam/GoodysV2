@@ -41,7 +41,7 @@ function DashboardAppView() {
             <FeaturedApp />
           </Grid>
 
-          <Grid item xs={12} md={6} lg={12}>
+          <Grid item xs={12} md={12} lg={12}>
             <TotalActiveUsers />
           </Grid>
 

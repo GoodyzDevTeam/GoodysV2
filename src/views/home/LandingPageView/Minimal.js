@@ -128,16 +128,6 @@ function MinimalHelps({ className }) {
     <div className={clsx(classes.root, className)}>
       <Container maxWidth="lg">
         <div className={classes.heading}>
-          <MotionInView variants={varFadeInUp}>
-            <Typography
-              gutterBottom
-              variant="overline"
-              align="center"
-              sx={{ color: 'text.secondary', display: 'block' }}
-            >
-              Minimal
-            </Typography>
-          </MotionInView>
           <MotionInView variants={varFadeInDown}>
             <Typography variant="h2" align="center">
               What Is Goody's?

@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { fNumber, fPercent } from 'src/utils/formatNumber';
 import { useTheme, makeStyles } from '@material-ui/core/styles';
-import { Button, Card, Typography } from '@material-ui/core';
+import { Box, Button, Card, Typography } from '@material-ui/core';
 import { getImgProduct } from 'src/utils/getImages';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -24,22 +24,25 @@ const useStyles = makeStyles((theme) => ({
     width: theme.spacing(45),
     padding: theme.spacing(3.5),
     margin: theme.spacing(1),
-    cursor: 'pointer'
+    cursor: 'pointer',
+    //tablet
+    ['@media (min-width: 650px) and (max-width: 1175px)']: {
+      width: theme.spacing(28),
+      height: theme.spacing(40),
+      padding: theme.spacing(0)
+    }
   },
   media: {
     height: 0,
     marginTop: theme.spacing(6),
-    paddingTop: '56.25%'
-  },
-  expand: {
-    transform: 'rotate(0deg)',
-    marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
-      duration: theme.transitions.duration.shortest
-    })
-  },
-  expandOpen: {
-    transform: 'rotate(180deg)'
+    paddingTop: '56.25%',
+    //tablet
+    ['@media (min-width: 650px) and (max-width: 1175px)']: {
+      width: '100%',
+      height: theme.spacing(10),
+      marginTop: theme.spacing(1),
+      paddingTop: 0
+    }
   },
   avatar: {
     backgroundColor: '#00AB55'
@@ -52,25 +55,56 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(2),
     marginLeft: theme.spacing(2)
   },
+  headerBtnContainer: {
+    marginLeft: 'auto',
+    //dekstop
+    ['@media (min-width: 1175px)']: {
+      marginLeft: theme.spacing(-20)
+      // marginRight: theme.spacing(20)
+    }
+  },
   HeaderBtn: {
-    marginLeft: theme.spacing(2)
-    // marginLeft: 'auto'
+    marginLeft: 'auto',
+    marginRight: theme.spacing(1),
+    //tablet
+    ['@media (min-width: 650px) and (max-width: 1175px)']: {
+      marginRight: theme.spacing(0),
+      marginLeft: theme.spacing(3),
+      width: theme.spacing(10)
+    },
+    //desktop
+    ['@media (min-width: 1024px)']: {
+      marginRight: theme.spacing(0),
+      marginLeft: theme.spacing(3),
+      width: theme.spacing(15)
+    },
+    //large desktop
+    ['@media (min-width: 1524px)']: {
+      marginRight: theme.spacing(0),
+      marginLeft: theme.spacing(3),
+      width: theme.spacing(20)
+    }
+  },
+  actions: {
+    marginTop: theme.spacing(0),
+    //tablet
+    ['@media (min-width: 650px) and (max-width: 1175px)']: {
+      marginTop: theme.spacing(-4)
+    }
   },
   display: {
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap'
   },
-  details: {
+  contentContainer: {
+    // backgroundColor: 'red',
     display: 'flex',
-    flexDirection: 'column'
-  },
-  content: {
-    flex: '1 0 auto'
-  },
-  cover: {
-    width: 150,
-    borderRadius: theme.spacing(1)
+    flexDirection: 'column',
+    //tablet
+    ['@media (min-width: 650px) and (max-width: 1175px)']: {
+      margin: theme.spacing(1)
+    }
   },
   visitBtn: {
     marginLeft: 'auto'
@@ -144,9 +178,9 @@ function DiscoverDeals({ className, ...other }) {
   return (
     <div>
       <div className={classes.header}>
-        <h1>Discover Deals</h1>
+        <h1>Deals</h1>
         <Button className={classes.HeaderBtn} variant="outlined">
-          View All
+          View
         </Button>
       </div>
       <div className={classes.display}>
@@ -172,41 +206,23 @@ function DiscoverDeals({ className, ...other }) {
                 image={image1}
                 title="Paella dish"
               />
-              <CardContent>
-                <Typography>{type}</Typography>
-                <Typography>{orderType}</Typography>
-              </CardContent>
-              <CardActions disableSpacing>
-                <IconButton aria-label="add to favorites">
-                  <FavoriteIcon />
-                </IconButton>
-                <IconButton aria-label="share">
-                  <ShareIcon />
-                </IconButton>
-                <Button variant="outlined" className={classes.visitBtn}>
-                  Visit
-                </Button>
-                {/* <IconButton
-                  className={clsx(classes.expand, {
-                    [classes.expandOpen]: expanded
-                  })}
-                  onClick={handleExpandClick}
-                  aria-expanded={expanded}
-                  aria-label="show more"
-                >
-                  <ExpandMoreIcon /> */}
-                {/* </IconButton> */}
-              </CardActions>
-              {/* <Button>Visit</Button> */}
-              {/* <Collapse in={expanded} timeout="auto" unmountOnExit>
-                <CardContent>
-                  <Typography paragraph>{status}</Typography>
-                  <Typography paragraph>{intro}</Typography>
-                  <Typography paragraph></Typography>
-                  <Typography paragraph></Typography>
-                  <Typography></Typography>
+              <Box className={classes.contentContainer}>
+                <CardContent className={classes.content}>
+                  <Typography variant="subtitle2">{type}</Typography>
+                  <Typography variant="subtitle2">{orderType}</Typography>
                 </CardContent>
-              </Collapse> */}
+                <CardActions disableSpacing className={classes.actions}>
+                  <IconButton aria-label="add to favorites">
+                    <FavoriteIcon />
+                  </IconButton>
+                  <IconButton aria-label="share">
+                    <ShareIcon />
+                  </IconButton>
+                  <Button variant="outlined" className={classes.visitBtn}>
+                    Visit
+                  </Button>
+                </CardActions>
+              </Box>
             </Card>
           )
         )}

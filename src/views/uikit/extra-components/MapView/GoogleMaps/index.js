@@ -2,7 +2,7 @@ import ControlStyle from './styles';
 import { mapConfig } from 'src/config';
 import Page from 'src/components/Page';
 import { PATH_APP } from 'src/routes/paths';
-import React, { Suspense, lazy } from 'react';
+import React, { Suspense, lazy, useState } from 'react';
 import { LoadScript } from '@react-google-maps/api';
 import { HeaderDashboard } from 'src/layouts/Common';
 import {
@@ -23,6 +23,8 @@ import {
   CardHeader,
   CardContent
 } from '@material-ui/core';
+import DispensaryPickup from 'src/views/pick-up/DispensaryPickup';
+import { useLocation } from 'react-router';
 
 // ----------------------------------------------------------------------
 
@@ -37,16 +39,41 @@ const MAP_THEMES = {
 };
 
 const useStyles = makeStyles((theme) => ({
-  root: {},
+  container: {
+    backgroundColor: 'red',
+    marginTop: theme.spacing(8)
+    // width: '100%'
+  },
+  dashboard: {
+    backgroundColor: 'blue',
+    marginTop: theme.spacing(-5)
+    // width: '100%'
+  },
   margin: {
     marginBottom: theme.spacing(3)
   },
   map: {
-    zIndex: 0,
-    height: 560,
-    overflow: 'hidden',
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius
+    zIndex: -2,
+    // height: 560,
+    width: '100%'
+    // overflow: 'hidden'
+    // position: 'relative'
+    // borderRadius: theme.shape.borderRadius
+  },
+  options: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    backgroundColor: 'white',
+    borderRadius: '10%',
+    height: '5vh',
+    width: '100%',
+    zIndexY: 2,
+    overflow: 'scroll',
+    position: 'fixed',
+    bottom: 0,
+    justifyContent: 'center'
+    // alignItems: 'center'
   }
 }));
 
@@ -79,31 +106,38 @@ const baseSettings = {
   libraries: ['drawing', 'visualization', 'places']
 };
 
-const GoogleMapCircle = lazy(() => import('./GoogleMapCircle'));
-const GoogleMapMarker = lazy(() => import('./GoogleMapMarker'));
-const GoogleMapPolygon = lazy(() => import('./GoogleMapPolygon'));
-const GoogleMapPolyline = lazy(() => import('./GoogleMapPolyline'));
-const GoogleMapRectangle = lazy(() => import('./GoogleMapRectangle'));
-const GoogleMapStreetView = lazy(() => import('./GoogleMapStreetView'));
-const GoogleMapChangeTheme = lazy(() => import('./GoogleMapChangeTheme'));
+// const GoogleMapCircle = lazy(() => import('./GoogleMapCircle'));
+// const GoogleMapMarker = lazy(() => import('./GoogleMapMarker'));
+// const GoogleMapPolygon = lazy(() => import('./GoogleMapPolygon'));
+// const GoogleMapPolyline = lazy(() => import('./GoogleMapPolyline'));
+// const GoogleMapRectangle = lazy(() => import('./GoogleMapRectangle'));
+// const GoogleMapStreetView = lazy(() => import('./GoogleMapStreetView'));
+// const GoogleMapChangeTheme = lazy(() => import('./GoogleMapChangeTheme'));
 const GoogleMapAutocomplete = lazy(() => import('./GoogleMapAutocomplete'));
-const GoogleMapHeatmapLayer = lazy(() => import('./GoogleMapHeatmapLayer'));
-const GoogleMapTrafficLayer = lazy(() => import('./GoogleMapTrafficLayer'));
-const GoogleMapTransitLayer = lazy(() => import('./GoogleMapTransitLayer'));
-const GoogleMapGroundOverlay = lazy(() => import('./GoogleMapGroundOverlay'));
-const GoogleMapDrawingManager = lazy(() => import('./GoogleMapDrawingManager'));
-const GoogleMapBicyclingLayer = lazy(() => import('./GoogleMapBicyclingLayer'));
+// const GoogleMapHeatmapLayer = lazy(() => import('./GoogleMapHeatmapLayer'));
+// const GoogleMapTrafficLayer = lazy(() => import('./GoogleMapTrafficLayer'));
+// const GoogleMapTransitLayer = lazy(() => import('./GoogleMapTransitLayer'));
+// const GoogleMapGroundOverlay = lazy(() => import('./GoogleMapGroundOverlay'));
+// const GoogleMapDrawingManager = lazy(() => import('./GoogleMapDrawingManager'));
+// const GoogleMapBicyclingLayer = lazy(() => import('./GoogleMapBicyclingLayer'));
 const GoogleMapStreetViewPanorama = lazy(() =>
   import('./GoogleMapStreetViewPanorama')
 );
 
 function GoogleMaps() {
   const classes = useStyles();
+  const [location, setLocation] = useState(useLocation()); //GRAB USE LOCATION OBJECT REACT-ROUTER
 
   return (
-    <Page title="Goody's| Pick Up" className={classes.root}>
-      <Container maxWidth="lg">
-        <HeaderDashboard
+    <Page
+      title="Goody's| Pick Up"
+      className={
+        location.pathname == '/app/managment/pickup'
+          ? classes.dashboard
+          : classes.container
+      }
+    >
+      {/* <HeaderDashboard
           // heading="Google Map"
           links={[
             { name: 'Dashboard', href: PATH_APP.root },
@@ -111,27 +145,29 @@ function GoogleMaps() {
             { name: 'Google Map' }
           ]}
           // moreLink="AIzaSyBHzyhqumh61czRRfaokoN8cU9sOybSJGc"
-        />
+        /> */}
 
-        <Suspense fallback={SkeletonLoad}>
-          <ControlStyle />
-          <LoadScript {...baseSettings}>
-            <Grid container spacing={3}>
-              <Grid item xs={12}>
-                <Card className={classes.margin}>
-                  {/* <CardHeader title="Google Map Autocomplete" /> */}
-                  <CardContent dir="ltr">
-                    <GoogleMapAutocomplete
-                      themes={MAP_THEMES}
-                      className={classes.map}
-                    />
-                  </CardContent>
-                </Card>
-              </Grid>
+      <Suspense fallback={SkeletonLoad}>
+        <ControlStyle />
+        <LoadScript {...baseSettings}>
+          <Grid container spacing={0}>
+            <Grid item xs={12}>
+              {/* <Card className={classes.margin}>
+                <CardHeader title="Google Map Autocomplete" />
+                <CardContent dir="ltr"> */}
+              <GoogleMapAutocomplete
+                themes={MAP_THEMES}
+                className={classes.map}
+              />
+              {/* </CardContent>
+              </Card> */}
             </Grid>
-          </LoadScript>
-        </Suspense>
-      </Container>
+          </Grid>
+        </LoadScript>
+      </Suspense>
+      <div className={classes.options}>
+        <DispensaryPickup />
+      </div>
     </Page>
   );
 }

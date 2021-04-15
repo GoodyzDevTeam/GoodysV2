@@ -28,8 +28,21 @@ const useStyles = makeStyles((theme) => ({
     width: theme.spacing(50),
     height: theme.spacing(30),
     cursor: 'pointer',
-    margin: theme.spacing(1),
-    cursor: 'pointer'
+    // margin: theme.spacing(1),
+    marginLeft: theme.spacing(2),
+    // marginRight: 'auto',
+    marginBottom: theme.spacing(3),
+    cursor: 'pointer',
+    //tablet
+    ['@media (min-width: 768px)']: {
+      width: theme.spacing(43),
+      height: theme.spacing(30)
+    },
+    //desktop
+    ['@media (min-width: 1024px)']: {
+      width: theme.spacing(35),
+      height: theme.spacing(30)
+    }
   },
   header: {
     marginBottom: theme.spacing(2),
@@ -53,7 +66,15 @@ const useStyles = makeStyles((theme) => ({
   },
   cover: {
     width: '60%',
-    borderRadius: theme.spacing(1)
+    borderRadius: theme.spacing(1),
+    //tablet
+    ['@media (min-width: 768px)']: {
+      width: '42%'
+    },
+    //desktop
+    ['@media (min-width: 1024px)']: {
+      width: '42%'
+    }
   }
   // controls: {
   //   display: 'flex',

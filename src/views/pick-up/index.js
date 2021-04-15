@@ -11,10 +11,13 @@ import { useLocation } from 'react-router';
 const useStyles = makeStyles((theme) => ({
   root: {},
   container: {
-    marginTop: theme.spacing(20),
-    marginLeft: theme.spacing(15)
+    marginTop: theme.spacing(10),
+    // maxWidth: '100%',
+    marginLeft: theme.spacing(0)
   },
   dashboard: {
+    marginTop: theme.spacing(-30),
+    // maxWidth: '100%',
     marginTop: theme.spacing(0)
   },
   map: {
@@ -33,23 +36,15 @@ function Index() {
   const [location, setLocation] = useState(useLocation()); //GRAB USE LOCATION OBJECT REACT-ROUTER
 
   return (
-    <Container
-      maxWidth="xl"
+    <div
       className={
         location.pathname == '/app/managment/pickup'
           ? classes.dashboard
           : classes.container
       }
     >
-      <Grid container spacing={3}>
-        <Grid item xs={12} md={12} className={classes.map}>
-          <GoogleMaps />
-        </Grid>
-        <Grid item xs={12} md={12} className={classes.disp}>
-          <DispensaryPickup />
-        </Grid>
-      </Grid>
-    </Container>
+      <GoogleMaps />;
+    </div>
   );
 }
 

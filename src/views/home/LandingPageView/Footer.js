@@ -11,12 +11,14 @@ import { Link, Container, Typography, Box, Card } from '@material-ui/core';
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
-    justifyContent: 'space-between',
+    justifyContent: 'space-evenly',
+    flexWrap: 'wrap',
     textAlign: 'left',
     padding: theme.spacing(5, 0)
   },
   list: {
-    listStyle: 'none'
+    listStyle: 'none',
+    marginBottom: theme.spacing(3)
   },
   card: {
     backgroundColor: '#00AB55',
@@ -44,7 +46,7 @@ function Footer({ className }) {
         <Typography variant="caption">
           © All rights reserved
           <br /> Made by &nbsp;
-          <Link href="https://minimals.cc/">minimals.cc</Link>
+          <Link href="https://minimals.cc/">Goody'z LLC</Link>
         </Typography>
       </Box>
       <Box>

@@ -39,8 +39,9 @@ const useStyles = makeStyles((theme) => ({
     zIndex: 10,
     maxWidth: 820,
     margin: 'auto',
-    textAlign: 'center',
+    textAlign: 'left',
     position: 'relative',
+    overflowWrap: 'break-word',
     paddingTop: theme.spacing(15),
     paddingBottom: theme.spacing(15),
     [theme.breakpoints.up('md')]: {

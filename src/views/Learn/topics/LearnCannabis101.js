@@ -14,24 +14,44 @@ import NextPageBtn from './NextPageBtn';
 const useStyles = makeStyles((theme) => ({
   root: {
     margin: theme.spacing(1),
-    width: theme.spacing(100),
-    height: theme.spacing(80),
+    width: theme.spacing(50),
+    height: theme.spacing(50),
     cursor: 'pointer',
-    ['@media (max-width: 1367px)']: {
-      margin: theme.spacing(1),
-      width: theme.spacing(28),
-      height: theme.spacing(20)
+    //tablet
+    ['@media (min-width: 650px) and (max-width: 1023px)']: {
+      width: theme.spacing(85),
+      height: theme.spacing(45)
+    },
+    //desktop
+    ['@media (min-width: 1024px)']: {
+      width: theme.spacing(71),
+      height: theme.spacing(50)
+    },
+    //large desktop
+    ['@media (min-width: 1824px)']: {
+      width: theme.spacing(112),
+      height: theme.spacing(70)
     }
   },
   subTopicRoot: {
     margin: theme.spacing(1),
     width: theme.spacing(50),
-    height: theme.spacing(80),
+    height: theme.spacing(50),
     cursor: 'pointer',
-    ['@media (max-width: 1367px)']: {
-      margin: theme.spacing(1),
-      width: theme.spacing(28),
-      height: theme.spacing(20)
+    //tablet
+    ['@media (min-width: 650px) and (max-width: 1023px)']: {
+      width: theme.spacing(42),
+      height: theme.spacing(45)
+    },
+    //desktop
+    ['@media (min-width: 1024px)']: {
+      width: theme.spacing(35),
+      height: theme.spacing(50)
+    },
+    //large desktop
+    ['@media (min-width: 1824px)']: {
+      width: theme.spacing(55),
+      height: theme.spacing(70)
     }
   },
   header: {
@@ -45,13 +65,33 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: 'wrap'
   },
   img: {
-    height: theme.spacing(60)
+    height: theme.spacing(30),
+    //tablet
+    ['@media (min-width: 650px) and (max-width: 1023px)']: {
+      height: theme.spacing(30)
+    },
+    //desktop
+    ['@media (min-width: 1024px)']: {
+      width: theme.spacing(72),
+      height: theme.spacing(33)
+    },
+    //large desktop
+    ['@media (min-width: 1824px)']: {
+      width: '100%',
+      height: theme.spacing(55)
+    }
   },
   nextBtn: {
     display: 'flex',
     justifyContent: 'flex-end',
     marginTop: theme.spacing(2),
     width: '93%'
+  },
+  actions: {
+    marginTop: theme.spacing(-4)
+  },
+  title: {
+    overflow: 'hidden'
   }
 }));
 
@@ -126,7 +166,12 @@ function LearnCannabis101({ className, ...other }) {
                 title="Contemplative Reptile"
               />
               <CardContent>
-                <Typography gutterBottom variant="h5" component="h2">
+                <Typography
+                  gutterBottom
+                  variant="h5"
+                  component="h2"
+                  className={classes.title}
+                >
                   {title}
                 </Typography>
                 {/* <Typography variant="body2" color="textSecondary" component="p">
@@ -134,7 +179,7 @@ function LearnCannabis101({ className, ...other }) {
                 </Typography> */}
               </CardContent>
             </CardActionArea>
-            <CardActions>
+            <CardActions className={classes.actions}>
               <Button size="small" color="primary">
                 Share
               </Button>
@@ -156,7 +201,12 @@ function LearnCannabis101({ className, ...other }) {
                 title="Contemplative Reptile"
               />
               <CardContent>
-                <Typography gutterBottom variant="h5" component="h2">
+                <Typography
+                  gutterBottom
+                  variant="h5"
+                  component="h2"
+                  className={classes.title}
+                >
                   {title}
                 </Typography>
                 {/* <Typography variant="body2" color="textSecondary" component="p">
@@ -164,7 +214,7 @@ function LearnCannabis101({ className, ...other }) {
                 </Typography> */}
               </CardContent>
             </CardActionArea>
-            <CardActions>
+            <CardActions className={classes.actions}>
               <Button size="small" color="primary">
                 Share
               </Button>

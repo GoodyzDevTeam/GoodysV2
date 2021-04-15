@@ -8,9 +8,12 @@ import { OutlinedInput } from '@material-ui/core';
 // ----------------------------------------------------------------------
 
 const useStyles = makeStyles((theme) => ({
-  root: {},
+  root: {
+    width: '100%',
+    height: '100vh'
+  },
   search: {
-    top: 8,
+    top: 50,
     left: 0,
     right: 0,
     width: 240,

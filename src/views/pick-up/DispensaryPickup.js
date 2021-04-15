@@ -1,10 +1,15 @@
 import React from 'react';
 import clsx from 'clsx';
-import PropTypes from 'prop-types';
-import { fNumber, fPercent } from 'src/utils/formatNumber';
-import { useTheme, makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
+import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
+import List from '@material-ui/core/List';
+import Divider from '@material-ui/core/Divider';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import InboxIcon from '@material-ui/icons/MoveToInbox';
+import MailIcon from '@material-ui/icons/Mail';
 import { Button, Card, Typography } from '@material-ui/core';
-import { getImgProduct } from 'src/utils/getImages';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -16,14 +21,26 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import { BorderRight } from '@material-ui/icons';
+import MaximizeIcon from '@material-ui/icons/Maximize';
+import { stubFalse } from 'lodash';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: theme.spacing(34),
-    height: theme.spacing(58),
-    margin: theme.spacing(3),
-    padding: theme.spacing(3.5),
-    cursor: 'pointer'
+    width: theme.spacing(40),
+    height: theme.spacing(25),
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(3),
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    padding: theme.spacing(2.5),
+    cursor: 'pointer',
+    display: 'flex'
+    //tablet
+    // ['@media (min-width:768)']:{
+    //   marginLeft: theme.spacing(5),
+    //   marginRight: 'auto'
+    // }
   },
   media: {
     height: 0,
@@ -58,23 +75,63 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    height: theme.spacing(40),
+    textAlign: 'center'
   },
-  details: {
-    display: 'flex',
-    flexDirection: 'column'
-  },
+  // details: {
+  //   display: "flex",
+  //   flexDirection: "column"
+  // },
   content: {
     flex: '1 0 auto'
   },
   cover: {
     width: 150,
     borderRadius: theme.spacing(1)
+  },
+  fullList: {
+    width: 'auto'
+  },
+  drawercontainer: {
+    backgroundColor: 'red',
+    height: theme.spacing(10)
+  },
+  // drawer: {
+  //   position: 'absolute',
+  //   bottom: '0%'
+  // },
+  container: {
+    borderRight: 'solid 1px white'
+  },
+  container1: {
+    display: 'flex',
+    flexDirection: 'column'
+  },
+  img: {
+    width: theme.spacing(15),
+    height: theme.spacing(15)
+  },
+  line: {
+    marginTop: theme.spacing(2)
   }
 }));
 
 function DispensaryPickup() {
   const classes = useStyles();
+  const [state, setState] = React.useState({ view: false });
+
+  const toggleDrawer = (anchor, open) => (event) => {
+    if (
+      event &&
+      event.type === 'keydown' &&
+      (event.key === 'Tab' || event.key === 'Shift')
+    ) {
+      return;
+    }
+
+    setState({ ...state, [anchor]: open });
+  };
 
   const demoDispensary = [
     {
@@ -150,39 +207,40 @@ function DispensaryPickup() {
       intro: `Located in the middle of the bustling Woodlands Hills retail district, Elevate is as much part of its surrounding community as is the community we have developed inside. Come visit us and whether you are a seasoned cannabis connoisseur or just starting your exploration, you will find our knowledgeable staff waiting to assist you in finding what you need.We are a compassionate company, providing our community with safe access to cannabis products for healing and wellness.Our goal is to educate and provide an elevated experience for our customers and community. And with that to create a place where people feel safe and comfortable exploring the healing possibilities of this plant medicine with the guidance of knowledgeable professionals.`
     }
   ];
-  //HOOK TO FIGURE OUT THE IF THE CARD HAS BEEN EXPANDED OR NOT
-  const [expanded, setExpanded] = React.useState(false);
 
-  // HANDLES THE EXPAND FUNCTION FOR MORE DETAILS ON THE CARDS
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
-
-  return (
-    <div className={classes.display}>
-      {demoDispensary.map(
-        ({ id, image1, letter, rating, type, status, intro }) => (
+  const list = (anchor) => (
+    <div
+      className={classes.display}
+      role="presentation"
+      onClick={toggleDrawer(anchor, false)}
+      onKeyDown={toggleDrawer(anchor, false)}
+    >
+      <MaximizeIcon className={classes.line} />
+      <div className={classes.display}>
+        {demoDispensary.map(({ id, image1, letter, rating, type, status }) => (
           <Card className={classes.root}>
-            <CardHeader
-              avatar={
-                <Avatar aria-label="recipe" className={classes.avatar}>
-                  {letter}
-                </Avatar>
-              }
-              action={
-                <IconButton aria-label="settings">
-                  <MoreVertIcon />
-                </IconButton>
-              }
-              title={id}
-              subheader={rating}
-            />
-            <CardMedia
-              className={classes.media}
-              image={image1}
-              title="Paella dish"
-            />
-            <CardContent>
+            <div className={classes.container}>
+              <CardHeader
+                className={classes.container1}
+                avatar={
+                  <Avatar aria-label="recipe" className={classes.avatar}>
+                    {letter}
+                  </Avatar>
+                }
+                action={<Typography>{type}</Typography>}
+                title={id}
+                subheader={rating}
+              />
+            </div>
+            <div className={classes.container2}>
+              <CardMedia
+                className={classes.media}
+                image={image1}
+                title="Paella dish"
+                className={classes.img}
+              />
+            </div>
+            {/* <CardContent>
               <Typography>{type}</Typography>
             </CardContent>
             <CardActions disableSpacing>
@@ -192,29 +250,34 @@ function DispensaryPickup() {
               <IconButton aria-label="share">
                 <ShareIcon />
               </IconButton>
-              <IconButton
-                className={clsx(classes.expand, {
-                  [classes.expandOpen]: expanded
-                })}
-                onClick={handleExpandClick}
-                aria-expanded={expanded}
-                aria-label="show more"
-              >
-                <ExpandMoreIcon />
-              </IconButton>
-            </CardActions>
-            <Collapse in={expanded} timeout="auto" unmountOnExit>
-              <CardContent>
-                <Typography paragraph>{status}</Typography>
-                <Typography paragraph>{intro}</Typography>
-                <Typography paragraph></Typography>
-                <Typography paragraph></Typography>
-                <Typography></Typography>
-              </CardContent>
-            </Collapse>
+              <Button variant="outlined">Visit</Button>
+            </CardActions> */}
           </Card>
-        )
-      )}
+        ))}
+      </div>
+    </div>
+  );
+
+  const anchor1 = 'bottom';
+
+  return (
+    <div className={classes.drawer}>
+      {['view'].map((anchor) => (
+        <React.Fragment key={anchor}>
+          <div className={classes.btn}>
+            <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button>
+          </div>
+          <SwipeableDrawer
+            anchor={anchor1}
+            open={state[anchor]}
+            onClose={toggleDrawer(anchor, false)}
+            onOpen={toggleDrawer(anchor, false)}
+            // className={classes.drawercontainer}
+          >
+            {list(anchor)}
+          </SwipeableDrawer>
+        </React.Fragment>
+      ))}
     </div>
   );
 }

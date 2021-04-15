@@ -11,7 +11,16 @@ const useStyles = makeStyles((theme) => ({
   root: {},
   container: {
     marginTop: theme.spacing(20),
-    marginLeft: theme.spacing(30)
+    marginLeft: theme.spacing(0),
+    ['@media (min-width: 768px) and (max-width: 1023px)']: {
+      marginTop: theme.spacing(20),
+      marginLeft: theme.spacing(0)
+    },
+    //desktop
+    ['@media (min-width: 1024px)']: {
+      marginTop: theme.spacing(20),
+      marginLeft: theme.spacing(0)
+    }
   },
   dashboard: {
     marginTop: theme.spacing(0)

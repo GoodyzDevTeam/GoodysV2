@@ -54,9 +54,7 @@ function Welcome({ displayName, className, ...other }) {
             pb: { xs: 3, xl: 5 }
           }}
         >
-          {
-            "I hope your having a great day. Now its time to kick back, relax and find some Goody's."
-          }
+          {"Its time to kick back, relax and find some Goody's."}
         </Typography>
       </CardContent>
 

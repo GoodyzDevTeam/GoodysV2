@@ -28,7 +28,20 @@ const useStyles = makeStyles((theme) => ({
     height: theme.spacing(30),
     cursor: 'pointer',
     margin: theme.spacing(1),
-    cursor: 'pointer'
+    cursor: 'pointer',
+    marginLeft: theme.spacing(2),
+    // marginRight: 'auto',
+    marginBottom: theme.spacing(3),
+    //tablet
+    ['@media (min-width: 768px)']: {
+      width: theme.spacing(43),
+      height: theme.spacing(30)
+    },
+    //desktop
+    ['@media (min-width: 1024px)']: {
+      width: theme.spacing(35),
+      height: theme.spacing(30)
+    }
   },
   header: {
     marginBottom: theme.spacing(2),
@@ -49,42 +62,19 @@ const useStyles = makeStyles((theme) => ({
   },
   cover: {
     width: '55%',
-    borderRadius: theme.spacing(1)
+    borderRadius: theme.spacing(1),
+    //tablet
+    ['@media (min-width: 768px)']: {
+      width: '42%'
+    },
+    //desktop
+    ['@media (min-width: 1024px)']: {
+      width: '42%'
+    }
   },
   title: {
     marginBottom: theme.spacing(1)
   }
-  // controls: {
-  //   display: 'flex',
-  //   alignItems: 'center',
-  //   paddingLeft: theme.spacing(1),
-  //   paddingBottom: theme.spacing(1)
-  // },
-  // playIcon: {
-  //   height: 38,
-  //   width: 38
-  // },
-  // trending: {
-  //   display: 'flex',
-  //   alignItems: 'center',
-  //   marginTop: theme.spacing(1.5),
-  //   marginBottom: theme.spacing(0.5)
-  // },
-  // trendingIcon: {
-  //   width: 24,
-  //   height: 24,
-  //   display: 'flex',
-  //   borderRadius: '50%',
-  //   alignItems: 'center',
-  //   justifyContent: 'center',
-  //   marginRight: theme.spacing(1),
-  //   color: theme.palette.primary.main,
-  //   backgroundColor: alpha(theme.palette.primary.main, 0.16)
-  // },
-  // isTrendingDown: {
-  //   color: theme.palette.error.main,
-  //   backgroundColor: alpha(theme.palette.error.main, 0.16)
-  // }
 }));
 
 // ----------------------------------------------------------------------
@@ -93,9 +83,6 @@ TotalActiveUsers.propTypes = {
   product: PropTypes.object,
   className: PropTypes.string
 };
-
-const PERCENT = 2.6;
-const TOTAL_USER = 18765;
 
 function TotalActiveUsers({ product, className, ...other }) {
   const classes = useStyles();

@@ -26,7 +26,9 @@ const useStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(3),
     margin: theme.spacing(1),
-    textAlign: 'left'
+    textAlign: 'left',
+    marginLeft: 'auto',
+    marginRight: 'auto'
   },
   header: {
     marginBottom: theme.spacing(2),
