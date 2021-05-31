@@ -23,4 +23,6 @@ export const cloudinaryConfig = {
 export const googleAnalyticsConfig = process.env.REACT_APP_GA_MEASUREMENT_ID;
 
 // export const ajaxUrl = 'http://localhost:8080';
-export const ajaxUrl = 'https://goody-backend.herokuapp.com';
+// export const ajaxUrl = 'https://goody-backend.herokuapp.com';
+export const ajaxUrl =
+  'http://goodybackend-env.eba-nyh9a26h.us-west-1.elasticbeanstalk.com';

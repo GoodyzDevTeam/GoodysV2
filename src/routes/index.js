@@ -122,6 +122,11 @@ const routes = [
   },
   {
     exact: true,
+    path: PATH_PAGE.auth.updatePassword,
+    component: lazy(() => import('src/views/auth/UpdatePasswordView'))
+  },
+  {
+    exact: true,
     path: PATH_PAGE.auth.verify,
     component: lazy(() => import('src/views/auth/VerifyCodeView'))
   },

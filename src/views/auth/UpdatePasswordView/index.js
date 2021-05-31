@@ -5,9 +5,9 @@ import Page from 'src/components/Page';
 import useAuth from 'src/hooks/useAuth';
 import React, { useState } from 'react';
 import { PATH_PAGE } from 'src/routes/paths';
-import ResetPasswordForm from './ResetPasswordForm';
+import UpdatePasswordForm from './UpdatePasswordForm';
 import { useSnackbar } from 'notistack';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useParams } from 'react-router-dom';
 import useIsMountedRef from 'src/hooks/useIsMountedRef';
 import { makeStyles } from '@material-ui/core/styles';
 import { Box, Button, Container, Typography } from '@material-ui/core';
@@ -36,12 +36,13 @@ const useStyles = makeStyles((theme) => ({
 
 // ----------------------------------------------------------------------
 
-function ResetPasswordView() {
+function UpdatePasswordView() {
   const classes = useStyles();
-  const { resetPassword } = useAuth();
+  const { updatePassword } = useAuth();
   const isMountedRef = useIsMountedRef();
   const [sent, setSent] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
+  const { token } = useParams();
 
   const ResetPasswordSchema = Yup.object().shape({
     email: Yup.string()
@@ -57,7 +58,7 @@ function ResetPasswordView() {
     onSubmit: async (values, { setErrors, setSubmitting }) => {
       try {
         console.log(isMountedRef.current);
-        await resetPassword(values.email);
+        await updatePassword(token, values.password);
         console.log(isMountedRef.current);
         if (isMountedRef.current) {
           setSent(true);
@@ -85,14 +86,10 @@ function ResetPasswordView() {
           {!sent ? (
             <>
               <Typography variant="h3" gutterBottom>
-                Forgot your password?
-              </Typography>
-              <Typography sx={{ color: 'text.secondary', mb: 5 }}>
-                Please enter the email address associated with your account and
-                We will email you a link to reset your password.
+                Type in your new password
               </Typography>
 
-              <ResetPasswordForm formik={formik} />
+              <UpdatePasswordForm formik={formik} />
 
               <Button
                 fullWidth
@@ -115,13 +112,6 @@ function ResetPasswordView() {
               <Typography variant="h3" gutterBottom>
                 Request sent successfully
               </Typography>
-              <Typography>
-                We have sent a confirmation email to &nbsp;
-                <strong>{formik.values.email}</strong>
-                <br />
-                Please check your email.
-              </Typography>
-
               <Button
                 size="large"
                 variant="contained"
@@ -139,4 +129,4 @@ function ResetPasswordView() {
   );
 }
 
-export default ResetPasswordView;
+export default UpdatePasswordView;

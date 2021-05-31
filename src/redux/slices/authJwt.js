@@ -130,6 +130,10 @@ export function updateProfile({
   isPublic
 }) {
   return async (dispatch) => {
+    const curAccessToken = window.localStorage.getItem('accessToken');
+    if (curAccessToken && isValidToken(curAccessToken)) {
+      setSession(curAccessToken);
+    }
     const response = await axios.post(`${ajaxUrl}/api/account/update-profile`, {
       displayName,
       photoURL,
@@ -151,17 +155,28 @@ export function updateProfile({
 
 // ----------------------------------------------------------------------
 
-export function resetPassword({ email, password, newPassword }) {
+export function resetPassword(email) {
   return async (dispatch) => {
     const response = await axios.post(`${ajaxUrl}/api/account/reset-password`, {
-      email,
-      password,
-      newPassword
+      email
     });
-    const { accessToken, user } = response.data;
+    // const { accessToken, user } = response.data;
 
-    window.localStorage.setItem('accessToken', accessToken);
-    dispatch(slice.actions.resetPasswordSuccess({ user }));
+    // window.localStorage.setItem('accessToken', accessToken);
+    // dispatch(slice.actions.resetPasswordSuccess({ user }));
+  };
+}
+
+export function updatePassword(token, password) {
+  return async (dispatch) => {
+    const response = await axios.post(
+      `${ajaxUrl}/api/account/update-password`,
+      { token: token, password: password }
+    );
+    // const { accessToken, user } = response.data;
+
+    // window.localStorage.setItem('accessToken', accessToken);
+    // dispatch(slice.actions.resetPasswordSuccess({ user }));
   };
 }
 
