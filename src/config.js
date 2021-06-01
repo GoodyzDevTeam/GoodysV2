@@ -24,6 +24,6 @@ export const googleAnalyticsConfig = process.env.REACT_APP_GA_MEASUREMENT_ID;
 
 // export const ajaxUrl = 'http://localhost:8080';
 // export const ajaxUrl = 'https://goody-backend.herokuapp.com';
-// export const ajaxUrl = 'https://d1nasz9n8gap4o.cloudfront.net';
-export const ajaxUrl =
-  'http://goodiesbackendapp-env.eba-dyzpa3te.us-east-1.elasticbeanstalk.com';
+export const ajaxUrl = 'https://d1nasz9n8gap4o.cloudfront.net';
+// export const ajaxUrl =
+//   'http://goodiesbackendapp-env.eba-dyzpa3te.us-east-1.elasticbeanstalk.com';
