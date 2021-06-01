@@ -7,9 +7,10 @@ import { Icon } from '@iconify/react';
 import { useSnackbar } from 'notistack';
 import { PATH_APP } from 'src/routes/paths';
 import { PATH_PAGE } from 'src/routes/paths';
+import useAuth from 'src/hooks/useAuth';
 import VerifyCodeForm from './VerifyCodeForm';
 import fakeRequest from 'src/utils/fakeRequest';
-import { Link as RouterLink, useHistory } from 'react-router-dom';
+import { Link as RouterLink, useHistory, useParams } from 'react-router-dom';
 import arrowIosBackFill from '@iconify-icons/eva/arrow-ios-back-fill';
 import { makeStyles } from '@material-ui/core/styles';
 import { Box, Button, Link, Container, Typography } from '@material-ui/core';
@@ -40,7 +41,9 @@ const useStyles = makeStyles((theme) => ({
 function VerifyCodeView() {
   const classes = useStyles();
   const history = useHistory();
+  const email = window.localStorage.getItem('email');
   const { enqueueSnackbar } = useSnackbar();
+  const { verifyCode } = useAuth();
 
   const VerifyCodeSchema = Yup.object().shape({
     code1: Yup.number().required('Code is required'),
@@ -62,9 +65,10 @@ function VerifyCodeView() {
     },
     validationSchema: VerifyCodeSchema,
     onSubmit: async (values) => {
-      await fakeRequest(500);
+      const key = `${values.code1}${values.code2}${values.code3}${values.code4}${values.code5}${values.code6}`;
+      await verifyCode(email, key);
       enqueueSnackbar('Verify success', { variant: 'success' });
-      history.push(PATH_APP.root);
+      history.push(`${PATH_PAGE.auth.root}/update-password/${key}`);
     }
   });
 

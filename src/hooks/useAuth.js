@@ -5,6 +5,7 @@ import {
   register,
   logout,
   resetPassword,
+  verifyCode,
   updatePassword,
   updateProfile
 } from 'src/redux/slices/authJwt';
@@ -63,8 +64,10 @@ export default function useAuth(method = 'jwt') {
 
       resetPassword: (email) => dispatch(resetPassword(email)),
 
-      updatePassword: (token, password) =>
-        dispatch(updatePassword(token, password)),
+      verifyCode: (email, key) => dispatch(verifyCode(email, key)),
+
+      updatePassword: (email, key, password) =>
+        dispatch(updatePassword(email, key, password)),
 
       updateProfile: ({
         displayName,
@@ -148,8 +151,10 @@ export default function useAuth(method = 'jwt') {
 
     resetPassword: (email) => firebase.resetPassword(email),
 
-    updatePassword: (token, password) =>
-      firebase.updatePassword(token, password),
+    verifyCode: (email, key) => dispatch(verifyCode(email, key)),
+
+    updatePassword: (email, key, password) =>
+      firebase.updatePassword(email, key, password),
 
     updateProfile: ({
       displayName,

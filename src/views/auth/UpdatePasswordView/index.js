@@ -42,8 +42,8 @@ function UpdatePasswordView() {
   const isMountedRef = useIsMountedRef();
   const [sent, setSent] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
-  const { token } = useParams();
-
+  const { key } = useParams();
+  const email = window.localStorage.getItem('email');
   const ResetPasswordSchema = Yup.object().shape({
     email: Yup.string()
       .email('Email must be a valid email address')
@@ -58,7 +58,7 @@ function UpdatePasswordView() {
     onSubmit: async (values, { setErrors, setSubmitting }) => {
       try {
         console.log(isMountedRef.current);
-        await updatePassword(token, values.password);
+        await updatePassword(email, key, values.password);
         console.log(isMountedRef.current);
         if (isMountedRef.current) {
           setSent(true);

@@ -7,7 +7,7 @@ import React, { useState } from 'react';
 import { PATH_PAGE } from 'src/routes/paths';
 import ResetPasswordForm from './ResetPasswordForm';
 import { useSnackbar } from 'notistack';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useHistory } from 'react-router-dom';
 import useIsMountedRef from 'src/hooks/useIsMountedRef';
 import { makeStyles } from '@material-ui/core/styles';
 import { Box, Button, Container, Typography } from '@material-ui/core';
@@ -41,6 +41,7 @@ function ResetPasswordView() {
   const { resetPassword } = useAuth();
   const isMountedRef = useIsMountedRef();
   const [sent, setSent] = useState(false);
+  const history = useHistory();
   const { enqueueSnackbar } = useSnackbar();
 
   const ResetPasswordSchema = Yup.object().shape({
@@ -59,6 +60,8 @@ function ResetPasswordView() {
         console.log(isMountedRef.current);
         await resetPassword(values.email);
         console.log(isMountedRef.current);
+        window.localStorage.setItem('email', values.email);
+        history.push(`${PATH_PAGE.auth.verify}`);
         if (isMountedRef.current) {
           setSent(true);
           setSubmitting(false);
@@ -89,7 +92,8 @@ function ResetPasswordView() {
               </Typography>
               <Typography sx={{ color: 'text.secondary', mb: 5 }}>
                 Please enter the email address associated with your account and
-                We will email you a link to reset your password.
+                We will email you 6 digits verfication code to reset your
+                password.
               </Typography>
 
               <ResetPasswordForm formik={formik} />

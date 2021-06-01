@@ -167,11 +167,20 @@ export function resetPassword(email) {
   };
 }
 
-export function updatePassword(token, password) {
+export function verifyCode(email, key) {
+  return async (dispatch) => {
+    const response = await axios.post(`${ajaxUrl}/api/account/verify-code`, {
+      email,
+      key
+    });
+  };
+}
+
+export function updatePassword(email, key, password) {
   return async (dispatch) => {
     const response = await axios.post(
       `${ajaxUrl}/api/account/update-password`,
-      { token: token, password: password }
+      { email: email, key: key, password: password }
     );
     // const { accessToken, user } = response.data;
 
