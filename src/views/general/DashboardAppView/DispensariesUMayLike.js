@@ -1,6 +1,6 @@
 import { merge } from 'lodash';
 import clsx from 'clsx';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { Card, CardHeader, Button, Typography, Box } from '@material-ui/core';
@@ -13,6 +13,8 @@ import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
+import { axios, setSession, isValidToken } from 'src/utils/my.axios';
+import { ajaxUrl } from 'src/config';
 
 // ----------------------------------------------------------------------
 
@@ -84,6 +86,19 @@ DispensariesUMayLike.propTypes = {
 function DispensariesUMayLike({ className, ...other }) {
   const classes = useStyles();
   const theme = useTheme();
+  const [likeDispensary, setLikeDispensary] = useState();
+
+  useEffect(async () => {
+    const curAccessToken = window.localStorage.getItem('accessToken');
+    if (curAccessToken && isValidToken(curAccessToken)) {
+      setSession(curAccessToken);
+      const response = await axios.get(
+        `${ajaxUrl}/api/dispensary/like-dispensary`
+      );
+      console.log(response.data);
+      setLikeDispensary(response.data);
+    }
+  }, []);
 
   const demoProduct = [
     {
@@ -146,44 +161,47 @@ function DispensariesUMayLike({ className, ...other }) {
         <h1>Dispensaries You May Like</h1>
       </div>
       <div className={classes.display}>
-        {demoProduct.map(({ id2, rating, distance, letter, image1, type }) => (
-          <Card className={classes.root}>
-            <CardHeader
-              avatar={
-                <Avatar aria-label="recipe" className={classes.avatar}>
-                  {letter}
-                </Avatar>
-              }
-              action={
-                <IconButton aria-label="settings">
-                  <MoreVertIcon />
-                </IconButton>
-              }
-              title={id2}
-              subheader={rating}
-            />
-            <CardMedia
-              className={classes.media}
-              image={image1}
-              title="Paella dish"
-            />
-            <CardContent>
-              <Typography>{type}</Typography>
-              <Typography>{distance}</Typography>
-            </CardContent>
-            <CardActions disableSpacing>
-              <IconButton aria-label="add to favorites">
-                <FavoriteIcon />
-              </IconButton>
-              <IconButton aria-label="share">
-                <ShareIcon />
-              </IconButton>
-              <Button variant="outlined" className={classes.visitBtn}>
-                Visit
-              </Button>
-            </CardActions>
-          </Card>
-        ))}
+        {likeDispensary &&
+          likeDispensary.map(
+            ({ name, rating, distance, letter, mainImage, type }) => (
+              <Card className={classes.root}>
+                <CardHeader
+                  avatar={
+                    <Avatar aria-label="recipe" className={classes.avatar}>
+                      {letter}
+                    </Avatar>
+                  }
+                  action={
+                    <IconButton aria-label="settings">
+                      <MoreVertIcon />
+                    </IconButton>
+                  }
+                  title={name}
+                  subheader={rating}
+                />
+                <CardMedia
+                  className={classes.media}
+                  image={mainImage}
+                  title="Paella dish"
+                />
+                <CardContent>
+                  <Typography>{type}</Typography>
+                  <Typography>{distance}</Typography>
+                </CardContent>
+                <CardActions disableSpacing>
+                  <IconButton aria-label="add to favorites">
+                    <FavoriteIcon />
+                  </IconButton>
+                  <IconButton aria-label="share">
+                    <ShareIcon />
+                  </IconButton>
+                  <Button variant="outlined" className={classes.visitBtn}>
+                    Visit
+                  </Button>
+                </CardActions>
+              </Card>
+            )
+          )}
       </div>
     </div>
   );

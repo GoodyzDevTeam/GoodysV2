@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { fNumber } from 'src/utils/formatNumber';
 import { useTheme, makeStyles } from '@material-ui/core/styles';
@@ -23,6 +23,8 @@ import {
   MotionContainer
 } from 'src/components/Animate';
 import { alpha } from '@material-ui/core/styles';
+import { axios, setSession, isValidToken } from 'src/utils/my.axios';
+import { ajaxUrl } from 'src/config';
 
 // ----------------------------------------------------------------------
 
@@ -103,38 +105,17 @@ function DiscoverProducts({ className, ...other }) {
   const classes = useStyles();
   const theme = useTheme();
   const [location, setLocation] = React.useState(useLocation());
+  const [category, setCategory] = useState([]);
 
-  // DEMO FILLER(DATA) FOR PRODUCTS
-  const demoProduct = [
-    {
-      id: 'Flowers',
-      image1: `https://images.weedmaps.com/categories/000/000/002/avatar/original/1607965277-F-V3.png?w=400&h=300&dpr=1&auto=format&fit=crop`
-    },
-    {
-      id: 'Edibles',
-      image1: `https://images.weedmaps.com/categories/000/000/005/avatar/original/1607965274-ED-V3.png?w=400&h=300&dpr=1&auto=format&fit=crop`
-    },
-    {
-      id: 'Concentrates',
-      image1: `https://images.weedmaps.com/categories/000/000/003/avatar/original/1607965267-CC-V3.png?w=400&h=300&dpr=1&auto=format&fit=crop`
-    },
-    {
-      id: 'Pre Rolls',
-      image1: `https://images.weedmaps.com/categories/000/000/185/avatar/original/1607965288-preroll.png?w=400&h=300&dpr=1&auto=format&fit=crop`
-    },
-    {
-      id: 'CBD',
-      image1: `https://images.weedmaps.com/categories/000/000/052/avatar/original/1607965592-CBD-v3.png?w=400&h=300&dpr=1&auto=format&fit=crop`
-    },
-    {
-      id: 'Topicals',
-      image1: `https://images.weedmaps.com/categories/000/000/023/avatar/original/1607965283-TP-V3.png?w=400&h=300&dpr=1&auto=format&fit=crop`
-    },
-    {
-      id: 'Vape Pens',
-      image1: `https://images.weedmaps.com/categories/000/000/004/avatar/original/1607965286-Vape_pens.png?w=400&h=300&dpr=1&auto=format&fit=crop`
+  useEffect(async () => {
+    const curAccessToken = window.localStorage.getItem('accessToken');
+    if (curAccessToken && isValidToken(curAccessToken)) {
+      setSession(curAccessToken);
+      const response = await axios.get(`${ajaxUrl}/api/product/category`);
+      console.log(response.data);
+      setCategory(response.data);
     }
-  ];
+  }, []);
 
   const image = {
     small: getImgProduct(600),
@@ -147,66 +128,67 @@ function DiscoverProducts({ className, ...other }) {
         <h1>Browse By Category</h1>
       </div>
       <div className={classes.display}>
-        {demoProduct.map(({ id, image1 }) => (
-          <Card className={clsx(classes.root, className)} {...other}>
-            <Box sx={{ flexGrow: 1 }}>
-              <Box
-                sx={{
-                  top: 0,
-                  width: '100%',
-                  height: '100%',
-                  position: 'absolute',
-                  bgcolor: (theme) => alpha(theme.palette.grey[900], 0.12)
-                }}
-              />
-              <Box
-                component="img"
-                alt={id}
-                src={image1}
-                className={classes.img}
-                // sx={{
-                //   width: '100%',
-                //   objectFit: 'cover',
-                //   height: { xs: 160, xl: 500 }
-                // }}
-              />
-              <CardContent
-                sx={{
-                  bottom: 30,
-                  width: '100%',
-                  textAlign: 'center',
-                  position: 'absolute',
-                  color: 'common.white'
-                }}
-              >
-                <Typography variant="h5" gutterBottom noWrap>
-                  {id}
-                </Typography>
-              </CardContent>
-              {/* <div className={classes.details}>
-                <CardContent className={classes.content}>
-                  <Typography
-                    component="h5"
-                    variant="h5"
-                    className={classes.title}
-                  >
-                    <Link
-                      href={
-                        location.pathname == '/app/general/discover'
-                          ? PATH_APP.management.eCommerce.products
-                          : PATH_DISCOVER.general1.products
-                      }
-                    >
-                      {id}
-                    </Link>
+        {category &&
+          category.map(({ name, mainImage }) => (
+            <Card className={clsx(classes.root, className)} {...other}>
+              <Box sx={{ flexGrow: 1 }}>
+                <Box
+                  sx={{
+                    top: 0,
+                    width: '100%',
+                    height: '100%',
+                    position: 'absolute',
+                    bgcolor: (theme) => alpha(theme.palette.grey[900], 0.12)
+                  }}
+                />
+                <Box
+                  component="img"
+                  alt={name}
+                  src={mainImage}
+                  className={classes.img}
+                  // sx={{
+                  //   width: '100%',
+                  //   objectFit: 'cover',
+                  //   height: { xs: 160, xl: 500 }
+                  // }}
+                />
+                <CardContent
+                  sx={{
+                    bottom: 30,
+                    width: '100%',
+                    textAlign: 'center',
+                    position: 'absolute',
+                    color: 'common.white'
+                  }}
+                >
+                  <Typography variant="h5" gutterBottom noWrap>
+                    {name}
                   </Typography>
-                  <CardMedia className={classes.cover} image={image1} />
                 </CardContent>
-              </div> */}
-            </Box>
-            {/* <CardMedia className={classes.cover} image={image1} /> */}
-          </Card>
-        ))}
+                {/* <div className={classes.details}>
+                  <CardContent className={classes.content}>
+                    <Typography
+                      component="h5"
+                      variant="h5"
+                      className={classes.title}
+                    >
+                      <Link
+                        href={
+                          location.pathname == '/app/general/discover'
+                            ? PATH_APP.management.eCommerce.products
+                            : PATH_DISCOVER.general1.products
+                        }
+                      >
+                        {id}
+                      </Link>
+                    </Typography>
+                    <CardMedia className={classes.cover} image={image1} />
+                  </CardContent>
+                </div> */}
+              </Box>
+              {/* <CardMedia className={classes.cover} image={image1} /> */}
+            </Card>
+          ))}
       </div>
     </div>
   );
