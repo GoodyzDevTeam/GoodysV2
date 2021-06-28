@@ -1,6 +1,7 @@
 import { sum, map, filter, uniqBy } from 'lodash';
-import axios from 'src/utils/axios';
+import { axios, setSession, isValidToken } from 'src/utils/my.axios';
 import { createSlice } from '@reduxjs/toolkit';
+import { ajaxUrl } from 'src/config';
 
 // ----------------------------------------------------------------------
 
@@ -47,6 +48,7 @@ const slice = createSlice({
     getProductsSuccess(state, action) {
       state.isLoading = false;
       state.products = action.payload;
+      console.log(state.products);
     },
 
     // GET PRODUCT
@@ -215,8 +217,12 @@ export function getProducts() {
   return async (dispatch) => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await axios.get('/api/products');
-      dispatch(slice.actions.getProductsSuccess(response.data.products));
+      const curAccessToken = window.localStorage.getItem('accessToken');
+      if (curAccessToken && isValidToken(curAccessToken)) {
+        setSession(curAccessToken);
+        const response = await axios.get(`${ajaxUrl}/api/product/`);
+        dispatch(slice.actions.getProductsSuccess(response.data));
+      }
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }
@@ -225,16 +231,36 @@ export function getProducts() {
 
 // ----------------------------------------------------------------------
 
-export function getProduct(name) {
+export function getProduct(id) {
   return async (dispatch) => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await axios.get('/api/products/product', {
-        params: { name }
-      });
-      dispatch(slice.actions.getProductSuccess(response.data.product));
+      const curAccessToken = window.localStorage.getItem('accessToken');
+      if (curAccessToken && isValidToken(curAccessToken)) {
+        setSession(curAccessToken);
+        const response = await axios.get(`${ajaxUrl}/api/product/${id}`);
+        dispatch(slice.actions.getProductSuccess(response.data));
+      }
     } catch (error) {
       console.error(error);
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
+export function getLikeProducts() {
+  return async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const curAccessToken = window.localStorage.getItem('accessToken');
+      if (curAccessToken && isValidToken(curAccessToken)) {
+        setSession(curAccessToken);
+        const response = await axios.get(
+          `${ajaxUrl}/api/product/like-products`
+        );
+        dispatch(slice.actions.getProductsSuccess(response.data));
+      }
+    } catch (error) {
       dispatch(slice.actions.hasError(error));
     }
   };

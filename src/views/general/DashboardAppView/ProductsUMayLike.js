@@ -1,5 +1,7 @@
 import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getLikeProducts } from 'src/redux/slices/product';
 import PropTypes from 'prop-types';
 import { Icon } from '@iconify/react';
 import { alpha, useTheme, makeStyles } from '@material-ui/core/styles';
@@ -81,16 +83,12 @@ ProductsUMayLike.propTypes = {
 function ProductsUMayLike({ className, ...other }) {
   const classes = useStyles();
   const theme = useTheme();
-  const [likeProducts, setLikeProducts] = useState();
+  const dispatch = useDispatch();
+  const { products } = useSelector((state) => state.product);
 
   useEffect(async () => {
-    const curAccessToken = window.localStorage.getItem('accessToken');
-    if (curAccessToken && isValidToken(curAccessToken)) {
-      setSession(curAccessToken);
-      const response = await axios.get(`${ajaxUrl}/api/product/like-products`);
-      setLikeProducts(response.data);
-    }
-  }, []);
+    dispatch(getLikeProducts());
+  }, [dispatch]);
 
   const image = {
     small: getImgProduct(600),
@@ -103,44 +101,47 @@ function ProductsUMayLike({ className, ...other }) {
         <h1>Products You May Like</h1>
       </div>
       <div className={classes.display}>
-        {likeProducts &&
-          likeProducts.map(({ name, price, mainImage, weight }) => (
-            <Card className={clsx(classes.root, className)} {...other}>
-              <Box sx={{ flexGrow: 1, width: '50%' }}>
-                <div className={classes.details}>
-                  <CardContent className={classes.content}>
-                    <Typography
-                      className={classes.title}
-                      component="h6"
-                      variant="h6"
-                    >
-                      {name}
-                    </Typography>
-                    <Typography
-                      className={classes.title}
-                      variant="subtitle1"
-                      color="textSecondary"
-                    >
-                      {price}
-                    </Typography>
-                    <Typography
-                      className={classes.title}
-                      variant="subtitle1"
-                      color="textSecondary"
-                    >
-                      {weight}
-                    </Typography>
-                    <Button variant="outlined"> View </Button>
-                  </CardContent>
-                </div>
-              </Box>
-              <CardMedia
-                className={classes.cover}
-                image={mainImage}
-                title="Live from space album cover"
-              />
-            </Card>
-          ))}
+        {products &&
+          products.map((product, index) => {
+            console.log(product);
+            return (
+              <Card className={clsx(classes.root, className)} {...other}>
+                <Box sx={{ flexGrow: 1, width: '50%' }}>
+                  <div className={classes.details}>
+                    <CardContent className={classes.content}>
+                      <Typography
+                        className={classes.title}
+                        component="h6"
+                        variant="h6"
+                      >
+                        {product.productName}
+                      </Typography>
+                      <Typography
+                        className={classes.title}
+                        variant="subtitle1"
+                        color="textSecondary"
+                      >
+                        {product.price}
+                      </Typography>
+                      <Typography
+                        className={classes.title}
+                        variant="subtitle1"
+                        color="textSecondary"
+                      >
+                        {product.weight}
+                      </Typography>
+                      <Button variant="outlined"> View </Button>
+                    </CardContent>
+                  </div>
+                </Box>
+                <CardMedia
+                  className={classes.cover}
+                  image={product.photos[0]}
+                  title="Live from space album cover"
+                />
+              </Card>
+            );
+          })}
       </div>
     </div>
   );
