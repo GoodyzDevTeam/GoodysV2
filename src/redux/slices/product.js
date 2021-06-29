@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { sum, map, filter, uniqBy } from 'lodash';
 import { axios, setSession, isValidToken } from 'src/utils/my.axios';
 import { createSlice } from '@reduxjs/toolkit';
@@ -10,6 +11,8 @@ const initialState = {
   error: false,
   products: [],
   product: null,
+  categories: [],
+  category: null,
   sortBy: null,
   filters: {
     gender: [],
@@ -48,7 +51,16 @@ const slice = createSlice({
     getProductsSuccess(state, action) {
       state.isLoading = false;
       state.products = action.payload;
-      console.log(state.products);
+    },
+
+    getCategoriesSuccess(state, action) {
+      state.isLoading = false;
+      state.categories = action.payload;
+    },
+
+    getCategorySuccess(state, action) {
+      state.isLoading = false;
+      state.category = action.payload;
     },
 
     // GET PRODUCT
@@ -229,6 +241,38 @@ export function getProducts() {
   };
 }
 
+export function getProductsByCategory(categoryId) {
+  return async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const curAccessToken = window.localStorage.getItem('accessToken');
+      if (curAccessToken && isValidToken(curAccessToken)) {
+        setSession(curAccessToken);
+        const response = await axios.get(`${ajaxUrl}/api/product/by-category/${categoryId}`);
+        dispatch(slice.actions.getProductsSuccess(response.data));
+      }
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
+export function getCategory(categoryId) {
+  return async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const curAccessToken = window.localStorage.getItem('accessToken');
+      if (curAccessToken && isValidToken(curAccessToken)) {
+        setSession(curAccessToken);
+        const response = await axios.get(`${ajaxUrl}/api/product/category/${categoryId}`);
+        dispatch(slice.actions.getCategorySuccess(response.data));
+      }
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
 // ----------------------------------------------------------------------
 
 export function getProduct(id) {
@@ -238,8 +282,25 @@ export function getProduct(id) {
       const curAccessToken = window.localStorage.getItem('accessToken');
       if (curAccessToken && isValidToken(curAccessToken)) {
         setSession(curAccessToken);
-        const response = await axios.get(`${ajaxUrl}/api/product/${id}`);
+        const response = await axios.get(`${ajaxUrl}/api/product/by-id/${id}`);
         dispatch(slice.actions.getProductSuccess(response.data));
+      }
+    } catch (error) {
+      console.error(error);
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
+export function getCategories() {
+  return async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const curAccessToken = window.localStorage.getItem('accessToken');
+      if (curAccessToken && isValidToken(curAccessToken)) {
+        setSession(curAccessToken);
+        const response = await axios.get(`${ajaxUrl}/api/product/category/all`);
+        dispatch(slice.actions.getCategoriesSuccess(response.data));
       }
     } catch (error) {
       console.error(error);

@@ -1,30 +1,17 @@
+/* eslint-disable */
 import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { fNumber } from 'src/utils/formatNumber';
 import { useTheme, makeStyles } from '@material-ui/core/styles';
-import { Box, Card, Link, Typography } from '@material-ui/core';
+import { Box, Card, Typography } from '@material-ui/core';
+import { Link as RouterLink } from 'react-router-dom';
 import { getImgProduct } from 'src/utils/getImages';
 import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
 import { PATH_APP, PATH_DISCOVER } from 'src/routes/paths';
 import { useLocation } from 'react-router';
-import faker from 'faker';
-import Slider from 'react-slick';
-import { getImgFeed } from 'src/utils/getImages';
-import { Link as RouterLink } from 'react-router-dom';
-import {
-  CarouselArrowsBasic1,
-  CarouselCustomPaging1
-} from 'src/components/Carousel';
-import {
-  varFadeInLeft,
-  varFadeInRight,
-  MotionContainer
-} from 'src/components/Animate';
 import { alpha } from '@material-ui/core/styles';
-import { axios, setSession, isValidToken } from 'src/utils/my.axios';
-import { ajaxUrl } from 'src/config';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCategories } from 'src/redux/slices/product';
 
 // ----------------------------------------------------------------------
 
@@ -105,17 +92,12 @@ function DiscoverProducts({ className, ...other }) {
   const classes = useStyles();
   const theme = useTheme();
   const [location, setLocation] = React.useState(useLocation());
-  const [category, setCategory] = useState([]);
+  const { categories } = useSelector((state) => state.product);
+  const dispatch = useDispatch();
 
-  useEffect(async () => {
-    const curAccessToken = window.localStorage.getItem('accessToken');
-    if (curAccessToken && isValidToken(curAccessToken)) {
-      setSession(curAccessToken);
-      const response = await axios.get(`${ajaxUrl}/api/product/category`);
-      console.log(response.data);
-      setCategory(response.data);
-    }
-  }, []);
+  useEffect(() => {
+    dispatch(getCategories());
+  }, [dispatch]);
 
   const image = {
     small: getImgProduct(600),
@@ -128,66 +110,42 @@ function DiscoverProducts({ className, ...other }) {
         <h1>Browse By Category</h1>
       </div>
       <div className={classes.display}>
-        {category &&
-          category.map(({ name, mainImage }) => (
-            <Card className={clsx(classes.root, className)} {...other}>
-              <Box sx={{ flexGrow: 1 }}>
-                <Box
-                  sx={{
-                    top: 0,
-                    width: '100%',
-                    height: '100%',
-                    position: 'absolute',
-                    bgcolor: (theme) => alpha(theme.palette.grey[900], 0.12)
-                  }}
-                />
-                <Box
-                  component="img"
-                  alt={name}
-                  src={mainImage}
-                  className={classes.img}
-                  // sx={{
-                  //   width: '100%',
-                  //   objectFit: 'cover',
-                  //   height: { xs: 160, xl: 500 }
-                  // }}
-                />
-                <CardContent
-                  sx={{
-                    bottom: 30,
-                    width: '100%',
-                    textAlign: 'center',
-                    position: 'absolute',
-                    color: 'common.white'
-                  }}
-                >
-                  <Typography variant="h5" gutterBottom noWrap>
-                    {name}
-                  </Typography>
-                </CardContent>
-                {/* <div className={classes.details}>
-                  <CardContent className={classes.content}>
-                    <Typography
-                      component="h5"
-                      variant="h5"
-                      className={classes.title}
-                    >
-                      <Link
-                        href={
-                          location.pathname == '/app/general/discover'
-                            ? PATH_APP.management.eCommerce.products
-                            : PATH_DISCOVER.general1.products
-                        }
-                      >
-                        {id}
-                      </Link>
+        {categories &&
+          categories.map((category, index) => (
+            <RouterLink key={index} to={`discover/${category._id}`}>
+              <Card className={clsx(classes.root, className)} {...other}>
+                <Box sx={{ flexGrow: 1 }}>
+                  <Box
+                    sx={{
+                      top: 0,
+                      width: '100%',
+                      height: '100%',
+                      position: 'absolute',
+                      bgcolor: (theme) => alpha(theme.palette.grey[900], 0.12)
+                    }}
+                  />
+                  <Box
+                    component="img"
+                    alt={category.name}
+                    src={category.mainImage}
+                    className={classes.img}
+                  />
+                  <CardContent
+                    sx={{
+                      bottom: 30,
+                      width: '100%',
+                      textAlign: 'center',
+                      position: 'absolute',
+                      color: 'common.white'
+                    }}
+                  >
+                    <Typography variant="h5" gutterBottom noWrap>
+                      {category.name}
                     </Typography>
-                    <CardMedia className={classes.cover} image={image1} />
                   </CardContent>
-                </div> */}
-              </Box>
-              {/* <CardMedia className={classes.cover} image={image1} /> */}
-            </Card>
+                </Box>
+              </Card>
+            </RouterLink>            
           ))}
       </div>
     </div>

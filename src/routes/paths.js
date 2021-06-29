@@ -48,6 +48,8 @@ export const PATH_APP = {
     root: path(ROOTS.app, '/dashboard'), // GOODYS-HUB MAIN USER DASHBOARD PATH
     dashboard: path(ROOTS.app, '/dashboard'),
     discover: path(ROOTS.app, '/general/discover'), // DISCOVER PATH FOR USERS GOODY'S HUB(DASHBOARD)
+    productInCategory: path(ROOTS.app, '/general/discover/:categoryId'),
+    productDetail: path(ROOTS.app, '/productDetail/:productId'),
     learn: path(ROOTS.app, '/management/blog/learn'), // LEARN PATH FOR USERS GOODY'S HUB(DASHBOARD)
     learnTopics: path(ROOTS.app, '/management/learn/topics'),
     posts: path(ROOTS.app, '/management/blog'),
