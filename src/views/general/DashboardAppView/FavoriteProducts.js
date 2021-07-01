@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Icon } from '@iconify/react';
 import { alpha, useTheme, makeStyles } from '@material-ui/core/styles';
@@ -11,7 +11,9 @@ import { map } from 'lodash';
 import { paramCase } from 'change-case';
 import { PATH_APP } from 'src/routes/paths';
 import { Link as RouterLink } from 'react-router-dom';
-import { name } from 'faker';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { getFavoriteProducts } from 'src/redux/slices/product';
 
 // ----------------------------------------------------------------------
 const useStyles = makeStyles((theme) => ({
@@ -80,45 +82,42 @@ FavoriteProducts.propTypes = {
   className: PropTypes.string
 };
 
+const WeightAndPrice = ({ weightAndPrices }) => {
+  const classes = useStyles();
+  const wp = weightAndPrices ? weightAndPrices.filter((item) => item)[0] : null;
+  return (
+    <>
+      {wp && (
+        <>
+          <Typography
+            className={classes.title}
+            variant="subtitle1"
+            color="textSecondary"
+          >
+            ${wp.price}
+          </Typography>
+          <Typography
+            className={classes.title}
+            variant="subtitle1"
+            color="textSecondary"
+          >
+            {wp.weight}
+          </Typography>
+        </>
+      )}
+    </>
+  );
+};
+
 function FavoriteProducts({ product, className, ...other }) {
   const classes = useStyles();
   const theme = useTheme();
+  const dispatch = useDispatch();
+  const { favoriteProducts } = useSelector((state) => state.product);
 
-  const demoProduct = [
-    {
-      id: 'Garry Payton',
-      description: 'Lorem ipsum dolor sit amet',
-      image1: `https://images.weedmaps.com/pictures/users/000/276/562/original/95677461_garypayton.jpg?w=300&h=300&dpr=1&auto=format&fit=crop&fill=solid`,
-      price: '$60.00',
-      weight: '1/8 oz'
-    },
-    {
-      id: 'Marathon OG',
-      description: 'Lorem ipsum dolor sit amet',
-      image1: `https://images.weedmaps.com/products/000/070/686/avatar/original/1612937082-MOG-2.jpg?w=300&h=300&dpr=1&auto=format&fit=crop&fill=solid`,
-      price: '$50.00',
-      weight: '1/8 oz'
-    },
-    {
-      id: 'Pink Runtz',
-      description: 'Lorem ipsum dolor sit amet',
-      image1: `https://images.weedmaps.com/products/000/097/055/avatar/original/1613074952-pink-picasso_eighthbox.jpg?w=300&h=300&dpr=1&auto=format&fit=crop&fill=solid`,
-      price: '$65.00',
-      weight: '1/8 oz'
-    },
-    {
-      id: 'Wedding Cake Vape',
-      description: 'Lorem ipsum dolor sit amet',
-      image1: `https://images.weedmaps.com/products/000/193/618/avatar/original/1599770660-vapeflavors-17.jpg?w=300&h=300&dpr=1&auto=format&fit=crop&fill=solid`,
-      price: '$40.00',
-      weight: ''
-    }
-  ];
-
-  const image = {
-    small: getImgProduct(600),
-    medium: getImgProduct(960)
-  };
+  useEffect(() => {
+    dispatch(getFavoriteProducts());
+  }, [dispatch]);
 
   return (
     <div>
@@ -126,8 +125,8 @@ function FavoriteProducts({ product, className, ...other }) {
         <h1>Your Favorite Products</h1>
       </div>
       <div className={classes.display}>
-        {demoProduct.map(({ id, description, image1, price, weight }) => (
-          <Card className={clsx(classes.root, className)} {...other}>
+        {favoriteProducts && favoriteProducts.map((item, index) => (
+          <Card key={index} className={clsx(classes.root, className)} {...other}>
             <Box sx={{ flexGrow: 1 }}>
               <div className={classes.details}>
                 <CardContent className={classes.content}>
@@ -136,31 +135,23 @@ function FavoriteProducts({ product, className, ...other }) {
                     component="h6"
                     variant="h6"
                   >
-                    {id}
+                    {item.product.productName}
                   </Typography>
-                  <Typography
-                    className={classes.title}
-                    variant="subtitle1"
-                    color="textSecondary"
-                  >
-                    {price}
-                  </Typography>
-                  <Typography
-                    className={classes.title}
-                    variant="subtitle1"
-                    color="textSecondary"
-                  >
-                    {weight}
-                  </Typography>
-                  <Link>
-                    <Button variant="outlined">Order Again</Button>
-                  </Link>
+                  <WeightAndPrice weightAndPrices={item.product.weightAndPrice} />
+                  <Button variant="outlined">
+                    <RouterLink
+                      style={{ textDecoration: 'none' }}
+                      to={`${PATH_APP.root}/productDetail/${item.product._id}`}
+                    >
+                      Order Again
+                    </RouterLink>
+                  </Button>
                 </CardContent>
               </div>
             </Box>
             <CardMedia
               className={classes.cover}
-              image={image1}
+              image={item.product.photos[0]}
               title="Live from space album cover"
             />
           </Card>

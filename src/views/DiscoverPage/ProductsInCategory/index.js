@@ -17,7 +17,7 @@ import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProductsByCategory, getCategory } from 'src/redux/slices/product';
+import { getProductsByCategory, getCategory, toggleFavoriteProduct } from 'src/redux/slices/product';
 import { useParams, Link as RouterLink } from 'react-router-dom';
 import { PATH_APP, PATH_DISCOVER } from 'src/routes/paths';
 
@@ -117,13 +117,40 @@ const useStyles = makeStyles((theme) => ({
 
 // ----------------------------------------------------------------------
 
+const WeightAndPrice = ({ weightAndPrices }) => {
+  const classes = useStyles();
+  const wp = weightAndPrices ? weightAndPrices.filter((item) => item)[0] : null;
+  return (
+    <>
+      {wp && (
+        <>
+          <Typography
+            className={classes.title}
+            variant="subtitle1"
+            color="textSecondary"
+          >
+            ${wp.price}
+          </Typography>
+          <Typography
+            className={classes.title}
+            variant="subtitle1"
+            color="textSecondary"
+          >
+            {wp.weight}
+          </Typography>
+        </>
+      )}
+    </>
+  );
+};
+
 ProductsInCategory.propTypes = {
   className: PropTypes.string
 };
 
 function ProductsInCategory({ className, ...other }) {
   const classes = useStyles();
-  const { products, category } = useSelector((state) => state.product);
+  const { products, category, favoriteProducts } = useSelector((state) => state.product);
 	const [deal, setDeal] = useState([]);
 	const dispatch = useDispatch();
 	const { categoryId } = useParams();
@@ -133,9 +160,15 @@ function ProductsInCategory({ className, ...other }) {
 		dispatch(getCategory(categoryId));
   }, [dispatch]);
 
-  const image = {
-    small: getImgProduct(600),
-    medium: getImgProduct(960)
+  const onHandleFavorite = (id) => {
+    dispatch(toggleFavoriteProduct(id));
+  }
+
+  const checkIfFavorite = (id) => {
+    if (!favoriteProducts) return false;
+    let filtered = favoriteProducts.filter((item) => item.product._id == id);
+    if (filtered.length > 0) return true;
+    return false;
   };
 
   return (
@@ -165,11 +198,21 @@ function ProductsInCategory({ className, ...other }) {
 							<Box className={classes.contentContainer}>
 								<CardContent className={classes.content}>
 									<Typography variant="subtitle2">{product.productName}</Typography>
+                  <WeightAndPrice weightAndPrices={product.weightAndPrice} />
 									<Typography variant="subtitle2">{product.description}</Typography>
 								</CardContent>
 								<CardActions disableSpacing className={classes.actions}>
-									<IconButton aria-label="add to favorites">
-										<FavoriteIcon />
+									<IconButton
+                    aria-label="add to favorites"
+                    onClick={() => onHandleFavorite(product._id)}
+                  >
+										<FavoriteIcon
+                      sx={
+                        checkIfFavorite(product._id)
+                        ? { color: 'red' }
+                        : { color: 'gray' }
+                      }
+                    />
 									</IconButton>
 									<IconButton aria-label="share">
 										<ShareIcon />
@@ -178,7 +221,10 @@ function ProductsInCategory({ className, ...other }) {
 										variant="outlined"
 										className={classes.visitBtn}
 									>
-										<RouterLink to={`${PATH_APP.root}/productDetail/${product._id}`}>
+										<RouterLink
+                      style={{ textDecoration: 'none' }}
+                      to={`${PATH_APP.root}/productDetail/${product._id}`}
+                    >
 											View
 										</RouterLink>
 									</Button>

@@ -2,23 +2,26 @@
 import {
 	Container,
 	Grid,
-	Card,
+  Card,
 	Button,
 	Rating,
 	Table,
 	TableHead,
 	TableBody,
 	TableRow,
-	TableCell,
+  TableCell,
+  IconButton,
 	Typography,
 	Box
 } from '@material-ui/core';
 import { alpha, experimentalStyled as styled, makeStyles, withStyles } from '@material-ui/core/styles';
+import { MBreadcrumbs } from 'src/theme';
 import StarBorderOutlined from '@material-ui/icons/StarBorderOutlined';
 import EditAttributesOutlined from '@material-ui/icons/Edit';
 import PropTypes from 'prop-types';
 import MinusIcon from '@material-ui/icons/Remove';
 import PlusIcon from '@material-ui/icons/Add';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 // hooks
 import useAuth from 'src/hooks/useAuth';
 // components
@@ -27,8 +30,9 @@ import Page from 'src/components/Page';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getCategory, getProduct } from 'src/redux/slices/product';
+import { getCategory, getProduct, toggleFavoriteProduct } from 'src/redux/slices/product';
 import ProductPhoto from './ProductPhoto';
+import { PATH_APP, PATH_DISCOVER } from 'src/routes/paths';
 
 // routes
 import { PATH_DASHBOARD } from 'src/routes/paths';
@@ -83,7 +87,7 @@ const QuantityButton = styled(Button)(({ theme }) => ({
 export default function ProductPreview() {
 	const classes = useStyles();
   const dispatch = useDispatch();
-  const { product, category } = useSelector((state) => state.product);
+  const { product, category, favoriteProducts } = useSelector((state) => state.product);
   const { productId } = useParams();
 
   useEffect(() => {
@@ -93,6 +97,17 @@ export default function ProductPreview() {
   useEffect(() => {
     product && dispatch(getCategory(product.category));
   }, [product]);
+
+  const onHandleFavorite = (id) => {
+    dispatch(toggleFavoriteProduct(id));
+  }
+
+  const checkIfFavorite = (id) => {
+    if (!favoriteProducts) return false;
+    let filtered = favoriteProducts.filter((item) => item.product._id == id);
+    if (filtered.length > 0) return true;
+    return false;
+  };
 
 	const QuantityAndPrice = () => {
 		const [quantity, setQuantity] = useState(0);
@@ -138,6 +153,15 @@ export default function ProductPreview() {
             <Typography gutterBottom variant="h4" sx={{ width: 'auto' }}>
               {product.productName}
             </Typography>
+            <MBreadcrumbs
+              sx={{ fontSize: '20px', mb: 3 }}
+              links={[
+                { name: 'Dashboard', href: `${PATH_APP.general.root}` },
+                { name: 'Discover', href: `${PATH_APP.general.discover}` },
+                { name: `${category && category.name}`, href: `${PATH_APP.general.discover}/${category._id}` },
+                { name: `${product.productName}`, href: '#' }
+              ]}
+            />
           </Grid>
           
           <Grid container>
@@ -152,14 +176,29 @@ export default function ProductPreview() {
                   <Typography gutterBottom variant="h6" sx={{ width: 'auto' }}>
                     {/* {product && product.productName} - {product && product.type >= 0 && types[product.category][product.type]} */}
                   </Typography>
-                  <StyledRating
-                    defaultValue={4.8}
-                    getLabelText={(value) => `${value} Heart${value !== 1 ? 's' : ''}`}
-                    icon={<StarBorderOutlined fontSize="inherit" />}
-                    className={classes.rating}
-                    disabled
-                    size='medium'
-                  />
+                  <Grid sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <StyledRating
+                      defaultValue={4.8}
+                      getLabelText={(value) => `${value} Heart${value !== 1 ? 's' : ''}`}
+                      icon={<StarBorderOutlined fontSize="inherit" />}
+                      className={classes.rating}
+                      disabled
+                      size='medium'
+                    />
+                    <IconButton
+                      aria-label="add to favorites"
+                      onClick={() => onHandleFavorite(product._id)}
+                    >
+                      <FavoriteIcon
+                        sx={
+                          checkIfFavorite(product._id)
+                          ? { color: 'red', width: '50px', height: '50px' }
+                          : { color: 'gray', width: '50px', height: '50px' }
+                        }
+                      />
+                    </IconButton>
+                  </Grid>
+                  
                   <Typography gutterBottom variant="h6" sx={{ width: 'auto' }}>
                     $ 45.00
                   </Typography>

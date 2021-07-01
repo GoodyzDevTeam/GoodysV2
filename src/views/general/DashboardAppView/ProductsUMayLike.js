@@ -1,17 +1,17 @@
 import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getLikeProducts } from 'src/redux/slices/product';
+import { getProducts, toggleFavoriteProduct, getFavoriteProducts } from 'src/redux/slices/product';
 import PropTypes from 'prop-types';
 import { Icon } from '@iconify/react';
 import { alpha, useTheme, makeStyles } from '@material-ui/core/styles';
-import { Box, Button, Card, Typography } from '@material-ui/core';
+import { Box, Button, Card, Typography, IconButton } from '@material-ui/core';
 import { getImgProduct } from 'src/utils/getImages';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import { map } from 'lodash';
-import { axios, setSession, isValidToken } from 'src/utils/my.axios';
-import { ajaxUrl } from 'src/config';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import { Link as RouterLink } from 'react-router-dom';
+import { PATH_APP } from 'src/routes/paths';
 
 // ----------------------------------------------------------------------
 
@@ -76,6 +76,33 @@ const useStyles = makeStyles((theme) => ({
 
 // ----------------------------------------------------------------------
 
+const WeightAndPrice = ({ weightAndPrices }) => {
+  const classes = useStyles();
+  const wp = weightAndPrices ? weightAndPrices.filter((item) => item)[0] : null;
+  return (
+    <>
+      {wp && (
+        <>
+          <Typography
+            className={classes.title}
+            variant="subtitle1"
+            color="textSecondary"
+          >
+            ${wp.price}
+          </Typography>
+          <Typography
+            className={classes.title}
+            variant="subtitle1"
+            color="textSecondary"
+          >
+            {wp.weight}
+          </Typography>
+        </>
+      )}
+    </>
+  );
+};
+
 ProductsUMayLike.propTypes = {
   className: PropTypes.string
 };
@@ -84,15 +111,22 @@ function ProductsUMayLike({ className, ...other }) {
   const classes = useStyles();
   const theme = useTheme();
   const dispatch = useDispatch();
-  const { products } = useSelector((state) => state.product);
+  const { products, favoriteProducts } = useSelector((state) => state.product);
 
   useEffect(async () => {
-    dispatch(getLikeProducts());
+    dispatch(getProducts());
+    dispatch(getFavoriteProducts());
   }, [dispatch]);
 
-  const image = {
-    small: getImgProduct(600),
-    medium: getImgProduct(960)
+  const onHandleFavorite = (id) => {
+    dispatch(toggleFavoriteProduct(id));
+  }
+
+  const checkIfFavorite = (id) => {
+    if (!favoriteProducts) return false;
+    let filtered = favoriteProducts.filter((item) => item.product._id == id);
+    if (filtered.length > 0) return true;
+    return false;
   };
 
   return (
@@ -103,7 +137,6 @@ function ProductsUMayLike({ className, ...other }) {
       <div className={classes.display}>
         {products &&
           products.map((product, index) => {
-            console.log(product);
             return (
               <Card className={clsx(classes.root, className)} {...other}>
                 <Box sx={{ flexGrow: 1, width: '50%' }}>
@@ -116,21 +149,27 @@ function ProductsUMayLike({ className, ...other }) {
                       >
                         {product.productName}
                       </Typography>
-                      <Typography
-                        className={classes.title}
-                        variant="subtitle1"
-                        color="textSecondary"
+                      <WeightAndPrice weightAndPrices={product.weightAndPrice} />
+                      <IconButton
+                        aria-label="add to favorites"
+                        onClick={() => onHandleFavorite(product._id)}
                       >
-                        {product.price}
-                      </Typography>
-                      <Typography
-                        className={classes.title}
-                        variant="subtitle1"
-                        color="textSecondary"
-                      >
-                        {product.weight}
-                      </Typography>
-                      <Button variant="outlined"> View </Button>
+                        <FavoriteIcon
+                          sx={
+                            checkIfFavorite(product._id)
+                            ? { color: 'red' }
+                            : { color: 'gray' }
+                          }
+                        />
+                      </IconButton>
+                      <Button variant="outlined">
+                        <RouterLink
+                          style={{ textDecoration: 'none' }}
+                          to={`${PATH_APP.root}/productDetail/${product._id}`}
+                        >
+                          View
+                        </RouterLink>
+                      </Button>
                     </CardContent>
                   </div>
                 </Box>

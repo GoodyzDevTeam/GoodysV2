@@ -10,6 +10,7 @@ const initialState = {
   isLoading: false,
   error: false,
   products: [],
+  favoriteProducts: [],
   product: null,
   categories: [],
   category: null,
@@ -51,6 +52,11 @@ const slice = createSlice({
     getProductsSuccess(state, action) {
       state.isLoading = false;
       state.products = action.payload;
+    },
+
+    getFavoriteProductsSuccess(state, action) {
+      state.isLoading = false;
+      state.favoriteProducts = action.payload;
     },
 
     getCategoriesSuccess(state, action) {
@@ -309,7 +315,7 @@ export function getCategories() {
   };
 }
 
-export function getLikeProducts() {
+export function getFavoriteProducts() {
   return async (dispatch) => {
     dispatch(slice.actions.startLoading());
     try {
@@ -317,9 +323,28 @@ export function getLikeProducts() {
       if (curAccessToken && isValidToken(curAccessToken)) {
         setSession(curAccessToken);
         const response = await axios.get(
-          `${ajaxUrl}/api/product/like-products`
+          `${ajaxUrl}/api/product/favorite-products`
         );
-        dispatch(slice.actions.getProductsSuccess(response.data));
+        dispatch(slice.actions.getFavoriteProductsSuccess(response.data));
+      }
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
+export function toggleFavoriteProduct(id) {
+  return async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const curAccessToken = window.localStorage.getItem('accessToken');
+      if (curAccessToken && isValidToken(curAccessToken)) {
+        setSession(curAccessToken);
+        const response = await axios.post(
+          `${ajaxUrl}/api/product/favorite-products`,
+          { productId: id }
+        );
+        dispatch(slice.actions.getFavoriteProductsSuccess(response.data));
       }
     } catch (error) {
       dispatch(slice.actions.hasError(error));

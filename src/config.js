@@ -22,5 +22,5 @@ export const cloudinaryConfig = {
 
 export const googleAnalyticsConfig = process.env.REACT_APP_GA_MEASUREMENT_ID;
 
-// export const ajaxUrl = 'http://localhost:8080';
-export const ajaxUrl = 'https://d1nasz9n8gap4o.cloudfront.net';
+export const ajaxUrl = 'http://localhost:8080';
+// export const ajaxUrl = 'https://d1nasz9n8gap4o.cloudfront.net';
