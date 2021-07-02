@@ -171,7 +171,7 @@ function DispensariesUMayLike({ className, ...other }) {
                   <CardHeader
                     avatar={
                       <Avatar aria-label="recipe" className={classes.avatar}>
-                        {dispensary.name}
+                        {dispensary.name[0]}
                       </Avatar>
                     }
                     action={
