@@ -6,6 +6,7 @@ import HomePageHubDeals from './HomePageHubDeals';
 import ProductsUMayLike from './ProductsUMayLike';
 import DispensariesUMayLike from './DispensariesUMayLike';
 import FavoriteProducts from './FavoriteProducts';
+import FavoriteDispensaries from './FavoriteDispensaries';
 import { makeStyles } from '@material-ui/core/styles';
 import { Container, Grid } from '@material-ui/core';
 
@@ -39,6 +40,10 @@ function DashboardAppView() {
 
           <Grid item xs={12} md={12}>
             <ProductsUMayLike />
+          </Grid>
+
+          <Grid item xs={12} md={12} lg={12}>
+            <FavoriteDispensaries />
           </Grid>
 
           <Grid item xs={12} md={12} lg={12}>

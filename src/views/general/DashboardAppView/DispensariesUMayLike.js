@@ -13,8 +13,8 @@ import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
-import { axios, setSession, isValidToken } from 'src/utils/my.axios';
-import { ajaxUrl } from 'src/config';
+import { getDispensaries, toggleFavoriteDispensary, getFavoriteDispensaries } from 'src/redux/slices/dispensary';
+import { useDispatch, useSelector } from 'react-redux';
 
 // ----------------------------------------------------------------------
 
@@ -86,19 +86,13 @@ DispensariesUMayLike.propTypes = {
 function DispensariesUMayLike({ className, ...other }) {
   const classes = useStyles();
   const theme = useTheme();
-  const [likeDispensary, setLikeDispensary] = useState();
+  const dispatch = useDispatch();
+  const { dispensaries, favoriteDispensaries } = useSelector((state) => state.dispensary);
 
-  useEffect(async () => {
-    const curAccessToken = window.localStorage.getItem('accessToken');
-    if (curAccessToken && isValidToken(curAccessToken)) {
-      setSession(curAccessToken);
-      const response = await axios.get(
-        `${ajaxUrl}/api/dispensary/like-dispensary`
-      );
-      console.log(response.data);
-      setLikeDispensary(response.data);
-    }
-  }, []);
+  useEffect(() => {
+    dispatch(getDispensaries());
+    dispatch(getFavoriteDispensaries());
+  }, [dispatch]);
 
   const demoProduct = [
     {
@@ -150,10 +144,17 @@ function DispensariesUMayLike({ className, ...other }) {
       type: 'Medical & Recreational'
     }
   ];
-  const images = {
-    small: getImgDispensary(600),
-    medium: getImgDispensary(960)
+
+  const checkIfFavorite = (id) => {
+    if (!favoriteDispensaries) return false;
+    let filtered = favoriteDispensaries.filter((item) => item.dispensary._id == id);
+    if (filtered.length > 0) return true;
+    return false;
   };
+
+  const onHandleFavorite = (id) => {
+    dispatch(toggleFavoriteDispensary(id));
+  }
 
   return (
     <div>
@@ -161,14 +162,14 @@ function DispensariesUMayLike({ className, ...other }) {
         <h1>Dispensaries You May Like</h1>
       </div>
       <div className={classes.display}>
-        {likeDispensary &&
-          likeDispensary.map(
-            ({ name, rating, distance, letter, mainImage, type }) => (
-              <Card className={classes.root}>
+        {dispensaries &&
+          dispensaries.map(
+            (dispensary, index) => (
+              <Card key={index} className={classes.root}>
                 <CardHeader
                   avatar={
                     <Avatar aria-label="recipe" className={classes.avatar}>
-                      {letter}
+                      {dispensary.name}
                     </Avatar>
                   }
                   action={
@@ -176,21 +177,30 @@ function DispensariesUMayLike({ className, ...other }) {
                       <MoreVertIcon />
                     </IconButton>
                   }
-                  title={name}
-                  subheader={rating}
+                  title={dispensary.name}
+                  subheader={dispensary.rating}
                 />
                 <CardMedia
                   className={classes.media}
-                  image={mainImage}
+                  image={dispensary.mainImage}
                   title="Paella dish"
                 />
                 <CardContent>
-                  <Typography>{type}</Typography>
-                  <Typography>{distance}</Typography>
+                  <Typography>{dispensary.type}</Typography>
+                  <Typography>{dispensary.distance}</Typography>
                 </CardContent>
                 <CardActions disableSpacing>
-                  <IconButton aria-label="add to favorites">
-                    <FavoriteIcon />
+                  <IconButton
+                    onClick={() => onHandleFavorite(dispensary._id)}
+                    aria-label="add to favorites"
+                  >
+                    <FavoriteIcon
+                      sx={
+                        checkIfFavorite(dispensary._id)
+                        ? { color: 'red' }
+                        : { color: 'gray' }
+                      }
+                    />
                   </IconButton>
                   <IconButton aria-label="share">
                     <ShareIcon />

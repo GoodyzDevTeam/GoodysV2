@@ -13,7 +13,7 @@ import { PATH_APP } from 'src/routes/paths';
 import { Link as RouterLink } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { getFavoriteProducts } from 'src/redux/slices/product';
+import { getFavoriteDispensaries } from 'src/redux/slices/dispensary';
 
 // ----------------------------------------------------------------------
 const useStyles = makeStyles((theme) => ({
@@ -76,54 +76,28 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // ----------------------------------------------------------------------
-const WeightAndPrice = ({ weightAndPrices }) => {
-  const classes = useStyles();
-  const wp = weightAndPrices ? weightAndPrices.filter((item) => item)[0] : null;
-  return (
-    <>
-      {wp && (
-        <>
-          <Typography
-            className={classes.title}
-            variant="subtitle1"
-            color="textSecondary"
-          >
-            ${wp.price}
-          </Typography>
-          <Typography
-            className={classes.title}
-            variant="subtitle1"
-            color="textSecondary"
-          >
-            {wp.weight}
-          </Typography>
-        </>
-      )}
-    </>
-  );
-};
 
-FavoriteProducts.propTypes = {
+FavoriteDispensaries.propTypes = {
   className: PropTypes.string
 };
 
-function FavoriteProducts({ className, ...other }) {
+function FavoriteDispensaries({ className, ...other }) {
   const classes = useStyles();
   const theme = useTheme();
   const dispatch = useDispatch();
-  const { favoriteProducts } = useSelector((state) => state.product);
+  const { favoriteDispensaries } = useSelector((state) => state.dispensary);
 
   useEffect(() => {
-    dispatch(getFavoriteProducts());
+    dispatch(getFavoriteDispensaries());
   }, [dispatch]);
 
   return (
     <div>
       <div className={classes.header}>
-        <h1>Your Favorite Products</h1>
+        <h1>Your Favorite Dispensaries</h1>
       </div>
       <div className={classes.display}>
-        {favoriteProducts && favoriteProducts.map((item, index) => (
+        {favoriteDispensaries && favoriteDispensaries.map((item, index) => (
           <Card key={index} className={clsx(classes.root, className)} {...other}>
             <Box sx={{ flexGrow: 1 }}>
               <div className={classes.details}>
@@ -133,15 +107,14 @@ function FavoriteProducts({ className, ...other }) {
                     component="h6"
                     variant="h6"
                   >
-                    {item.product.productName}
+                    {item.dispensary.dispensaryName}
                   </Typography>
-                  <WeightAndPrice weightAndPrices={item.product.weightAndPrice} />
                   <Button variant="outlined">
                     <RouterLink
                       style={{ textDecoration: 'none' }}
-                      to={`${PATH_APP.root}/productDetail/${item.product._id}`}
+                      to={''}
                     >
-                      Order Again
+                      Visit
                     </RouterLink>
                   </Button>
                 </CardContent>
@@ -149,7 +122,7 @@ function FavoriteProducts({ className, ...other }) {
             </Box>
             <CardMedia
               className={classes.cover}
-              image={item.product.photos[0]}
+              image={item.dispensary.mainImage}
               title="Live from space album cover"
             />
           </Card>
@@ -159,4 +132,4 @@ function FavoriteProducts({ className, ...other }) {
   );
 }
 
-export default FavoriteProducts;
+export default FavoriteDispensaries;
