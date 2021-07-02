@@ -107,7 +107,7 @@ function FavoriteDispensaries({ className, ...other }) {
                     component="h6"
                     variant="h6"
                   >
-                    {item.dispensary.dispensaryName}
+                    {item.dispensary.name}
                   </Typography>
                   <Button variant="outlined">
                     <RouterLink

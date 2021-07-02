@@ -162,7 +162,7 @@ function DispensariesUMayLike({ className, ...other }) {
         <h1>Dispensaries You May Like</h1>
       </div>
       <div className={classes.display}>
-        {dispensaries &&
+        {dispensaries && favoriteDispensaries &&
           dispensaries.map(
             (dispensary, index) => (
               <Card key={index} className={classes.root}>
