@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import { Card, CardHeader, Button, Typography, Box } from '@material-ui/core';
+import { Card, Grid, CardHeader, Button, Typography, Box } from '@material-ui/core';
 import { getImgDispensary } from 'src/utils/getImages';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
@@ -24,7 +24,8 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     textAlign: 'left',
     marginLeft: 'auto',
-    marginRight: 'auto'
+    marginRight: 'auto',
+    height: '100%'
   },
   header: {
     marginBottom: theme.spacing(2),
@@ -165,51 +166,53 @@ function DispensariesUMayLike({ className, ...other }) {
         {dispensaries && favoriteDispensaries &&
           dispensaries.map(
             (dispensary, index) => (
-              <Card key={index} className={classes.root}>
-                <CardHeader
-                  avatar={
-                    <Avatar aria-label="recipe" className={classes.avatar}>
-                      {dispensary.name}
-                    </Avatar>
-                  }
-                  action={
-                    <IconButton aria-label="settings">
-                      <MoreVertIcon />
+              <Grid xs={12} md={3} sx={{ p: 3 }}>
+                <Card key={index} className={classes.root}>
+                  <CardHeader
+                    avatar={
+                      <Avatar aria-label="recipe" className={classes.avatar}>
+                        {dispensary.name}
+                      </Avatar>
+                    }
+                    action={
+                      <IconButton aria-label="settings">
+                        <MoreVertIcon />
+                      </IconButton>
+                    }
+                    title={dispensary.name}
+                    subheader={dispensary.rating}
+                  />
+                  <CardMedia
+                    className={classes.media}
+                    image={dispensary.mainImage}
+                    title="Paella dish"
+                  />
+                  <CardContent>
+                    <Typography>{dispensary.type}</Typography>
+                    <Typography>{dispensary.distance}</Typography>
+                  </CardContent>
+                  <CardActions disableSpacing>
+                    <IconButton
+                      onClick={() => onHandleFavorite(dispensary._id)}
+                      aria-label="add to favorites"
+                    >
+                      <FavoriteIcon
+                        sx={
+                          checkIfFavorite(dispensary._id)
+                          ? { color: 'red' }
+                          : { color: 'gray' }
+                        }
+                      />
                     </IconButton>
-                  }
-                  title={dispensary.name}
-                  subheader={dispensary.rating}
-                />
-                <CardMedia
-                  className={classes.media}
-                  image={dispensary.mainImage}
-                  title="Paella dish"
-                />
-                <CardContent>
-                  <Typography>{dispensary.type}</Typography>
-                  <Typography>{dispensary.distance}</Typography>
-                </CardContent>
-                <CardActions disableSpacing>
-                  <IconButton
-                    onClick={() => onHandleFavorite(dispensary._id)}
-                    aria-label="add to favorites"
-                  >
-                    <FavoriteIcon
-                      sx={
-                        checkIfFavorite(dispensary._id)
-                        ? { color: 'red' }
-                        : { color: 'gray' }
-                      }
-                    />
-                  </IconButton>
-                  <IconButton aria-label="share">
-                    <ShareIcon />
-                  </IconButton>
-                  <Button variant="outlined" className={classes.visitBtn}>
-                    Visit
-                  </Button>
-                </CardActions>
-              </Card>
+                    <IconButton aria-label="share">
+                      <ShareIcon />
+                    </IconButton>
+                    <Button variant="outlined" className={classes.visitBtn}>
+                      Visit
+                    </Button>
+                  </CardActions>
+                </Card>
+              </Grid>
             )
           )}
       </div>

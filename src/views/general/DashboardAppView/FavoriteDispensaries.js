@@ -3,12 +3,16 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Icon } from '@iconify/react';
 import { alpha, useTheme, makeStyles } from '@material-ui/core/styles';
-import { Box, Button, Card, Typography } from '@material-ui/core';
+import { Box, Grid, Button, Card, Typography } from '@material-ui/core';
 import { getImgProduct } from 'src/utils/getImages';
-import { CardContent, Link } from '@material-ui/core';
+import { CardContent, CardHeader, Link } from '@material-ui/core';
 import CardMedia from '@material-ui/core/CardMedia';
-import { map } from 'lodash';
-import { paramCase } from 'change-case';
+import Avatar from '@material-ui/core/Avatar';
+import IconButton from '@material-ui/core/IconButton';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import CardActions from '@material-ui/core/CardActions';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import ShareIcon from '@material-ui/icons/Share';
 import { PATH_APP } from 'src/routes/paths';
 import { Link as RouterLink } from 'react-router-dom';
 
@@ -18,31 +22,41 @@ import { getFavoriteDispensaries } from 'src/redux/slices/dispensary';
 // ----------------------------------------------------------------------
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: 'flex',
-    flexDirection: 'row',
-    // alignItems: 'center',
-    // padding: theme.spacing(3.5),
-    width: theme.spacing(50),
-    height: theme.spacing(30),
-    cursor: 'pointer',
+    padding: theme.spacing(3),
     margin: theme.spacing(1),
-    cursor: 'pointer',
-    marginLeft: theme.spacing(2),
-    // marginRight: 'auto',
-    marginBottom: theme.spacing(3),
-    //tablet
-    ['@media (min-width: 768px)']: {
-      width: theme.spacing(43),
-      height: theme.spacing(30)
-    },
-    //desktop
-    ['@media (min-width: 1024px)']: {
-      width: theme.spacing(35),
-      height: theme.spacing(30)
-    }
+    textAlign: 'left',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    height: '100%'
   },
   header: {
     marginBottom: theme.spacing(2),
+    marginLeft: theme.spacing(2)
+  },
+  display: {
+    display: 'flex'
+  },
+  title1: {
+    marginBottom: theme.spacing(2),
+    marginLeft: theme.spacing(-3)
+  },
+  media: {
+    height: 0,
+    marginTop: theme.spacing(6),
+    paddingTop: '56.25%'
+  },
+  avatar: {
+    backgroundColor: '#00AB55'
+  },
+  header: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    marginTop: theme.spacing(5),
+    marginBottom: theme.spacing(2),
+    marginLeft: theme.spacing(2)
+  },
+  HeaderBtn: {
     marginLeft: theme.spacing(2)
   },
   display: {
@@ -55,25 +69,17 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column'
   },
   content: {
-    flex: '1 0 auto',
-    marginTop: theme.spacing(3)
+    flex: '1 0 auto'
   },
   cover: {
-    width: '55%',
-    borderRadius: theme.spacing(1),
-    //tablet
-    ['@media (min-width: 768px)']: {
-      width: '42%'
-    },
-    //desktop
-    ['@media (min-width: 1024px)']: {
-      width: '42%'
-    }
+    width: 150,
+    borderRadius: theme.spacing(1)
   },
-  title: {
-    marginBottom: theme.spacing(1)
+  visitBtn: {
+    marginLeft: 'auto'
   }
 }));
+
 
 // ----------------------------------------------------------------------
 
@@ -98,34 +104,53 @@ function FavoriteDispensaries({ className, ...other }) {
       </div>
       <div className={classes.display}>
         {favoriteDispensaries && favoriteDispensaries.map((item, index) => (
-          <Card key={index} className={clsx(classes.root, className)} {...other}>
-            <Box sx={{ flexGrow: 1 }}>
-              <div className={classes.details}>
-                <CardContent className={classes.content}>
-                  <Typography
-                    className={classes.title}
-                    component="h6"
-                    variant="h6"
-                  >
-                    {item.dispensary.name}
-                  </Typography>
-                  <Button variant="outlined">
-                    <RouterLink
-                      style={{ textDecoration: 'none' }}
-                      to={''}
-                    >
-                      Visit
-                    </RouterLink>
-                  </Button>
-                </CardContent>
-              </div>
-            </Box>
-            <CardMedia
-              className={classes.cover}
-              image={item.dispensary.mainImage}
-              title="Live from space album cover"
-            />
-          </Card>
+          <Grid xs={12} md={3} sx={{ p: 3 }} >
+            <Card key={index} className={classes.root}>
+              <CardHeader
+                avatar={
+                  <Avatar aria-label="recipe" className={classes.avatar}>
+                    {item.dispensary.name[0]}
+                  </Avatar>
+                }
+                action={
+                  <IconButton aria-label="settings">
+                    <MoreVertIcon />
+                  </IconButton>
+                }
+                title={item.dispensary.name}
+                subheader={item.dispensary.rating}
+              />
+              <CardMedia
+                className={classes.media}
+                image={item.dispensary.mainImage}
+                title="Paella dish"
+              />
+              <CardContent>
+                <Typography>{item.dispensary.type}</Typography>
+                <Typography>{item.dispensary.distance}</Typography>
+              </CardContent>
+              <CardActions disableSpacing>
+                {/* <IconButton
+                  onClick={() => onHandleFavorite(dispensary._id)}
+                  aria-label="add to favorites"
+                >
+                  <FavoriteIcon
+                    sx={
+                      checkIfFavorite(dispensary._id)
+                      ? { color: 'red' }
+                      : { color: 'gray' }
+                    }
+                  />
+                </IconButton> */}
+                <IconButton aria-label="share">
+                  <ShareIcon />
+                </IconButton>
+                <Button variant="outlined" className={classes.visitBtn}>
+                  Visit
+                </Button>
+              </CardActions>
+            </Card>
+          </Grid>
         ))}
       </div>
     </div>
