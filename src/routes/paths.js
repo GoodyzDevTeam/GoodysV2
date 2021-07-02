@@ -50,6 +50,7 @@ export const PATH_APP = {
     discover: path(ROOTS.app, '/general/discover'), // DISCOVER PATH FOR USERS GOODY'S HUB(DASHBOARD)
     productInCategory: path(ROOTS.app, '/general/discover/:categoryId'),
     productDetail: path(ROOTS.app, '/productDetail/:productId'),
+    dispensaryDetail: path(ROOTS.app, '/dispensaryDetail/:dispensaryId'),
     learn: path(ROOTS.app, '/management/blog/learn'), // LEARN PATH FOR USERS GOODY'S HUB(DASHBOARD)
     learnTopics: path(ROOTS.app, '/management/learn/topics'),
     posts: path(ROOTS.app, '/management/blog'),

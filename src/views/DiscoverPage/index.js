@@ -48,7 +48,7 @@ function DiscoverAppView() {
               <DiscoverProducts />
             </Grid>
             <Grid item xs={12} md={12} lg={12}>
-              <DiscoverDeals />
+              <DiscoverDispensaries />
             </Grid>
             <Grid item xs={12} md={12} lg={12}>
               <DiscoverDeliveryService />
@@ -57,7 +57,7 @@ function DiscoverAppView() {
               <DiscoverBrands />
             </Grid>
             <Grid item xs={12} md={12}>
-              <DiscoverDispensaries />
+              <DiscoverDeals />
             </Grid>
             <Grid item xs={12} md={12} lg={12}>
               {/* <CurrentDownload /> */}

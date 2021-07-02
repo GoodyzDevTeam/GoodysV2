@@ -15,6 +15,8 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import { getDispensaries, toggleFavoriteDispensary, getFavoriteDispensaries } from 'src/redux/slices/dispensary';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link as RouterLink } from 'react-router-dom';
+import { PATH_APP, PATH_DISCOVER } from 'src/routes/paths';
 
 // ----------------------------------------------------------------------
 
@@ -208,7 +210,12 @@ function DispensariesUMayLike({ className, ...other }) {
                       <ShareIcon />
                     </IconButton>
                     <Button variant="outlined" className={classes.visitBtn}>
-                      Visit
+                      <RouterLink 
+                        style={{ textDecoration: 'none' }}
+                        to={`${PATH_APP.root}/dispensaryDetail/${dispensary._id}`}
+                      >
+                        Visit
+                      </RouterLink>
                     </Button>
                   </CardActions>
                 </Card>

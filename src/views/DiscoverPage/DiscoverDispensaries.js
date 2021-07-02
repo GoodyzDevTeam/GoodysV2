@@ -1,50 +1,49 @@
+import { merge } from 'lodash';
 import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { fNumber, fPercent } from 'src/utils/formatNumber';
-import { useTheme, makeStyles } from '@material-ui/core/styles';
-import { Box, Button, Card, Typography } from '@material-ui/core';
-import { getImgProduct } from 'src/utils/getImages';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardHeader from '@material-ui/core/CardHeader';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { Card, Grid, CardHeader, Button, Typography, Box } from '@material-ui/core';
+import { getImgDispensary } from 'src/utils/getImages';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import CardMedia from '@material-ui/core/CardMedia';
+import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
-import Collapse from '@material-ui/core/Collapse';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import { axios, setSession, isValidToken } from 'src/utils/my.axios';
-import { ajaxUrl } from 'src/config';
+import { getDispensaries, toggleFavoriteDispensary, getFavoriteDispensaries } from 'src/redux/slices/dispensary';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link as RouterLink } from 'react-router-dom';
+import { PATH_APP, PATH_DISCOVER } from 'src/routes/paths';
 
 // ----------------------------------------------------------------------
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: theme.spacing(45),
-    padding: theme.spacing(3.5),
+    padding: theme.spacing(3),
     margin: theme.spacing(1),
-    cursor: 'pointer',
-    //tablet
-    ['@media (min-width: 650px) and (max-width: 1175px)']: {
-      width: theme.spacing(28),
-      height: theme.spacing(40),
-      padding: theme.spacing(0)
-    }
+    textAlign: 'left',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    height: '100%'
+  },
+  header: {
+    marginBottom: theme.spacing(2),
+    marginLeft: theme.spacing(2)
+  },
+  display: {
+    display: 'flex'
+  },
+  title1: {
+    marginBottom: theme.spacing(2),
+    marginLeft: theme.spacing(-3)
   },
   media: {
     height: 0,
     marginTop: theme.spacing(6),
-    paddingTop: '56.25%',
-    //tablet
-    ['@media (min-width: 650px) and (max-width: 1175px)']: {
-      width: '100%',
-      height: theme.spacing(10),
-      marginTop: theme.spacing(1),
-      paddingTop: 0
-    }
+    paddingTop: '56.25%'
   },
   avatar: {
     backgroundColor: '#00AB55'
@@ -58,47 +57,12 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: theme.spacing(2)
   },
   HeaderBtn: {
-    marginLeft: 'auto',
-    marginRight: theme.spacing(1),
-    //tablet
-    ['@media (min-width: 650px) and (max-width: 1175px)']: {
-      marginRight: theme.spacing(0),
-      marginLeft: theme.spacing(3),
-      width: theme.spacing(10)
-    },
-    //desktop
-    ['@media (min-width: 1024px)']: {
-      marginRight: theme.spacing(0),
-      marginLeft: theme.spacing(3),
-      width: theme.spacing(15)
-    },
-    //large desktop
-    ['@media (min-width: 1524px)']: {
-      marginRight: theme.spacing(0),
-      marginLeft: theme.spacing(3),
-      width: theme.spacing(20)
-    }
+    marginLeft: theme.spacing(2)
   },
   display: {
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap'
-  },
-  actions: {
-    marginTop: theme.spacing(0),
-    //tablet
-    ['@media (min-width: 650px) and (max-width: 1175px)']: {
-      marginTop: theme.spacing(-4)
-    }
-  },
-  contentContainer: {
-    // backgroundColor: 'red',
-    display: 'flex',
-    flexDirection: 'column',
-    //tablet
-    ['@media (min-width: 650px) and (max-width: 1175px)']: {
-      margin: theme.spacing(1)
-    }
   },
   details: {
     display: 'flex',
@@ -125,29 +89,24 @@ DiscoverDispensaries.propTypes = {
 function DiscoverDispensaries({ className, ...other }) {
   const classes = useStyles();
   const theme = useTheme();
-  const [dispensary, setDispensary] = useState([]);
+  const dispatch = useDispatch();
+  const { dispensaries, favoriteDispensaries } = useSelector((state) => state.dispensary);
 
-  useEffect(async () => {
-    const curAccessToken = window.localStorage.getItem('accessToken');
-    if (curAccessToken && isValidToken(curAccessToken)) {
-      setSession(curAccessToken);
-      const response = await axios.get(`${ajaxUrl}/api/dispensary/`);
-      setDispensary(response.data);
-    }
-  }, []);
+  useEffect(() => {
+    dispatch(getDispensaries());
+    dispatch(getFavoriteDispensaries());
+  }, [dispatch]);
 
-  const image = {
-    small: getImgProduct(600),
-    medium: getImgProduct(960)
+  const checkIfFavorite = (id) => {
+    if (!favoriteDispensaries) return false;
+    let filtered = favoriteDispensaries.filter((item) => item.dispensary._id == id);
+    if (filtered.length > 0) return true;
+    return false;
   };
 
-  //HOOK TO FIGURE OUT THE IF THE CARD HAS BEEN EXPANDED OR NOT
-  const [expanded, setExpanded] = React.useState(false);
-
-  // HANDLES THE EXPAND FUNCTION FOR MORE DETAILS ON THE CARDS
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
+  const onHandleFavorite = (id) => {
+    dispatch(toggleFavoriteDispensary(id));
+  }
 
   return (
     <div>
@@ -158,51 +117,61 @@ function DiscoverDispensaries({ className, ...other }) {
         </Button>
       </div>
       <div className={classes.display}>
-        {dispensary &&
-          dispensary.map(
-            ({
-              name,
-              mainImage,
-              letter,
-              rating,
-              status,
-              intro,
-              type,
-              orderType
-            }) => (
-              <Card className={classes.root}>
-                <CardHeader
-                  avatar={
-                    <Avatar aria-label="recipe" className={classes.avatar}>
-                      {letter}
-                    </Avatar>
-                  }
-                  title={name}
-                  subheader={rating}
-                />
-                <CardMedia
-                  className={classes.media}
-                  image={mainImage}
-                  title="Paella dish"
-                />
-                <Box className={classes.contentContainer}>
-                  <CardContent className={classes.content}>
-                    <Typography variant="subtitle2">{type}</Typography>
-                    <Typography variant="subtitle2">{orderType}</Typography>
+        {dispensaries && favoriteDispensaries &&
+          dispensaries.map(
+            (dispensary, index) => (
+              <Grid xs={12} md={3} sx={{ p: 3 }}>
+                <Card key={index} className={classes.root}>
+                  <CardHeader
+                    avatar={
+                      <Avatar aria-label="recipe" className={classes.avatar}>
+                        {dispensary.name[0]}
+                      </Avatar>
+                    }
+                    action={
+                      <IconButton aria-label="settings">
+                        <MoreVertIcon />
+                      </IconButton>
+                    }
+                    title={dispensary.name}
+                    subheader={dispensary.rating}
+                  />
+                  <CardMedia
+                    className={classes.media}
+                    image={dispensary.mainImage}
+                    title="Paella dish"
+                  />
+                  <CardContent>
+                    <Typography>{dispensary.type}</Typography>
+                    <Typography>{dispensary.distance}</Typography>
                   </CardContent>
-                  <CardActions disableSpacing className={classes.actions}>
-                    <IconButton aria-label="add to favorites">
-                      <FavoriteIcon />
+                  <CardActions disableSpacing>
+                    <IconButton
+                      onClick={() => onHandleFavorite(dispensary._id)}
+                      aria-label="add to favorites"
+                    >
+                      <FavoriteIcon
+                        sx={
+                          checkIfFavorite(dispensary._id)
+                          ? { color: 'red' }
+                          : { color: 'gray' }
+                        }
+                      />
                     </IconButton>
                     <IconButton aria-label="share">
                       <ShareIcon />
                     </IconButton>
                     <Button variant="outlined" className={classes.visitBtn}>
-                      Visit
+                      <RouterLink 
+                        style={{ textDecoration: 'none' }}
+                        to={`${PATH_APP.root}/dispensaryDetail/${dispensary._id}`}
+                      >
+                        Visit
+                      </RouterLink>
                     </Button>
                   </CardActions>
-                </Box>
-              </Card>
+                </Card>
+              </Grid>
             )
           )}
       </div>
@@ -211,3 +180,4 @@ function DiscoverDispensaries({ className, ...other }) {
 }
 
 export default DiscoverDispensaries;
+

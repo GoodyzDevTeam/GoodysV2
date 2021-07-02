@@ -41,6 +41,12 @@ const AppRoutes = {
       component: lazy(() => import('src/views/DiscoverPage/ProductDetail/index'))
     },
 
+    {
+      exact: true,
+      path: PATH_APP.general.dispensaryDetail,
+      component: lazy(() => import('src/views/DiscoverPage/DispensaryDetail/index'))
+    },
+
     // LEARN ROUTES
     //GOODY'S HUB LEARN ROUTE
     {

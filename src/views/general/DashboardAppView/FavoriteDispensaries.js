@@ -146,7 +146,12 @@ function FavoriteDispensaries({ className, ...other }) {
                   <ShareIcon />
                 </IconButton>
                 <Button variant="outlined" className={classes.visitBtn}>
-                  Visit
+                  <RouterLink 
+                    style={{ textDecoration: 'none' }}
+                    to={`${PATH_APP.root}/dispensaryDetail/${item.dispensary._id}`}
+                  >
+                    Visit
+                  </RouterLink>
                 </Button>
               </CardActions>
             </Card>
