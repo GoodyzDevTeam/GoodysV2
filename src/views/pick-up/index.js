@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/core/styles';
 import { GoogleApiWrapper } from 'google-maps-react';
 import React, { useState, useEffect } from 'react';
-import Map from './Map';
+import GoogleMaps from './GoogleMaps';
 import DispensaryPickup from './DispensaryPickup';
 import { Container, Grid } from '@material-ui/core';
 import useAuth from 'src/hooks/useAuth';
@@ -117,7 +117,7 @@ function Index() {
           : classes.container
       }
     >
-      <Map dispensaries={sortedDispensaries} center={center} setCenter={setCenter}/>
+      <GoogleMaps dispensaries={sortedDispensaries} center={center} setCenter={setCenter}/>
       <Button
         onClick={handleShow}
         sx={{ float: 'right' }}
