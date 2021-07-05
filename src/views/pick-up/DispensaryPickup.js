@@ -8,78 +8,41 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
-import { Button, Card, Typography } from '@material-ui/core';
+import CloseIcon from '@material-ui/icons/Close';
+import { Button, Card, Typography, IconButton, Rating } from '@material-ui/core';
+import StarBorderOutlined from '@material-ui/icons/StarBorderOutlined';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardHeader from '@material-ui/core/CardHeader';
 import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
-import CardActions from '@material-ui/core/CardActions';
-import Collapse from '@material-ui/core/Collapse';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import { BorderRight } from '@material-ui/icons';
-import MaximizeIcon from '@material-ui/icons/Maximize';
-import { stubFalse } from 'lodash';
+import Box from '@material-ui/core/Box';
+import Grid from '@material-ui/core/Grid';
+import PropTypes from 'prop-types';
+import { Link as RouterLink } from 'react-router-dom';
+import { PATH_APP } from 'src/routes/paths';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    width: theme.spacing(40),
-    height: theme.spacing(25),
-    marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(3),
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    padding: theme.spacing(2.5),
-    cursor: 'pointer',
-    display: 'flex'
-  },
-  media: {
-    height: 0,
-    marginTop: theme.spacing(6),
-    paddingTop: '56.25%'
-  },
   expand: {
     transform: 'rotate(0deg)',
     marginLeft: 'auto',
+    bottom: '0px',
     transition: theme.transitions.create('transform', {
-      duration: theme.transitions.duration.shortest
+      duration: 500
     })
   },
   expandOpen: {
     transform: 'rotate(180deg)'
   },
-  avatar: {
-    backgroundColor: '#00AB55'
-  },
-  display: {
-    display: 'flex',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    height: theme.spacing(40),
-    textAlign: 'center'
-  },
-  cardDetailsLeftContainer: {
-    borderRight: 'solid 1px white'
-  },
-  cardDetailsLeft: {
-    display: 'flex',
-    flexDirection: 'column'
-  },
-  img: {
-    width: theme.spacing(15),
-    height: theme.spacing(15)
-  },
-  drawerDragLine: {
-    marginTop: theme.spacing(2)
-  }
 }));
 
-function DispensaryPickup() {
+DispensaryPickup.propTypes = {
+	isOpen: PropTypes.bool,
+  onClose: PropTypes.func,
+  dispensaries: PropTypes.array
+};
+
+function DispensaryPickup({ isOpen, onClose, dispensaries }) {
   const classes = useStyles();
   const [state, setState] = React.useState({ view: false });
 
@@ -170,64 +133,79 @@ function DispensaryPickup() {
     }
   ];
 
-  const list = (anchor) => (
-    <div
-      className={classes.display}
-      role="presentation"
-      onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}
-    >
-      <MaximizeIcon className={classes.drawerDragLine} />
-      <div className={classes.display}>
-        {demoDispensary.map(({ id, image1, letter, rating, type, status }) => (
-          <Card className={classes.root}>
-            <div className={classes.cardDetailsLeftContainer}>
-              <CardHeader
-                className={classes.cardDetailsLeft}
-                avatar={
-                  <Avatar aria-label="recipe" className={classes.avatar}>
-                    {letter}
-                  </Avatar>
-                }
-                action={<Typography>{type}</Typography>}
-                title={id}
-                subheader={rating}
-              />
-            </div>
-            <div>
-              <CardMedia
-                className={classes.media}
-                image={image1}
-                title="Paella dish"
-                className={classes.img}
-              />
-            </div>
-          </Card>
-        ))}
-      </div>
-    </div>
-  );
-
-  const anchor1 = 'bottom';
-
   return (
-    <div>
-      {['view'].map((anchor) => (
-        <React.Fragment key={anchor}>
-          <div>
-            <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button>
-          </div>
-          <SwipeableDrawer
-            anchor={anchor1}
-            open={state[anchor]}
-            onClose={toggleDrawer(anchor, false)}
-            onOpen={toggleDrawer(anchor, false)}
-          >
-            {list(anchor)}
-          </SwipeableDrawer>
-        </React.Fragment>
+    <Card
+      sx={{
+        position: 'absolute',
+        height: '320px',
+        bottom: '-320px',
+        overflowY: 'scroll',
+        width: '100%',
+        display: 'flex',
+        flexWrap: 'wrap',
+        pt: 3,
+      }}
+      className={isOpen && classes.expand}
+    >
+      <IconButton
+        aria-label="add to favorites"
+        sx={{ position: 'absolute', right: '0px', top: '0px' }}
+        onClick={onClose}
+      >
+        <CloseIcon />
+      </IconButton>
+      {dispensaries && dispensaries.map((dispensary, index) => (
+        <Grid key={index} xs={12} md={3} sx={{ pt: 3 }}>
+          <Card sx={{ display: 'flex', flexDirection: 'row', m: 1, minHeight: '250px' }}>
+            <Grid
+              xs={6}
+              md={6}
+              sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' }}
+            >
+              <Grid xs={12} md={12}>
+                <CardHeader
+                  sx={{ display: 'flex', pt: 3, pl: 3, alignItems: 'flex-start' }}
+                  avatar={
+                    <Avatar aria-label="recipe" sx={{ backgroundColor: '#00AB55' }}>
+                      {dispensary.name[0]}
+                    </Avatar>
+                  }
+                  title={dispensary.name}
+                  subheader={''}
+                />
+                <Typography sx={{ pl: 3 }}>
+                  <Rating
+                    defaultValue={dispensary.rating}
+                    icon={<StarBorderOutlined fontSize="inherit" />}
+                    disabled
+                    size='small'
+                  />
+                  {dispensary.rating}
+                </Typography>
+                <Typography sx={{ pl: 3, fontSize: '12px' }}>{dispensary.type}</Typography>
+                <Typography sx={{ pl: 3 }}>{dispensary.orderType}</Typography>
+                <Typography sx={{ pl: 3, fontSize: '12px' }}>{dispensary.distance}km</Typography>
+              </Grid>
+              
+              <Button variant="outlined" sx={{ width: '80px', mb: 1 }}>
+                <RouterLink 
+                  style={{ textDecoration: 'none' }}
+                  to={`${PATH_APP.root}/dispensaryDetail/${dispensary._id}`}
+                >
+                  Visit
+                </RouterLink>
+              </Button>
+            </Grid>
+            
+            <CardMedia
+              image={dispensary.mainImage}
+              title="Paella dish"
+              sx={{ width: '300px' }}
+            />
+          </Card>
+        </Grid>
       ))}
-    </div>
+    </Card>
   );
 }
 
