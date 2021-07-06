@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { fNumber } from 'src/utils/formatNumber';
 import { useTheme, makeStyles } from '@material-ui/core/styles';
-import { Box, Button, Card, Typography } from '@material-ui/core';
+import { Box, Grid, Button, Card, Typography } from '@material-ui/core';
 import { getImgProduct } from 'src/utils/getImages';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -23,16 +23,21 @@ import { ajaxUrl } from 'src/config';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: theme.spacing(45),
-    padding: theme.spacing(3.5),
+    padding: theme.spacing(3),
     margin: theme.spacing(1),
-    cursor: 'pointer',
-    //tablet
-    ['@media (min-width: 650px) and (max-width: 1175px)']: {
-      width: theme.spacing(28),
-      height: theme.spacing(40),
-      padding: theme.spacing(0)
-    }
+    textAlign: 'left',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    height: '100%',
+    maxWidth: 300,
+    minWidth: 300,
+    maxHeight: 450
+  },
+  titleText: {
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+    marginTop: theme.spacing(-3),
+    textOverflow: 'ellipsis'
   },
   media: {
     height: 0,
@@ -153,7 +158,8 @@ function DiscoverBrands({ className, ...other }) {
           View
         </Button>
       </div>
-      <div className={classes.display}>
+      {/* <div className={classes.display}> */}
+      <Grid container spacing={2} xs={12} md={12} sx={{ p: 3 }} >
         {brand &&
           brand.map(
             ({
@@ -166,6 +172,7 @@ function DiscoverBrands({ className, ...other }) {
               type,
               orderType
             }) => (
+              <Grid item>
               <Card className={classes.root}>
                 <CardHeader
                   avatar={
@@ -180,6 +187,7 @@ function DiscoverBrands({ className, ...other }) {
                   }
                   title={name}
                   subheader={rating}
+                  className={classes.titleText}
                 />
                 <CardMedia
                   className={classes.media}
@@ -204,9 +212,11 @@ function DiscoverBrands({ className, ...other }) {
                   </CardActions>
                 </Box>
               </Card>
+              </Grid>
             )
           )}
-      </div>
+          </Grid>
+      {/* </div> */}
     </div>
   );
 }

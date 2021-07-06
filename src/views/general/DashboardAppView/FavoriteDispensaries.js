@@ -27,7 +27,15 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'left',
     marginLeft: 'auto',
     marginRight: 'auto',
-    height: '100%'
+    height: '100%',
+    maxWidth: 300,
+    maxHeight: 450
+  },
+  titleText: {
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+    marginTop: theme.spacing(-3),
+    textOverflow: 'ellipsis'
   },
   header: {
     marginBottom: theme.spacing(2),
@@ -102,9 +110,10 @@ function FavoriteDispensaries({ className, ...other }) {
       <div className={classes.header}>
         <h1>Your Favorite Dispensaries</h1>
       </div>
-      <div className={classes.display}>
+      {/* <div className={classes.display}> */}
+      <Grid container spacing={2} xs={12} md={12} sx={{ p: 3 }} >
         {favoriteDispensaries && favoriteDispensaries.map((item, index) => (
-          <Grid xs={12} md={3} sx={{ p: 3 }} >
+          <Grid item>
             <Card key={index} className={classes.root}>
               <CardHeader
                 avatar={
@@ -119,6 +128,7 @@ function FavoriteDispensaries({ className, ...other }) {
                 }
                 title={item.dispensary.name}
                 subheader={item.dispensary.rating}
+                className={classes.titleText}
               />
               <CardMedia
                 className={classes.media}
@@ -157,7 +167,8 @@ function FavoriteDispensaries({ className, ...other }) {
             </Card>
           </Grid>
         ))}
-      </div>
+        </Grid>
+      {/* </div> */}
     </div>
   );
 }
