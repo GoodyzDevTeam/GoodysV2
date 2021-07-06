@@ -156,15 +156,15 @@ function DispensaryPickup({ isOpen, onClose, dispensaries }) {
       </IconButton>
       {dispensaries && dispensaries.map((dispensary, index) => (
         <Grid key={index} xs={12} md={3} sx={{ pt: 3 }}>
-          <Card sx={{ display: 'flex', flexDirection: 'row', m: 1, minHeight: '250px' }}>
+          <Card sx={{ display: 'flex', flexDirection: 'row', m: 1, maxHeight: '250px', minHeight: '250px' }}>
             <Grid
               xs={6}
               md={6}
-              sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' }}
+              sx={{ display: 'flex', flexDirection: 'column', alignItems: 'left', justifyContent: 'space-between' }}
             >
               <Grid xs={12} md={12}>
                 <CardHeader
-                  sx={{ display: 'flex', pt: 3, pl: 3, alignItems: 'flex-start' }}
+                  sx={{ display: 'flex', pt: 3, pl: 3, alignItems: 'center', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}
                   avatar={
                     <Avatar aria-label="recipe" sx={{ backgroundColor: '#00AB55' }}>
                       {dispensary.name[0]}
@@ -173,7 +173,7 @@ function DispensaryPickup({ isOpen, onClose, dispensaries }) {
                   title={dispensary.name}
                   subheader={''}
                 />
-                <Typography sx={{ pl: 3 }}>
+                <Typography sx={{ pl: 3, mt: 2, display:'flex', alignItems: 'center'}}>
                   <Rating
                     defaultValue={dispensary.rating}
                     icon={<StarBorderOutlined fontSize="inherit" />}
@@ -182,12 +182,12 @@ function DispensaryPickup({ isOpen, onClose, dispensaries }) {
                   />
                   {dispensary.rating}
                 </Typography>
-                <Typography sx={{ pl: 3, fontSize: '12px' }}>{dispensary.type}</Typography>
-                <Typography sx={{ pl: 3 }}>{dispensary.orderType}</Typography>
+                <Typography sx={{ pl: 3, mt: 1, fontSize: '12px'}}>{dispensary.type}</Typography>
+                <Typography variant='subtitle2' sx={{ pl: 3 }}>{dispensary.orderType}</Typography>
                 <Typography sx={{ pl: 3, fontSize: '12px' }}>{dispensary.distance}km</Typography>
               </Grid>
               
-              <Button variant="outlined" sx={{ width: '80px', mb: 1 }}>
+              <Button variant="outlined" sx={{ textAlign: 'left', width: '80px', ml: 2, mb: 1 }}>
                 <RouterLink 
                   style={{ textDecoration: 'none' }}
                   to={`${PATH_APP.root}/dispensaryDetail/${dispensary._id}`}
@@ -200,7 +200,7 @@ function DispensaryPickup({ isOpen, onClose, dispensaries }) {
             <CardMedia
               image={dispensary.mainImage}
               title="Paella dish"
-              sx={{ width: '300px' }}
+              sx={{ width: '50%'}}
             />
           </Card>
         </Grid>

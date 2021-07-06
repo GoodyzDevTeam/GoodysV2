@@ -64,10 +64,10 @@ const useStyles = makeStyles((theme) => ({
   //     height: theme.spacing(30)
   //   }
   // },
-  // header: {
-  //   marginBottom: theme.spacing(2),
-  //   marginLeft: theme.spacing(2)
-  // },
+  header: {
+    marginBottom: theme.spacing(2),
+    marginLeft: theme.spacing(2)
+  },
   display: {
     display: 'flex',
     flexDirection: 'row',

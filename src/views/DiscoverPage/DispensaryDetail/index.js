@@ -152,143 +152,146 @@ export default function ProductPreview() {
 	
 	return (
     <>
-      {dispensary && (
-        <Container maxWidth="xl">
-          <Grid sx={{ flexDirection: 'row', justifyContent: 'space-between', p: 3 }}>
-            <Typography gutterBottom variant="h4" sx={{ width: 'auto' }}>
-              {dispensary.name}
-            </Typography>
-            <MBreadcrumbs
-              sx={{ fontSize: '20px', mb: 3 }}
-              links={[
-                { name: 'Dashboard', href: `${PATH_APP.general.root}` },
-                { name: 'Discover', href: `${PATH_APP.general.discover}` },
-                { name: `${dispensary.name}`, href: '#' }
-              ]}
-            />
-          </Grid>
-          
-          <Grid container>
-            <Card className={classes.mainDetail} sx={{  }}>
-              <Grid xs={12} md={12}>
-                <Card className={classes.boxShadow}>
-                  <DispensaryPhoto photos={[dispensary.mainImage]} />
-                </Card>
-								<Grid className={classes.detailContainer}>
-									<Card sx={{ border: 'none', boxShadow: 'none', p: 3 }}>
-										<StyledRating
-											defaultValue={4.8}
-											getLabelText={(value) => `${value} Heart${value !== 1 ? 's' : ''}`}
-											icon={<StarBorderOutlined fontSize="inherit" />}
-											className={classes.rating}
-											disabled
-											size='medium'
+    	{dispensary && (
+			<Container maxWidth="xl">
+				<Grid sx={{ flexDirection: 'row', justifyContent: 'space-between', p: 3 }}>
+					<Typography gutterBottom variant="h4" sx={{ width: 'auto' }}>
+						{dispensary.name}
+					</Typography>
+					<MBreadcrumbs
+						sx={{ fontSize: '20px', mb: 3 }}
+						links={[
+							{ name: 'Dashboard', href: `${PATH_APP.general.root}` },
+							{ name: 'Discover', href: `${PATH_APP.general.discover}` },
+							{ name: `${dispensary.name}`, href: '#' }
+						]}
+					/>
+				</Grid>
+				<Grid container>
+					<Card className={classes.mainDetail} sx={{  }}>
+						<Grid xs={12} md={12}>
+							<Card className={classes.boxShadow}>
+								<DispensaryPhoto photos={[dispensary.mainImage]} />
+							</Card>
+							<Grid className={classes.detailContainer}>
+								<Card sx={{display:'flex', alignItems: 'center', border: 'none', boxShadow: 'none', p: 3 }}>
+									<StyledRating
+										defaultValue={4.8}
+										getLabelText={(value) => `${value} Heart${value !== 1 ? 's' : ''}`}
+										icon={<StarBorderOutlined fontSize="large" />}
+										className={classes.rating}
+										disabled
+										size='medium'
+									/>
+									<IconButton
+										aria-label="add to favorites"
+										onClick={() => onHandleFavorite(dispensary._id)}
+									>
+										<FavoriteIcon
+											sx={
+												checkIfFavorite(dispensary._id)
+													? { color: 'red', width: '28px', height: '28px' }
+													: { color: 'gray', width: '28px', height: '28px' }
+											}
 										/>
-										<IconButton
-											aria-label="add to favorites"
-											onClick={() => onHandleFavorite(dispensary._id)}
-										>
-											<FavoriteIcon
-												sx={
-													checkIfFavorite(dispensary._id)
-													? { color: 'red', width: '50px', height: '50px' }
-													: { color: 'gray', width: '50px', height: '50px' }
-												}
-											/>
-										</IconButton>
-									</Card>
-									<Card sx={{ border: 'none', boxShadow: 'none', p: 3, pt: 0 }}>
-										<Typography gutterBottom variant="h4" sx={{ width: 'auto' }}>
-											{dispensary.address} {dispensary.city}, {dispensary.state}
-										</Typography>
-									</Card>
-									<Grid
-										sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', p: 3 }}
-									>
-										<Grid sx={6} md={6}>
-											<Card sx={{ border: 'none', boxShadow: 'none', p: 3, pt: 0 }}>
-												<Typography gutterBottom variant="h5" sx={{ width: 'auto' }}>
-													{dispensary.status}
-												</Typography>
-												<Typography gutterBottom variant="h5" sx={{ width: 'auto' }}>
-													{dispensary.type}
-												</Typography>
-												<Typography gutterBottom variant="h5" sx={{ width: 'auto' }}>
-													{dispensary.orderType}
-												</Typography>
-												<Typography
-													gutterBottom
-													variant="h5"
-													sx={{ width: 'auto', display: 'flex', flexDirection: 'row', alignItems: 'center' }}
-												>
-													Phone Number: 
-													{dispensary.phone && dispensary.phone.map((item, idx) => (
-														<Typography sx={{ fontStyle: 'italic', p: 1 }}>
-															{item}{idx < dispensary.phone.length - 1 ? ", " : ""}
-														</Typography>
-													))}
-												</Typography>
-												<Typography
-													gutterBottom
-													variant="h5"
-													sx={{ width: 'auto', display: 'flex', flexDirection: 'row', alignItems: 'center' }}
-												>
-													Email: 
-													{dispensary.email && dispensary.email.map((item, idx) => (
-														<Typography sx={{ fontStyle: 'italic', p: 1 }}>
-															{item}{idx < dispensary.email.length - 1 ? ", " : ""}
-														</Typography>
-													))}
-												</Typography>
-											</Card>
-										</Grid>
-										<Grid sx={6} md={6}>
-											<Card sx={{ border: 'none', boxShadow: 'none', p: 3, pt: 0 }}>
-												<Typography gutterBottom variant="h5" sx={{ width: 'auto' }}>
-													{openStatus()}
-												</Typography>
-												<Card sx={{ p: 2, m: 1 }} className={classes.boxShadow}>
-													<Typography gutterBottom variant="h5" sx={{ width: 'auto' }}>
-														License Imformation
+									</IconButton>
+								</Card>
+								<Card sx={{ border: 'none', boxShadow: 'none', p: 3, pt: 0 }}>
+									<Typography gutterBottom variant="h4" sx={{ width: 'auto' }}>
+										{dispensary.address} {dispensary.city}, {dispensary.state}
+									</Typography>
+								</Card>
+								<Grid
+									sx={{ display: 'flex', flexDirection:{ xs: 'column', md: 'row'}, justifyContent: 'space-between', p: 3 }}
+								>
+									<Grid sx={6} md={6}>
+										<Card sx={{ border: 'none', boxShadow: 'none', p: 0, pt: 0 }}>
+											<Typography gutterBottom variant="h5" sx={{ width: 'auto' }}>
+												{dispensary.status}
+											</Typography>
+											<Typography gutterBottom variant="h5" sx={{ width: 'auto' }}>
+												{dispensary.type}
+											</Typography>
+											<Typography gutterBottom variant="h5" sx={{ width: 'auto' }}>
+												{dispensary.orderType}
+											</Typography>
+											<Typography
+												gutterBottom
+												variant="h5"
+												sx={{ width: 'auto', display: 'flex', flexDirection: 'row', alignItems: 'center' }}
+											>
+												Phone Number: 
+											{/* Phone Number: 
+												Phone Number:  */}
+												{dispensary.phone && dispensary.phone.map((item, idx) => (
+													<Typography sx={{ fontStyle: 'italic', p: 1 }}>
+														{item}{idx < dispensary.phone.length - 1 ? ", " : ""}
 													</Typography>
-												</Card>
-												<Card sx={{ p: 2, m: 1 }} className={classes.boxShadow}>
-													<Typography gutterBottom variant="h5" sx={{ width: 'auto' }}>
-														Directions
-													</Typography>
-												</Card>
-											</Card>
-										</Grid>
-									</Grid>
-									<Grid
-										sx={{ display: 'flex', flexDirection: 'column', p: 3 }}
-									>
-										<Card className={classes.boxShadow} sx={{ p: 3 }}>
-											<Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around' }}>
-												{curCategory && categories && categories.map((category, idx) => (
-													<Button
-														sx={{
-															fontSize: '15px',
-															border: 'solid thin #00AB55',
-															width: '120px',
-															m: 1,
-														}}
-														className={curCategory._id == category._id ? classes.active : ''}
-														onClick={() => setCurCategory(category)}
-													>
-														{category.name}
-													</Button>
 												))}
-											</Box>
-											<ProductsInDispensary category={curCategory} products={dispensary.products} />
+											</Typography>
+											<Typography
+												gutterBottom
+												variant="h5"
+												sx={{ width: 'auto', display: 'flex', flexDirection: 'row', alignItems: 'center' }}
+											>
+												{/* Email: 
+											Email:  */}
+												Email: 
+												{dispensary.email && dispensary.email.map((item, idx) => (
+													<Typography sx={{ fontStyle: 'italic', p: 1 }}>
+														{item}{idx < dispensary.email.length - 1 ? ", " : ""}
+													</Typography>
+												))}
+											</Typography>
+										</Card>
+									</Grid>
+									<Grid sx={6} md={6}>
+										<Card sx={{ border: 'none', boxShadow: 'none', p: 0, pt: 0 }}>
+											<Typography gutterBottom variant="h5" sx={{ width: 'auto' }}>
+												{openStatus()}
+											</Typography>
+											<Card sx={{ p: 2, mt: 1 }} className={classes.boxShadow}>
+												<Typography gutterBottom variant="h5" sx={{ width: 'auto' }}>
+													License Imformation
+												</Typography>
+											</Card>
+											<Card sx={{ p: 2, mt: 1 }} className={classes.boxShadow}>
+												<Typography gutterBottom variant="h5" sx={{ width: 'auto' }}>
+													Directions
+												</Typography>
+											</Card>
 										</Card>
 									</Grid>
 								</Grid>
+								<Grid
+									sx={{ display: 'flex', flexDirection: 'column', p: 3 }}
+								>
+									<Card className={classes.boxShadow} sx={{ p: 3 }}>
+										<Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-evenly' }}>
+											{curCategory && categories && categories.map((category, idx) => (
+												<Button
+													sx={{
+														fontSize: { xs:'10px', md:'15px'},
+														border: 'solid thin #00AB55',
+														width: { xs:'80px', md:'120px' },
+														m: 1,
+													}}
+													className={curCategory._id == category._id ? classes.active : ''}
+													onClick={() => setCurCategory(category)}
+												>
+													{category.name}
+												</Button>
+											))}
+										</Box>
+										<ProductsInDispensary category={curCategory} products={dispensary.products} />
+									</Card>
+								</Grid>
 							</Grid>
-            </Card>   
-          </Grid>     
-        </Container>
-      )}
+						</Grid>
+					</Card>
+				</Grid>
+			</Container>
+    	)}
     </>
 	);
 }

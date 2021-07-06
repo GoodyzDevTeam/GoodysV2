@@ -25,18 +25,61 @@ import { PATH_APP, PATH_DISCOVER } from 'src/routes/paths';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-		margin: '5px',
-		height: theme.spacing(60)
+    // paddingTop: theme.spacing(0),
+    // paddingLeft: theme.spacing(3),
+    // paddingRight: theme.spacing(3),
+    // margin: theme.spacing(1),
+    textAlign: 'left',
+    // marginTop: theme.spacing(1),
+    // margin: theme.spacing(2),
+    height: '100%',
+    flexGrow: 2,
+    flexShrink: 1,
+    // maxWidth: 250,
+    // minWidth: 250,
+    // maxHeight: 320,
+    // minHeight: 320,
+    // //tablet
+    // ['@media (min-width: 650px) and (max-width: 1175px)']: {
+    //   margin: theme.spacing(1),
+    //   maxWidth: 300,
+    //   minWidth: 300,
+    //   maxHeight: 350,
+    //   minHeight: 350,
+    // },
+    // //Large Tablet & Small Desktop
+    // ['@media (min-width: 1280px) and (max-width: 1583px)']: {
+    //   margin: theme.spacing(1),
+    //   maxWidth: 230,
+    //   minWidth: 230,
+    //   maxHeight: 300,
+    //   minHeight: 300,
+    // },
+    ['@media (min-width: 1584px)']: {
+      margin: theme.spacing(1),
+      maxWidth: 300,
+      minWidth: 300,
+      maxHeight: 350,
+      minHeight: 350,
+    }
+		// margin: '5px',
+		// height: theme.spacing(50)
   },
   media: {
     height: 0,
-    marginTop: theme.spacing(6),
+    // marginTop: theme.spacing(6),
+    paddingLeft: theme.spacing(0),
+    paddingRight: theme.spacing(0),
     paddingTop: '56.25%',
     //tablet
     ['@media (min-width: 650px) and (max-width: 1175px)']: {
       width: '100%',
-      height: theme.spacing(10),
-      marginTop: theme.spacing(1),
+      height: theme.spacing(20),
+      paddingTop: 0
+    },
+    ['@media (min-width: 1280px) and (max-width: 1400px)']: {
+      width: '100%',
+      height: theme.spacing(15),
       paddingTop: 0
     }
   },
@@ -82,16 +125,21 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   actions: {
-		display: 'flex',
-		justifyContent: 'space-between',
-		width: '100%',
-		marginTop: theme.spacing(0),
-		position: 'absolute',
-		bottom: 0,
+    marginTop: theme.spacing(-3),
     //tablet
-    ['@media (min-width: 650px) and (max-width: 1175px)']: {
-      marginTop: theme.spacing(-4)
-    }
+    // ['@media (min-width: 650px) and (max-width: 1175px)']: {
+    //   marginTop: theme.spacing(0)
+    // }
+		// display: 'flex',
+		// justifyContent: 'space-between',
+		// width: '100%',
+		// marginTop: theme.spacing(0),
+		// position: 'absolute',
+		// bottom: 0,
+    // //tablet
+    // ['@media (min-width: 650px) and (max-width: 1175px)']: {
+    //   marginTop: theme.spacing(-4)
+    // }
   },
   display: {
     display: 'flex',
@@ -169,16 +217,16 @@ function ProductsInDispensary({ category, products, ...other }) {
   };
 
   return (
-    <Grid>
+    <Grid container>
       <Grid item xs={12}>
 				<Typography variant="h3" sx={{ mb: 2, mt: 2 }}>
 					{category && category.name}
 				</Typography>
 			</Grid>
-      <Grid sx={{ display: 'flex', flexWrap: 'wrap' }}>
+      <Grid container spacing={2} sx={{ display: 'flex', flexWrap: 'wrap' }}>
         {filteredProducts &&
           filteredProducts.map((product, index) => (
-						<Grid key={index} xs={12} md={3}>
+						<Grid key={index} item xs={12} sm={6} lg={4} xl={3}>
 							<Card className={classes.root}>
 								<CardMedia
 									className={classes.media}
