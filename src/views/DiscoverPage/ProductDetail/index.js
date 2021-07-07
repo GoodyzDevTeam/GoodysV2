@@ -34,6 +34,7 @@ import { getCategory, getProduct, toggleFavoriteProduct } from 'src/redux/slices
 import ProductPhoto from './ProductPhoto';
 import { PATH_APP, PATH_DISCOVER } from 'src/routes/paths';
 import OrderDialog from './OrderDialog';
+import Checkout from 'src/views/e-commerce/CheckoutView';
 
 // routes
 import { PATH_DASHBOARD } from 'src/routes/paths';
@@ -93,6 +94,7 @@ export default function ProductPreview() {
   const [quantity, setQuantity] = useState([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]);
   const [isOrderShow, setOrderShow] = useState(false);
   const [isOrderDialog, setOrderDialog] = useState(false);
+  const [orderDateTime, setOrderDateTime] = useState('');
 
   useEffect(() => {
     dispatch(getProduct(productId));
@@ -181,25 +183,30 @@ export default function ProductPreview() {
 	return (
     <>
       {isOrderDialog && (
-        <OrderDialog isOpen={isOrderDialog} onClose={handleOrderDialogClose}/>
+        <OrderDialog
+          isOpen={isOrderDialog}
+          onClose={handleOrderDialogClose}
+          setOrderDateTime={setOrderDateTime}
+          setOrderShow={setOrderShow}
+        />
       )}
-      {product && category && !isOrderShow && (
-        <Container maxWidth="xl">
-          <Grid sx={{ flexDirection: 'row', justifyContent: 'space-between', m: 3, p: 3 }}>
-            <Typography gutterBottom variant="h4" sx={{ width: 'auto' }}>
-              {product.productName}
-            </Typography>
-            <MBreadcrumbs
-              sx={{ fontSize: '20px', mb: 3 }}
-              links={[
-                { name: 'Dashboard', href: `${PATH_APP.general.root}` },
-                { name: 'Discover', href: `${PATH_APP.general.discover}` },
-                { name: `${category && category.name}`, href: `${PATH_APP.general.discover}/${category._id}` },
-                { name: `${product.productName}`, href: '#' }
-              ]}
-            />
-          </Grid>
-          
+      
+      <Container maxWidth="xl">
+        <Grid sx={{ flexDirection: 'row', justifyContent: 'space-between', m: 3, p: 3 }}>
+          <Typography gutterBottom variant="h4" sx={{ width: 'auto' }}>
+            {product && product.productName}
+          </Typography>
+          <MBreadcrumbs
+            sx={{ fontSize: '20px', mb: 3 }}
+            links={[
+              { name: 'Dashboard', href: `${PATH_APP.general.root}` },
+              { name: 'Discover', href: `${PATH_APP.general.discover}` },
+              { name: `${category && category.name}`, href: `${PATH_APP.general.discover}/${category && category._id}` },
+              { name: `${product && product.productName}`, href: '#' }
+            ]}
+          />
+        </Grid>
+        {product && category && !isOrderShow && (
           <Grid container>
             <Card className={classes.mainDetail} sx={{  }}>
               <Grid xs={12} md={7}>
@@ -299,9 +306,14 @@ export default function ProductPreview() {
                 </Grid>
               </Card>
             </Card>
-          </Grid>	
-        </Container>
-      )}
+          </Grid>
+        )}
+        {product && category && isOrderShow && (
+          <Grid container>
+            <Checkout />
+          </Grid>
+        )}
+      </Container>
     </>
 	);
 }

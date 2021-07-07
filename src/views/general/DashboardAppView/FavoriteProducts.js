@@ -138,73 +138,46 @@ function FavoriteProducts({ className, ...other }) {
   useEffect(() => {
     dispatch(getFavoriteProducts());
   }, [dispatch]);
-
+  
   return (
     <div>
       <div className={classes.header}>
         <h1>Your Favorite Products</h1>
       </div>
       <div className={classes.display}>
-        {favoriteProducts && favoriteProducts.map((item, index) => (
-          <Card key={index} className={clsx(classes.root, className)} {...other}>
-            <CardActionArea>
-              <CardMedia
-                component="img"
-                alt="Contemplative Reptile"
-                height="160"
-                image={item.product.photos[0]}
-                title="Contemplative Reptile"
-              />
-              <CardContent className={classes.text}>
-                <Typography gutterBottom variant="h5" component="h2">
-                  {item.product.productName}
-                </Typography>
-                <Typography variant="body2" color="textSecondary" component="p">
-                  <WeightAndPrice weightAndPrices={item.product.weightAndPrice} />
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-            <CardActions>
-              <Button variant="outlined" className={classes.button}>
-                <RouterLink
-                  style={{ textDecoration: 'none' }}
-                  to={`${PATH_APP.root}/productDetail/${item.product._id}`}
-                >
-                  Order Again
-                </RouterLink>
-              </Button>
-            </CardActions>
-          </Card>
-          // <Card key={index} className={clsx(classes.root, className)} {...other}>
-          //   <Box sx={{ flexGrow: 1 }}>
-          //     <div className={classes.details}>
-          //       <CardContent className={classes.content}>
-          //         <Typography
-          //           className={classes.title}
-          //           component="h6"
-          //           variant="h6"
-          //         >
-          //           {item.product.productName}
-          //         </Typography>
-          //         <WeightAndPrice weightAndPrices={item.product.weightAndPrice} />
-          //         <Button variant="outlined">
-          //           <RouterLink
-          //             style={{ textDecoration: 'none' }}
-          //             to={`${PATH_APP.root}/productDetail/${item.product._id}`}
-          //           >
-          //             Order Again
-          //           </RouterLink>
-          //         </Button>
-          //       </CardContent>
-          //     </div>
-          //   </Box>
-          //   <CardMedia
-          //     className={classes.cover}
-          //     image={item.product.photos[0]}
-          //     title="Live from space album cover"
-          //   />
-          // </Card>
-        ))}
+        {favoriteProducts && favoriteProducts.map((item, index) => {
+          if(item.product) {
+            return (
+              <Card key={index} className={clsx(classes.root, className)} {...other}>
+                <CardActionArea>
+                  <CardMedia
+                    component="img"
+                    alt="Contemplative Reptile"
+                    height="160"
+                    image={item.product.photos[0]}
+                    title="Contemplative Reptile"
+                  />
+                  <CardContent className={classes.text}>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      {item.product.productName}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary" component="p">
+                      <WeightAndPrice weightAndPrices={item.product.weightAndPrice} />
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+                <CardActions>
+                  <Button variant="outlined" className={classes.button}>
+                    <RouterLink
+                      style={{ textDecoration: 'none' }}
+                      to={`${PATH_APP.root}/productDetail/${item.product._id}`}
+                    >
+                      Order Again
+                    </RouterLink>
+                  </Button>
+                </CardActions>
+              </Card>
+            )}})}
       </div>
     </div>
   );

@@ -213,23 +213,14 @@ function Checkout() {
   };
 
   return (
-    <Page
+    <Grid
       title="Checkout-Ecommerce-Management | Minimal-UI"
-      className={classes.root}
+      xs={12} md={12}
     >
       <Container>
-        <HeaderDashboard
-          heading="Checkout"
-          links={[
-            { name: 'Dashboard', href: PATH_APP.root },
-            { name: 'Management', href: PATH_APP.management.root },
-            { name: 'E-Commerce', href: PATH_APP.management.eCommerce.root },
-            { name: 'Checkout' }
-          ]}
-        />
 
         <Grid container justifyContent={isComplete ? 'center' : 'flex-start'}>
-          <Grid item xs={12} md={8} sx={{ mb: 5 }}>
+          <Grid item xs={12} md={12} sx={{ mb: 5 }}>
             <Stepper
               alternativeLabel
               activeStep={activeStep}
@@ -255,7 +246,7 @@ function Checkout() {
           renderContent()
         )}
       </Container>
-    </Page>
+    </Grid>
   );
 }
 

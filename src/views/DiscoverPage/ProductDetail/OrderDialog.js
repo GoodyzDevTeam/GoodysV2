@@ -16,6 +16,7 @@ import Grid from '@material-ui/core/Grid';
 import PropTypes from 'prop-types';
 import { Link as RouterLink } from 'react-router-dom';
 import { PATH_APP } from 'src/routes/paths';
+import { SettingsRemoteRounded } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
   active: {
@@ -70,16 +71,19 @@ const activeClassName = (time, orderTime) => {
 
 OrderDialog.propTypes = {
 	isOpen: PropTypes.bool,
-  onClose: PropTypes.func
+	onClose: PropTypes.func,
+	setOrderDateTime: PropTypes.func,
+	setOrderShow: PropTypes.func,
 };
 
-function OrderDialog({ isOpen, onClose }) {
+function OrderDialog({ setOrderDateTime, setOrderShow, isOpen, onClose }) {
 	const classes = useStyles();
 	const [step, setStep] = useState(0);
 	const [orderType, setOrderType] = useState('');
 	const [orderTime, setOrderTime] = useState('');
 	const today = dateFormat(`${(new Date()).getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`);
 	const [orderDate, setOrderDate] = useState(today);
+	const [errorString, setErr] = useState('');
 
 	const handleScrollList = (event) => {
 		console.log(event);
@@ -108,7 +112,10 @@ function OrderDialog({ isOpen, onClose }) {
 									<Button
 										fullWidth
 										className={classes[activeClassName(`${item}:00:00`, orderTime)]}
-										onClick={() => setOrderTime(`${item}:00:00`, orderTime)}
+										onClick={() => {
+											setErr('');
+											setOrderTime(`${item}:00:00`, orderTime);
+										}}
 									>
 										{item}: 00 : 00
 									</Button>
@@ -117,7 +124,10 @@ function OrderDialog({ isOpen, onClose }) {
 									<Button
 										fullWidth
 										className={classes[activeClassName(`${item}:30:00`, orderTime)]}
-										onClick={() => setOrderTime(`${item}:30:00`, orderTime)}
+										onClick={() => {
+											setErr('');
+											setOrderTime(`${item}:30:00`, orderTime);
+										}}
 									>
 										{item}: 30 : 00
 									</Button>
@@ -133,6 +143,17 @@ function OrderDialog({ isOpen, onClose }) {
 	const handleDateChange = (event) => {
 		console.log(event.target.value);
 		setOrderDate(event.target.value);
+	}
+
+	const handleConfirm = (event) => {
+		if (orderTime == '') {
+			setErr('select order time');
+			return;
+		}
+		setOrderDateTime(`${orderDate} ${orderTime}`);
+		setOrderShow(true);
+		onClose();
+		setStep(0);
 	}
 
   return (
@@ -204,8 +225,14 @@ function OrderDialog({ isOpen, onClose }) {
 				{step == 1 && (
 					<>
 						<Typography sx={{ pt: 2 }}>SELECT A TIME</Typography>
+						{errorString.length > 0 && (
+							<Typography sx={{ pt: 2, color: 'red' }}>{errorString}</Typography>
+						)}
 						<Button
-							onClick={() => setOrderTime('asap')}
+							onClick={() => {
+								setErr('');
+								setOrderTime('asap');
+							}}
 							sx={{
 								width: '80%',
 								m: 3,
@@ -254,7 +281,7 @@ function OrderDialog({ isOpen, onClose }) {
 							<Button onClick={() => setStep(0)}>
 								Back
 							</Button>
-							<Button>
+							<Button onClick={handleConfirm}>
 								Confirm
 							</Button>
 						</Box>
