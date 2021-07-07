@@ -33,6 +33,7 @@ import { useParams } from 'react-router-dom';
 import { getCategory, getProduct, toggleFavoriteProduct } from 'src/redux/slices/product';
 import ProductPhoto from './ProductPhoto';
 import { PATH_APP, PATH_DISCOVER } from 'src/routes/paths';
+import OrderDialog from './OrderDialog';
 
 // routes
 import { PATH_DASHBOARD } from 'src/routes/paths';
@@ -89,6 +90,9 @@ export default function ProductPreview() {
   const dispatch = useDispatch();
   const { product, category, favoriteProducts } = useSelector((state) => state.product);
   const { productId } = useParams();
+  const [quantity, setQuantity] = useState([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]);
+  const [isOrderShow, setOrderShow] = useState(false);
+  const [isOrderDialog, setOrderDialog] = useState(false);
 
   useEffect(() => {
     dispatch(getProduct(productId));
@@ -109,8 +113,17 @@ export default function ProductPreview() {
     return false;
   };
 
-	const QuantityAndPrice = () => {
-		const [quantity, setQuantity] = useState(0);
+  const calcPrice = () => {
+    let sum = 0;
+    product.weightAndPrice.map((item, index) => {
+      if (item) {
+        sum += item.price * quantity[index];
+      }
+    });
+    return sum;
+  };
+
+	const QuantityAndPrice = ({ idx }) => {
 		return (
 			<Grid
 				sx={{
@@ -124,13 +137,21 @@ export default function ProductPreview() {
 					p: 1
 				}}
 			>
-				<QuantityButton onClick={() => setQuantity(Math.max(0, quantity - 1))} size="small" >
+				<QuantityButton
+          onClick={() => {
+            let temp = JSON.parse(JSON.stringify(quantity));
+            if (temp[idx] == undefined || temp[idx] == null) temp[idx] = 0;
+            temp[idx] = Math.max(0, temp[idx] - 1);
+            setQuantity(temp);
+          }}
+          size="small" 
+        >
 					<MinusIcon />
 				</QuantityButton>
 				<input
           type="number"
           disabled
-          value={quantity}
+          value={(quantity[idx] == undefined || quantity[idx] == null) ? 0 : quantity[idx]}
           style={{
             border: 'none',
             width: '50px',
@@ -138,16 +159,31 @@ export default function ProductPreview() {
             backgroundColor: 'white'
           }}
         />
-				<QuantityButton onClick={() => setQuantity(quantity + 1)} size="small" >
+				<QuantityButton
+          onClick={() => {
+            let temp = JSON.parse(JSON.stringify(quantity));
+            if (temp[idx] == undefined || temp[idx] == null) temp[idx] = 0;
+            temp[idx] = temp[idx] + 1;
+            setQuantity(temp);
+          }}
+          size="small"
+        >
 					<PlusIcon />
 				</QuantityButton>
-				</Grid>
+      </Grid>
 		);
-	}
+  }
+  
+  const handleOrderDialogClose = (event) => {
+    setOrderDialog(false);
+  }
 
 	return (
     <>
-      {product && category && (
+      {isOrderDialog && (
+        <OrderDialog isOpen={isOrderDialog} onClose={handleOrderDialogClose}/>
+      )}
+      {product && category && !isOrderShow && (
         <Container maxWidth="xl">
           <Grid sx={{ flexDirection: 'row', justifyContent: 'space-between', m: 3, p: 3 }}>
             <Typography gutterBottom variant="h4" sx={{ width: 'auto' }}>
@@ -200,7 +236,7 @@ export default function ProductPreview() {
                   </Grid>
                   
                   <Typography gutterBottom variant="h6" sx={{ width: 'auto' }}>
-                    $ 45.00
+                    ${calcPrice()}
                   </Typography>
                   <Grid fullWidth>
                     <Table>
@@ -218,7 +254,7 @@ export default function ProductPreview() {
                               <TableCell>{item.weight}</TableCell>
                               <TableCell>{item.price}</TableCell>
                               <TableCell sx={{ display: 'flex', justifyContent: 'center' }}>
-                                <QuantityAndPrice />
+                                <QuantityAndPrice idx={index} />
                               </TableCell>
                             </TableRow>
                           )
@@ -226,9 +262,16 @@ export default function ProductPreview() {
                       </TableBody>
                     </Table>
                   </Grid>
-                  <Grid sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}>
+                  <Grid sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', mt: 2 }}>
                     <Button sx={{ width: '120px', backgroundColor: '#00ab55', color: 'white' }} >Add To Cart</Button>
-                    <Button sx={{ width: '120px', backgroundColor: '#00ab55', color: 'white' }} >Buy Now</Button>
+                    <Button
+                      onClick={() => {
+                        if (calcPrice() > 0) setOrderDialog(true);
+                      }}
+                      sx={{ width: '120px', backgroundColor: '#00ab55', color: 'white' }}
+                    >
+                      Buy Now
+                    </Button>
                   </Grid>
                 </Card>
               </Grid>
