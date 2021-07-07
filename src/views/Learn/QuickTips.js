@@ -2,42 +2,50 @@ import { Link, makeStyles } from '@material-ui/core';
 import React, { useState } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import Typography from '@material-ui/core/Typography';
+import {
+  Card,
+  CardActionArea,
+  CardActions,
+  CardContent,
+  CardMedia,
+  Button,
+  IconButton,
+  FavoriteIcon,
+  Typography,
+  Grid
+} from '@material-ui/core';
 import { PATH_APP } from 'src/routes/paths';
 import { useLocation } from 'react-router';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     margin: theme.spacing(1),
-    width: theme.spacing(65),
-    height: theme.spacing(33),
-    cursor: 'pointer',
-    //tablet
-    ['@media (min-width: 650px) and (max-width: 1023px)']: {
-      margin: theme.spacing(1),
-      width: theme.spacing(40),
-      height: theme.spacing(40)
-    },
-    //desktop
-    ['@media (min-width: 1024px)']: {
-      margin: theme.spacing(1),
-      width: theme.spacing(50),
-      height: theme.spacing(45)
-    },
-    //large desktop
-    ['@media (min-width: 2024px)']: {
-      margin: theme.spacing(1),
-      width: theme.spacing(65),
-      height: theme.spacing(45)
-    }
+    // width: theme.spacing(65),
+    // height: theme.spacing(33),
+    // cursor: 'pointer',
+    // //tablet
+    // ['@media (min-width: 650px) and (max-width: 1023px)']: {
+    //   margin: theme.spacing(1),
+    //   width: theme.spacing(43),
+    //   height: theme.spacing(40)
+    // },
+    // //desktop
+    // ['@media (min-width: 1024px)']: {
+    //   margin: theme.spacing(1),
+    //   width: theme.spacing(50),
+    //   height: theme.spacing(45)
+    // },
+    // //large desktop
+    // ['@media (min-width: 2024px)']: {
+    //   margin: theme.spacing(1),
+    //   width: theme.spacing(65),
+    //   height: theme.spacing(45)
+    // }
+  },
+  content:{
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+    textOverflow: 'ellipsis'
   },
   header: {
     display: 'flex',
@@ -54,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
     ['@media (min-width: 650px) and (max-width: 1175px)']: {
       marginRight: theme.spacing(0),
       marginLeft: theme.spacing(3),
-      width: theme.spacing(10)
+      width: theme.spacing(15)
     },
     //desktop
     ['@media (min-width: 1024px)']: {
@@ -76,19 +84,17 @@ const useStyles = makeStyles((theme) => ({
   },
   img: {
     height: theme.spacing(15),
+    width: '100%',
     //tablet
     ['@media (min-width: 650px) and (max-width: 1023px)']: {
-      width: theme.spacing(40),
       height: theme.spacing(20)
     },
     //desktop
     ['@media (min-width: 1024px)']: {
-      width: theme.spacing(55),
       height: theme.spacing(26)
     },
     //large desktop
     ['@media (min-width: 2024px)']: {
-      width: theme.spacing(65),
       height: theme.spacing(30)
     }
   },
@@ -146,35 +152,39 @@ function QuickTips({ className, ...other }) {
         </Button>
       </div>
       <div className={classes.display}>
-        {tips.map(({ title, image }) => (
-          <Card className={clsx(classes.root, className)} {...other}>
-            <CardActionArea>
-              <CardMedia
-                className={classes.img}
-                component="img"
-                alt="Contemplative Reptile"
-                height="140"
-                image={image}
-                title="Contemplative Reptile"
-              />
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="h2">
-                  {title}
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-            <CardActions className={classes.actions}>
-              <Button size="small" color="primary">
-                Share
-              </Button>
-              <Button size="small" color="primary">
-                <Link href={PATH_APP.management.blog.learnArticles}>
-                  Learn More
-                </Link>
-              </Button>
-            </CardActions>
-          </Card>
-        ))}
+        <Grid container>
+          {tips.map(({ title, image }) => (
+            <Grid item xs={12} sm={6} md={4} xl={3}>
+              <Card className={clsx(classes.root, className)} {...other}>
+                <CardActionArea>
+                  <CardMedia
+                    className={classes.img}
+                    component="img"
+                    alt="Contemplative Reptile"
+                    height="140"
+                    image={image}
+                    title="Contemplative Reptile"
+                  />
+                  <CardContent className={classes.content}>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      {title}
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+                <CardActions className={classes.actions}>
+                  <Button size="small" color="primary">
+                    Share
+                  </Button>
+                  <Button size="small" color="primary">
+                    <Link href={PATH_APP.management.blog.learnArticles}>
+                      Learn More
+                    </Link>
+                  </Button>
+                </CardActions>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
       </div>
     </div>
   );

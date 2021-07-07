@@ -16,36 +16,42 @@ import { Button, Box, Grid, Container, Typography } from '@material-ui/core';
 // ----------------------------------------------------------------------
 
 const useStyles = makeStyles((theme) => {
-  const isRTL = theme.direction === 'rtl';
-
+  // const isRTL = theme.direction === 'rtl';
   return {
     root: {
       // backgroundColor: 'green',
-      padding: theme.spacing(15, 0),
-      backgroundImage:
-        theme.palette.mode === 'light'
-          ? `linear-gradient(180deg, ${alpha(theme.palette.grey[300], 0)} 0%, ${
-              theme.palette.grey[300]
-            } 100%)`
-          : 'none'
+      paddingTop: theme.spacing(15),
+      // backgroundImage:
+      //   theme.palette.mode === 'light'
+      //     ? `linear-gradient(180deg, ${alpha(theme.palette.grey[300], 0)} 0%, ${
+      //         theme.palette.grey[300]
+      //       } 100%)`
+      //     : 'none'
+    },
+    container:{
+      display: 'flex',
+      flexWrap: 'wrap',
+      ['@media (min-width:768px) and (max-width: 780px)']: {
+        flexDirection: 'row-reverse',
+      },
     },
     content: {
       // backgroundColor: 'red',
-      maxWidth: 520,
-      margin: 'auto',
-      textAlign: 'center',
-      marginBottom: theme.spacing(10),
-      [theme.breakpoints.up('md')]: {
-        height: '100%',
-        marginBottom: 0,
-        textAlign: 'left',
-        display: 'inline-flex',
-        flexDirection: 'column',
-        alignItems: 'flex-start',
-        justifyContent: 'center',
-        paddingRight: theme.spacing(5)
-      }
-    },
+      // maxWidth: 520,
+      // margin: 'auto',
+      // textAlign: 'center',
+      // marginBottom: theme.spacing(10),
+      // [theme.breakpoints.up('md')]: {
+      //   height: '100%',
+      //   marginBottom: 0,
+      //   textAlign: 'left',
+      //   display: 'inline-flex',
+      //   flexDirection: 'column',
+      //   alignItems: 'flex-start',
+      //   justifyContent: 'center',
+      //   paddingRight: theme.spacing(5)
+      },
+    // },
     screen: {
       bottom: 0,
       maxWidth: 460,
@@ -57,14 +63,14 @@ const useStyles = makeStyles((theme) => {
       position: 'relative',
       zIndex: 2,
       bottom: 20,
-      transform: isRTL ? 'translateX(-24%)' : 'translateX(24%)',
-      [theme.breakpoints.up('sm')]: {
-        bottom: 40,
-        transform: isRTL ? 'translateX(-32%)' : 'translateX(32%)'
-      }
+      // transform: isRTL ? 'translateX(-24%)' : 'translateX(24%)',
+      // [theme.breakpoints.up('sm')]: {
+      //   bottom: 40,
+      //   transform: isRTL ? 'translateX(-32%)' : 'translateX(32%)'
+      // }
     },
     lazyload: {
-      marginLeft: theme.spacing(3),
+      // marginLeft: theme.spacing(3),
       marginTop: theme.spacing(-4),
       ['@media (min-width:768px) and (max-width: 780px)']: {
         marginLeft: theme.spacing(-5)
@@ -128,8 +134,9 @@ function LandingPageDiscover({ className }) {
   return (
     <div className={clsx(classes.root, className)}>
       <Container maxWidth="lg">
-        <Grid container spacing={5}>
-          <Grid item xs={12} md={4} lg={5}>
+        <Grid container alignItems="center"
+ className={classes.container} spacing={10}>
+          <Grid item xs={12} md={4} lg={6} xl={5}>
             <div className={classes.content}>
               <MotionInView variants={textAnimate}>
                 <Typography variant="h2" paragraph>
@@ -160,15 +167,16 @@ function LandingPageDiscover({ className }) {
           </Grid>
 
           <Grid
-            dir="ltr"
+            // dir="ltr"
             item
             xs={12}
             md={8}
-            lg={7}
-            sx={{
-              position: 'relative',
-              pl: { sm: '16% !important', md: '0 !important' }
-            }}
+            lg={6}
+            xl={7}
+            // sx={{
+            //   position: 'relative',
+            //   pl: { sm: '16% !important', md: '0 !important' }
+            // }}
             className={classes.lazyload}
           >
             <Box
