@@ -57,12 +57,14 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#00AB55'
   },
   header: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    marginTop: theme.spacing(5),
     marginBottom: theme.spacing(2),
     marginLeft: theme.spacing(2)
+    // display: 'flex',
+    // flexDirection: 'row',
+    // justifyContent: 'flex-start',
+    // marginTop: theme.spacing(5),
+    // marginBottom: theme.spacing(2),
+    // marginLeft: theme.spacing(2)
   },
   HeaderBtn: {
     marginLeft: theme.spacing(2)

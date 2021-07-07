@@ -41,11 +41,11 @@ const MAP_THEMES = {
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    backgroundColor: 'red',
+    // backgroundColor: 'red',
     marginTop: theme.spacing(8)
   },
   dashboard: {
-    backgroundColor: 'blue',
+    // backgroundColor: 'blue',
     marginTop: theme.spacing(-5)
   },
   margin: {

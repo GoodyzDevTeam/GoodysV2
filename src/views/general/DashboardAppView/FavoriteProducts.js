@@ -56,10 +56,10 @@ const useStyles = makeStyles((theme) => ({
   //     height: theme.spacing(30)
   //   }
   // },
-  // header: {
-  //   marginBottom: theme.spacing(2),
-  //   marginLeft: theme.spacing(2)
-  // },
+  header: {
+    marginBottom: theme.spacing(2),
+    marginLeft: theme.spacing(2)
+  },
   display: {
     display: 'flex',
     flexDirection: 'row',
@@ -175,8 +175,6 @@ function FavoriteProducts({ className, ...other }) {
               </Button>
             </CardActions>
           </Card>
-
-
           // <Card key={index} className={clsx(classes.root, className)} {...other}>
           //   <Box sx={{ flexGrow: 1 }}>
           //     <div className={classes.details}>
