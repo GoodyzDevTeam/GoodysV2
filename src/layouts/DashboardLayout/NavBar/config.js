@@ -85,10 +85,10 @@ const navConfig = [
         icon: ICONS.user,
         href: PATH_APP.management.user.root,
         items: [
-          {
-            title: 'profile',
-            href: PATH_APP.management.user.profile
-          },
+          // {
+          //   title: 'profile',
+          //   href: PATH_APP.management.user.profile
+          // },
           {
             title: 'account',
             href: PATH_APP.management.user.account

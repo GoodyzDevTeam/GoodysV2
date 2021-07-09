@@ -229,7 +229,7 @@ function NavBar({ isOpenNav, onCloseNav }) {
         <Drawer
           anchor="left"
           open={isOpenNav}
-          variant="temporary"
+          variant="temperary"
           onClose={onCloseNav}
           classes={{ paper: classes.drawerPaper }}
         >

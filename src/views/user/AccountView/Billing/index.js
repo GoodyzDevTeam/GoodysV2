@@ -74,8 +74,8 @@ function Billing({ cards, addressBook, invoices }) {
   return (
     <div className={clsx(classes.root)}>
       <Grid container spacing={5}>
-        <Grid item xs={12} md={8}>
-          <Card className={classes.card}>
+        <Grid item xs={12}>
+          {/* <Card className={classes.card}>
             <Typography
               variant="overline"
               sx={{ mb: 3, display: 'block', color: 'text.secondary' }}
@@ -104,7 +104,7 @@ function Billing({ cards, addressBook, invoices }) {
                 Upgrade plan
               </Button>
             </Box>
-          </Card>
+          </Card> */}
 
           <PaymentMethod
             cards={cards}
@@ -118,9 +118,9 @@ function Billing({ cards, addressBook, invoices }) {
           <AddressBook addressBook={addressBook} className={classes.card} />
         </Grid>
 
-        <Grid item xs={12} md={4}>
+        {/* <Grid item xs={12} md={4}>
           <InvoiceHistory invoices={invoices} />
-        </Grid>
+        </Grid> */}
       </Grid>
     </div>
   );

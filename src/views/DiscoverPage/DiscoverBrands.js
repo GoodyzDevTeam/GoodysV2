@@ -30,8 +30,11 @@ const useStyles = makeStyles((theme) => ({
     marginRight: 'auto',
     height: '100%',
     maxWidth: 300,
-    minWidth: 300,
-    maxHeight: 450
+    maxHeight: 400,
+    ['@media (min-width: 1920px)']: {
+      maxWidth: 350,
+      maxHeight: 440
+    },
   },
   titleText: {
     overflow: 'hidden',
@@ -44,12 +47,12 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(6),
     paddingTop: '56.25%',
     //tablet
-    ['@media (min-width: 650px) and (max-width: 1175px)']: {
-      width: '100%',
-      height: theme.spacing(10),
-      marginTop: theme.spacing(1),
-      paddingTop: 0
-    }
+    // ['@media (min-width: 650px) and (max-width: 1175px)']: {
+    //   width: '100%',
+    //   height: theme.spacing(10),
+    //   marginTop: theme.spacing(1),
+    //   paddingTop: 0
+    // }
   },
   avatar: {
     backgroundColor: '#00AB55'
@@ -172,7 +175,7 @@ function DiscoverBrands({ className, ...other }) {
               type,
               orderType
             }) => (
-              <Grid item>
+              <Grid item xs={12} sm={6} md={3}>
               <Card className={classes.root}>
                 <CardHeader
                   avatar={
