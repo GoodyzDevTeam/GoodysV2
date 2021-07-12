@@ -30,18 +30,11 @@ const useStyles = makeStyles((theme) => ({
     marginRight: 'auto',
     height: '100%',
     maxWidth: 300,
-    minWidth: 300,
-    maxHeight: 450
-    // width: theme.spacing(45),
-    // padding: theme.spacing(3.5),
-    // margin: theme.spacing(1),
-    // cursor: 'pointer',
-    // //tablet
-    // ['@media (min-width: 650px) and (max-width: 1175px)']: {
-    //   width: theme.spacing(28),
-    //   height: theme.spacing(40),
-    //   padding: theme.spacing(0)
-    // }
+    maxHeight: 400,
+    ['@media (min-width: 1920px)']: {
+      maxWidth: 350,
+      maxHeight: 440
+    },
   },
   titleText: {
     overflow: 'hidden',
@@ -52,14 +45,7 @@ const useStyles = makeStyles((theme) => ({
   media: {
     height: 0,
     marginTop: theme.spacing(6),
-    paddingTop: '56.25%',
-    //tablet
-    ['@media (min-width: 650px) and (max-width: 1175px)']: {
-      width: '100%',
-      height: theme.spacing(10),
-      marginTop: theme.spacing(1),
-      paddingTop: 0
-    }
+    paddingTop: '56.25%'
   },
   avatar: {
     backgroundColor: '#00AB55'
@@ -77,7 +63,6 @@ const useStyles = makeStyles((theme) => ({
     //dekstop
     ['@media (min-width: 1175px)']: {
       marginLeft: theme.spacing(-20)
-      // marginRight: theme.spacing(20)
     }
   },
   HeaderBtn: {
@@ -115,7 +100,6 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: 'wrap'
   },
   contentContainer: {
-    // backgroundColor: 'red',
     display: 'flex',
     flexDirection: 'column',
     //tablet
@@ -180,7 +164,7 @@ function DiscoverDeals({ className, ...other }) {
               type,
               orderType
             }) => (
-              <Grid item>
+              <Grid item xs={12} sm={6} md={3}>
               <Card className={classes.root}>
                 <CardHeader
                   avatar={

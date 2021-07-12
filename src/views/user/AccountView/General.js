@@ -91,7 +91,7 @@ function General({ className }) {
       <FormikProvider value={formik}>
         <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
           <Grid container spacing={3}>
-            <Grid item xs={12} md={4}>
+            {/* <Grid item xs={12} md={4}>
               <Card>
                 <Box
                   sx={{
@@ -115,9 +115,9 @@ function General({ className }) {
                   />
                 </Box>
               </Card>
-            </Grid>
+            </Grid> */}
 
-            <Grid item xs={12} md={8}>
+            <Grid item xs={12}>
               <Card>
                 <CardContent>
                   <Grid container spacing={2}>

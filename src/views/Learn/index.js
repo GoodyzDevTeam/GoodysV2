@@ -11,7 +11,8 @@ const useStyles = makeStyles((theme) => ({
   root: {},
   container: {
     marginTop: theme.spacing(20),
-    marginLeft: theme.spacing(0),
+    marginLeft: theme.spacing(2),
+    marginRight: theme.spacing(2),
     ['@media (min-width: 768px) and (max-width: 1023px)']: {
       marginTop: theme.spacing(20),
       marginLeft: theme.spacing(0)
@@ -19,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     //desktop
     ['@media (min-width: 1024px)']: {
       marginTop: theme.spacing(20),
-      marginLeft: theme.spacing(0)
+      // marginLeft: theme.spacing()
     }
   },
   dashboard: {
@@ -45,8 +46,8 @@ function LearnView() {
     >
       {/* USING MATERIAL UI GRID  */}
       <Page title="Learn | Goody'z" className={classes.root}>
-        <Container maxWidth="xl">
-          <Grid container spacing={3}>
+        {/* <Container maxWidth="xl"> */}
+          <Grid container spacing={2}>
             <Grid item xs={12} md={12}>
               <Topics />
             </Grid>
@@ -54,7 +55,7 @@ function LearnView() {
               <QuickTips />
             </Grid>
           </Grid>
-        </Container>
+        {/* </Container> */}
       </Page>
     </div>
   );

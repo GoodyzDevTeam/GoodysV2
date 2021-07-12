@@ -81,16 +81,16 @@ function AccountView() {
         <Billing cards={cards} addressBook={addressBook} invoices={invoices} />
       )
     },
-    {
-      value: 'notifications',
-      icon: <Icon icon={bellFill} width={20} height={20} />,
-      component: <Notifications notifications={notifications} />
-    },
-    {
-      value: 'social_links',
-      icon: <Icon icon={shareFill} width={20} height={20} />,
-      component: <SocialLinks myProfile={myProfile} />
-    },
+    // {
+    //   value: 'notifications',
+    //   icon: <Icon icon={bellFill} width={20} height={20} />,
+    //   component: <Notifications notifications={notifications} />
+    // },
+    // {
+    //   value: 'social_links',
+    //   icon: <Icon icon={shareFill} width={20} height={20} />,
+    //   component: <SocialLinks myProfile={myProfile} />
+    // },
     {
       value: 'change_password',
       icon: <Icon icon={roundVpnKey} width={20} height={20} />,
@@ -112,8 +112,8 @@ function AccountView() {
           heading="Account"
           links={[
             { name: 'Dashboard', href: PATH_APP.root },
-            { name: 'Management', href: PATH_APP.management.root },
-            { name: 'User', href: PATH_APP.management.user.root },
+            // { name: 'Management', href: PATH_APP.management.root },
+            // { name: 'User', href: PATH_APP.management.user.root },
             { name: 'Account Settings' }
           ]}
         />

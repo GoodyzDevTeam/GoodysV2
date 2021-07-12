@@ -14,7 +14,7 @@ import { alpha, makeStyles, useTheme } from '@material-ui/core/styles';
 import { Button, Box, Grid, Container, Typography } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => {
-  const isLTR = theme.direction === 'ltr';
+  // const isLTR = theme.direction === 'ltr';
 
   return {
     root: {
@@ -57,11 +57,11 @@ const useStyles = makeStyles((theme) => {
       position: 'relative',
       zIndex: 2,
       bottom: 20,
-      transform: isLTR ? 'translateX(-24%)' : 'translateX(24%)',
-      [theme.breakpoints.up('sm')]: {
-        bottom: 40,
-        transform: isLTR ? 'translateX(-32%)' : 'translateX(32%)'
-      }
+      // transform: isLTR ? 'translateX(-24%)' : 'translateX(24%)',
+      // [theme.breakpoints.up('sm')]: {
+      //   bottom: 40,
+      //   transform: isLTR ? 'translateX(-32%)' : 'translateX(32%)'
+      // }
     },
     lazyload: {
       marginLeft: theme.spacing(-5),
@@ -120,8 +120,8 @@ function LandingPageLearn({ className }) {
   return (
     <div className={clsx(classes.root, className)}>
       <Container maxWidth="lg">
-        <Grid container spacing={5}>
-          <Grid item xs={12} md={4} lg={5}>
+        <Grid container alignItems="center" spacing={10}>
+          <Grid item xs={12} md={4} lg={6} xl={5}>
             <div className={classes.content}>
               <MotionInView variants={textAnimate}>
                 <Typography variant="h2" paragraph>
@@ -155,11 +155,12 @@ function LandingPageLearn({ className }) {
             item
             xs={12}
             md={8}
-            lg={7}
-            sx={{
-              position: 'relative',
-              pl: { sm: '16% !important', md: '0 !important' }
-            }}
+            lg={6}
+            xl={7}
+            // sx={{
+            //   position: 'relative',
+            //   pl: { sm: '16% !important', md: '0 !important' }
+            // }}
             className={classes.lazyload}
           >
             <Box

@@ -2,7 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { useTheme, makeStyles } from '@material-ui/core/styles';
-import { Box, Card, Link, Typography } from '@material-ui/core';
+import { Box, Card, Grid, Link, Typography } from '@material-ui/core';
 import { getImgProduct } from 'src/utils/getImages';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -13,20 +13,24 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     margin: theme.spacing(1),
     flexDirection: 'row',
-    width: theme.spacing(40),
+    // width: theme.spacing(40),
     height: theme.spacing(22),
     cursor: 'pointer',
     //tablet
     ['@media (min-width: 768px) and (max-width: 1023px)']: {
       margin: theme.spacing(1),
-      width: theme.spacing(28),
+      // width: theme.spacing(28),
       height: theme.spacing(20)
     },
     //desktop
     ['@media (min-width: 1024px)']: {
-      width: theme.spacing(38),
+      // width: theme.spacing(),
       height: theme.spacing(20)
     }
+  },
+  container:{
+    // backgroundColor:'yellow',
+    width: '100%'
   },
   header: {
     marginTop: theme.spacing(2),
@@ -51,11 +55,12 @@ const useStyles = makeStyles((theme) => ({
   },
   cover: {
     width: '50%',
-    borderRadius: theme.spacing(1),
+    // height: '100%',
+    // borderRadius: theme.spacing(1),
     ['@media (max-width: 1367px)']: {
-      margin: theme.spacing(1),
-      width: theme.spacing(28),
-      height: theme.spacing(20)
+      // margin: theme.spacing(1),
+      // width: theme.spacing(28),
+      // height: theme.spacing(20)
     }
   }
 }));
@@ -97,28 +102,32 @@ function Topics({ className, ...other }) {
     medium: getImgProduct(960)
   };
   return (
-    <div>
+    <div className={classes.container}>
       <div className={classes.header}>
         <h1>Topics</h1>
       </div>
-      <div className={classes.display}>
-        {topicOptions.map(({ id, image1 }) => (
-          <Card className={clsx(classes.root, className)} {...other}>
-            <Box sx={{ flexGrow: 1 }}>
-              <div className={classes.details}>
-                <CardContent className={classes.content}>
-                  <Typography component="h5" variant="h5">
-                    <Link href={PATH_APP.management.blog.learnTopics}>
-                      {id}
-                    </Link>
-                  </Typography>
-                </CardContent>
-              </div>
-            </Box>
-            <CardMedia className={classes.cover} image={image1} />
-          </Card>
-        ))}
-      </div>
+      {/* <div className={classes.display}> */}
+        <Grid container>
+          {topicOptions.map(({ id, image1 }) => (
+            <Grid item xs={12} md={4} lg={3} xl={3}>
+              <Card className={clsx(classes.root, className)} {...other}>
+                <Box sx={{ flexGrow: 1 }}>
+                  <div className={classes.details}>
+                    <CardContent className={classes.content}>
+                      <Typography component="h5" variant="h5">
+                        <Link href={PATH_APP.management.blog.learnTopics}>
+                          {id}
+                        </Link>
+                      </Typography>
+                    </CardContent>
+                  </div>
+                </Box>
+                <CardMedia className={classes.cover} image={image1} />
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      {/* </div> */}
     </div>
   );
 }

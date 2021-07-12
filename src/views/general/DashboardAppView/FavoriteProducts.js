@@ -19,7 +19,9 @@ import { getFavoriteProducts } from 'src/redux/slices/product';
 // ----------------------------------------------------------------------
 const useStyles = makeStyles((theme) => ({
   root: {
+    minWidth: 278,
     maxWidth: 278,
+    minHeight: 325,
     maxHeight: 325,
     margin: theme.spacing(2),
   },

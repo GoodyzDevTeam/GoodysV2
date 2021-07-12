@@ -29,7 +29,11 @@ const useStyles = makeStyles((theme) => ({
     marginRight: 'auto',
     height: '100%',
     maxWidth: 300,
-    maxHeight: 450
+    maxHeight: 400,
+    ['@media (min-width: 1920px)']: {
+      maxWidth: 350,
+      maxHeight: 440
+    },
   },
   titleText: {
     overflow: 'hidden',
@@ -129,7 +133,7 @@ function DiscoverDispensaries({ className, ...other }) {
         {dispensaries && favoriteDispensaries &&
           dispensaries.map(
             (dispensary, index) => (
-              <Grid item>
+              <Grid item xs={12} sm={6} md={3}>
                 <Card key={index} className={classes.root}>
                   <CardHeader
                     avatar={
