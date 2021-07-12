@@ -46,6 +46,11 @@ const slice = createSlice({
       state.error = action.payload;
     },
 
+    setDispensary(state, action) {
+      state.isLoading = false;
+      state.dispensary = action.payload;
+    },
+
     // GET PRODUCTS
     getDispensariesSuccess(state, action) {
       state.isLoading = false;
@@ -57,7 +62,6 @@ const slice = createSlice({
       state.favoriteDispensaries = action.payload;
     },
 
-    // GET PRODUCT
     getDispensarySuccess(state, action) {
       state.isLoading = false;
       state.dispensary = action.payload;
@@ -101,7 +105,8 @@ export default slice.reducer;
 // Actions
 export const {
   sortByDispensaries,
-  filterDispensaries
+  filterDispensaries,
+  setDispensary,
 } = slice.actions;
 
 // ----------------------------------------------------------------------

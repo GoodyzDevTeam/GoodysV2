@@ -75,12 +75,12 @@ function ProfileCover({ myProfile, authUser, className }) {
           <Typography sx={{ opacity: 0.72 }}>{position}</Typography>
         </Box>
       </div>
-      <LazySize
+      {cover && <LazySize
         alt="profile cover"
         src={cover.small}
         size={`${cover.small} 600w, ${cover.medium} 960w`}
         sx={{ zIndex: 8, height: '100%', position: 'absolute' }}
-      />
+      />}
     </div>
   );
 }

@@ -72,25 +72,38 @@ const activeClassName = (time, orderTime) => {
 OrderDialog.propTypes = {
 	isOpen: PropTypes.bool,
 	onClose: PropTypes.func,
-	setOrderDateTime: PropTypes.func,
 	setOrderShow: PropTypes.func,
+	orderType: PropTypes.any,
+	setOrderType: PropTypes.func,
+	orderTime: PropTypes.any,
+	setOrderTime: PropTypes.func,
+	orderDate: PropTypes.any,
+	setOrderDate: PropTypes.func,
 };
 
-function OrderDialog({ setOrderDateTime, setOrderShow, isOpen, onClose }) {
+function OrderDialog({
+	setOrderShow,
+	isOpen,
+	orderType,
+	setOrderType,
+	orderTime,
+	setOrderTime,
+	orderDate,
+	setOrderDate,
+	onClose
+}) {
 	const classes = useStyles();
 	const [step, setStep] = useState(0);
-	const [orderType, setOrderType] = useState('');
-	const [orderTime, setOrderTime] = useState('');
 	const today = dateFormat(`${(new Date()).getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`);
-	const [orderDate, setOrderDate] = useState(today);
 	const [errorString, setErr] = useState('');
+	const curTime = new Date().getHours();
 
 	const handleScrollList = (event) => {
-		console.log(event);
+		// console.log(event);
 	};
 	
 	const TimeList = ({ date }) => {
-		const timeArr = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24];
+		const timeArr = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23];
 		let canStartTime = 10;
 		if (date && Number(date.split('-')[2]) == new Date().getDate()) {
 			canStartTime = new Date().getHours() + 1;
@@ -111,27 +124,15 @@ function OrderDialog({ setOrderDateTime, setOrderShow, isOpen, onClose }) {
 								<ListItem key={`${idx}-0`}>
 									<Button
 										fullWidth
-										className={classes[activeClassName(`${item}:00:00`, orderTime)]}
+										className={classes[activeClassName(`${item}:00:00 - ${item + 1}:00:00`, orderTime)]}
 										onClick={() => {
 											setErr('');
-											setOrderTime(`${item}:00:00`, orderTime);
+											setOrderTime(`${item}:00:00 - ${item + 1}:00:00`);
 										}}
 									>
-										{item}: 00 : 00
+										{item}: 00 : 00 - {item + 1}: 00 : 00
 									</Button>
 								</ListItem>
-								{item != 24 && <ListItem key={`${idx}-1`}>
-									<Button
-										fullWidth
-										className={classes[activeClassName(`${item}:30:00`, orderTime)]}
-										onClick={() => {
-											setErr('');
-											setOrderTime(`${item}:30:00`, orderTime);
-										}}
-									>
-										{item}: 30 : 00
-									</Button>
-								</ListItem>}
 							</>
 						);
 					else return (<></>);
@@ -150,7 +151,6 @@ function OrderDialog({ setOrderDateTime, setOrderShow, isOpen, onClose }) {
 			setErr('select order time');
 			return;
 		}
-		setOrderDateTime(`${orderDate} ${orderTime}`);
 		setOrderShow(true);
 		onClose();
 		setStep(0);
@@ -212,10 +212,18 @@ function OrderDialog({ setOrderDateTime, setOrderShow, isOpen, onClose }) {
 								<CarIcon sx={{ width: '40px', height: '40px' }}/>
 							</Grid>
 							<Grid xs={10}>
-								<Button disabled sx={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', p: 2 }}>
+								<Button
+									// disabled
+									onClick={() => {
+										setOrderType('delivery');
+										setStep(1);
+									}}
+									sx={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', p: 2 }}
+								>
 									<Typography>
-										Delivery<br />
-										Not Available
+										{/* Delivery<br />
+										Not Available */}
+										Delivery
 									</Typography>
 								</Button>
 							</Grid>
@@ -231,7 +239,7 @@ function OrderDialog({ setOrderDateTime, setOrderShow, isOpen, onClose }) {
 						<Button
 							onClick={() => {
 								setErr('');
-								setOrderTime('asap');
+								setOrderTime(`${curTime}:00:00 - ${curTime + 1}:00:00`);
 							}}
 							sx={{
 								width: '80%',
@@ -241,7 +249,7 @@ function OrderDialog({ setOrderDateTime, setOrderShow, isOpen, onClose }) {
 								border: 'solid 3px #b9b7b7',
 								borderRadius: '8px',
 							}}
-							className={classes[activeClassName('asap', orderTime)]}
+							className={classes[activeClassName(`${curTime}:00:00 - ${curTime + 1}:00:00`, orderTime)]}
 							disabled={orderDate != today}
 						>
 							ASAP

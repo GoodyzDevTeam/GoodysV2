@@ -34,7 +34,7 @@ import { getCategory, getProduct, toggleFavoriteProduct } from 'src/redux/slices
 import ProductPhoto from './ProductPhoto';
 import { PATH_APP, PATH_DISCOVER } from 'src/routes/paths';
 import OrderDialog from './OrderDialog';
-import Checkout from 'src/views/e-commerce/CheckoutView';
+import Checkout from './CheckoutView';
 
 // routes
 import { PATH_DASHBOARD } from 'src/routes/paths';
@@ -74,7 +74,7 @@ const ControlButton = styled(Button)(({ theme }) => ({
 	width: '50px',
 	height: '50px',
 	border: 'solid thick #637381'
-}))
+}));
 
 const QuantityButton = styled(Button)(({ theme }) => ({
   width: '20px',
@@ -82,7 +82,14 @@ const QuantityButton = styled(Button)(({ theme }) => ({
   minWidth: '20px',
   height: '20px',
   borderRadius: '50%'
-}))
+}));
+
+const dateFormat = (date) => {
+	let split = date.split('-');
+	if (split[1].length == 1) split[1] = `0${split[1]}`;
+	if (split[2].length == 1) split[2] = `0${split[2]}`;
+	return `${split[0]}-${split[1]}-${split[2]}`;
+};
 
 // ----------------------------------------------------------------------
 
@@ -90,11 +97,15 @@ export default function ProductPreview() {
 	const classes = useStyles();
   const dispatch = useDispatch();
   const { product, category, favoriteProducts } = useSelector((state) => state.product);
+  const { dispensary } = useSelector((state) => state.dispensary);
   const { productId } = useParams();
   const [quantity, setQuantity] = useState([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]);
   const [isOrderShow, setOrderShow] = useState(false);
   const [isOrderDialog, setOrderDialog] = useState(false);
-  const [orderDateTime, setOrderDateTime] = useState('');
+  const [orderType, setOrderType] = useState('');
+	const [orderTime, setOrderTime] = useState('');
+	const today = dateFormat(`${(new Date()).getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`);
+	const [orderDate, setOrderDate] = useState(today);
 
   useEffect(() => {
     dispatch(getProduct(productId));
@@ -186,8 +197,13 @@ export default function ProductPreview() {
         <OrderDialog
           isOpen={isOrderDialog}
           onClose={handleOrderDialogClose}
-          setOrderDateTime={setOrderDateTime}
           setOrderShow={setOrderShow}
+          orderDate={orderDate}
+          orderTime={orderTime}
+          orderType={orderType}
+          setOrderDate={setOrderDate}
+          setOrderTime={setOrderTime}
+          setOrderType={setOrderType}
         />
       )}
       
@@ -196,15 +212,30 @@ export default function ProductPreview() {
           <Typography gutterBottom variant="h4" sx={{ width: 'auto' }}>
             {product && product.productName}
           </Typography>
-          <MBreadcrumbs
-            sx={{ fontSize: '20px', mb: 3 }}
-            links={[
-              { name: 'Dashboard', href: `${PATH_APP.general.root}` },
-              { name: 'Discover', href: `${PATH_APP.general.discover}` },
-              { name: `${category && category.name}`, href: `${PATH_APP.general.discover}/${category && category._id}` },
-              { name: `${product && product.productName}`, href: '#' }
-            ]}
-          />
+          <ul>
+          {dispensary && <li>
+              <MBreadcrumbs
+                sx={{ fontSize: '20px', mb: 3 }}
+                links={[
+                  { name: 'Dashboard', href: `${PATH_APP.general.root}` },
+                  { name: 'Discover', href: `${PATH_APP.general.discover}` },
+                  { name: `${dispensary.name}`, href: `${PATH_APP.root}/dispensaryDetail/${dispensary._id}`},
+                  { name: `${category && category.name}/${product && product.productName}`, href: '#' },
+                ]}
+              />
+            </li>}
+            <li>
+              <MBreadcrumbs
+                sx={{ fontSize: '20px', mb: 3 }}
+                links={[
+                  { name: 'Dashboard', href: `${PATH_APP.general.root}` },
+                  { name: 'Discover', href: `${PATH_APP.general.discover}` },
+                  { name: `${category && category.name}`, href: `${PATH_APP.general.discover}/${category && category._id}` },
+                  { name: `${product && product.productName}`, href: '#' }
+                ]}
+              />
+            </li>
+          </ul>
         </Grid>
         {product && category && !isOrderShow && (
           <Grid container>
@@ -310,7 +341,17 @@ export default function ProductPreview() {
         )}
         {product && category && isOrderShow && (
           <Grid container>
-            <Checkout />
+            <Checkout
+              quantity={quantity}
+              setQuantity={setQuantity}
+              orderType={orderType}
+              orderDate={orderDate}
+              orderTime={orderTime}
+              setOrderType={setOrderType}
+              setOrderDate={setOrderDate}
+              setOrderTime={setOrderTime}
+              orderCancel={setOrderShow}
+            />
           </Grid>
         )}
       </Container>
