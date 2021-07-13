@@ -5,7 +5,7 @@ import { getProducts, toggleFavoriteProduct, getFavoriteProducts } from 'src/red
 import PropTypes from 'prop-types';
 import { Icon } from '@iconify/react';
 import { alpha, useTheme, makeStyles } from '@material-ui/core/styles';
-import { Box, Button, Card, Typography, IconButton } from '@material-ui/core';
+import { Box, Button, Card, Typography, IconButton, Grid } from '@material-ui/core';
 import { getImgProduct } from 'src/utils/getImages';
 import CardContent from '@material-ui/core/CardContent';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 278,
     minHeight: 325,
     maxHeight: 325,
-    margin: theme.spacing(2),
+    margin: theme.spacing(1),
   },
   button: {
     // marginTop: theme.spacing(-3),
@@ -67,8 +67,9 @@ const useStyles = makeStyles((theme) => ({
   //   }
   // },
   header: {
-    marginBottom: theme.spacing(2),
-    marginLeft: theme.spacing(2)
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   display: {
     display: 'flex',
@@ -220,100 +221,64 @@ function ProductsUMayLike({ className, ...other }) {
 
   return (
     <div>
-      <div className={classes.header}>
-        <h1>Products You May Like</h1>
-      </div>
-      <div className={classes.display}>
+      <Grid container spacing={2} xs={12} md={12} sx={{ p: 3 }} >
+        <Grid item xs={12} className={classes.header}>
+          <Typography variant='h3'>
+            Products You May Like
+          </Typography>
+        </Grid>
+      </Grid>
+      {/* <div className={classes.display}> */}
+      <Grid container spacing={2} xs={12} md={12} sx={{ p: 3 }} >
         {products &&
           products.map((product, index) => {
             return (
-
-              <Card key={index} className={clsx(classes.root, className)} {...other}>
-                <CardActionArea>
-                  <CardMedia
-                    component="img"
-                    alt="Contemplative Reptile"
-                    height="160"
-                    image={product.photos[0]}
-                    title="Contemplative Reptile"
-                  />
-                  <CardContent className={classes.text}>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      {product.productName}
-                    </Typography>
-                    <Typography variant="body2" color="textSecondary" component="p">
-                      <WeightAndPrice weightAndPrices={product.weightAndPrice} />
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-                <CardActions className={classes.actions}>
-                  <IconButton
-                    aria-label="add to favorites"
-                    onClick={() => onHandleFavorite(product._id)}
-                  >
-                    <FavoriteIcon
-                      sx={
-                        checkIfFavorite(product._id)
-                        ? { color: 'red' }
-                        : { color: 'gray' }
-                      }
+              <Grid item xs={12} sm={6} md={3}>
+                <Card key={index} className={clsx(classes.root, className)} {...other}>
+                  <CardActionArea>
+                    <CardMedia
+                      component="img"
+                      alt="Contemplative Reptile"
+                      height="160"
+                      image={product.photos[0]}
+                      title="Contemplative Reptile"
                     />
-                  </IconButton>
-                  <Button variant="outlined" className={classes.button}>
-                    <RouterLink
-                      style={{ textDecoration: 'none' }}
-                      to={`${PATH_APP.root}/productDetail/${product._id}`}
+                    <CardContent className={classes.text}>
+                      <Typography gutterBottom variant="h5" component="h2">
+                        {product.productName}
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary" component="p">
+                        <WeightAndPrice weightAndPrices={product.weightAndPrice} />
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                  <CardActions className={classes.actions}>
+                    <IconButton
+                      aria-label="add to favorites"
+                      onClick={() => onHandleFavorite(product._id)}
                     >
-                      View
-                    </RouterLink>
-                  </Button>
-                </CardActions>
-              </Card>
-
-              // <Card className={clsx(classes.root, className)} {...other}>
-              //   <Box sx={{ flexGrow: 1, width: '50%' }}>
-              //     <div className={classes.details}>
-              //       <CardContent className={classes.content}>
-              //         <Typography
-              //           className={classes.title}
-              //           component="h6"
-              //           variant="h6"
-              //         >
-              //           {product.productName}
-              //         </Typography>
-              //         <WeightAndPrice weightAndPrices={product.weightAndPrice} />
-              //         <IconButton
-              //           aria-label="add to favorites"
-              //           onClick={() => onHandleFavorite(product._id)}
-              //         >
-              //           <FavoriteIcon
-              //             sx={
-              //               checkIfFavorite(product._id)
-              //               ? { color: 'red' }
-              //               : { color: 'gray' }
-              //             }
-              //           />
-              //         </IconButton>
-              //         <Button variant="outlined">
-              //           <RouterLink
-              //             style={{ textDecoration: 'none' }}
-              //             to={`${PATH_APP.root}/productDetail/${product._id}`}
-              //           >
-              //             View
-              //           </RouterLink>
-              //         </Button>
-              //       </CardContent>
-              //     </div>
-              //   </Box>
-              //   <CardMedia
-              //     className={classes.cover}
-              //     image={product.photos[0]}
-              //     title="Live from space album cover"
-              //   />
-              // </Card>
+                      <FavoriteIcon
+                        sx={
+                          checkIfFavorite(product._id)
+                          ? { color: 'red' }
+                          : { color: 'gray' }
+                        }
+                      />
+                    </IconButton>
+                    <Button variant="outlined" className={classes.button}>
+                      <RouterLink
+                        style={{ textDecoration: 'none' }}
+                        to={`${PATH_APP.root}/productDetail/${product._id}`}
+                      >
+                        View
+                      </RouterLink>
+                    </Button>
+                  </CardActions>
+                </Card>
+              </Grid>
             );
           })}
-      </div>
+      </Grid>
     </div>
   );
 }

@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Icon } from '@iconify/react';
 import { alpha, useTheme, makeStyles } from '@material-ui/core/styles';
-import { Box, Button, Card, Typography } from '@material-ui/core';
+import { Box, Button, Card, Typography, Grid } from '@material-ui/core';
 import { getImgProduct } from 'src/utils/getImages';
 import { CardContent, Link } from '@material-ui/core';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 278,
     minHeight: 325,
     maxHeight: 325,
-    margin: theme.spacing(2),
+    margin: theme.spacing(1),
   },
   button: {
     marginTop: theme.spacing(-3),
@@ -59,8 +59,9 @@ const useStyles = makeStyles((theme) => ({
   //   }
   // },
   header: {
-    marginBottom: theme.spacing(2),
-    marginLeft: theme.spacing(2)
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   display: {
     display: 'flex',
@@ -143,44 +144,52 @@ function FavoriteProducts({ className, ...other }) {
   
   return (
     <div>
-      <div className={classes.header}>
-        <h1>Your Favorite Products</h1>
-      </div>
-      <div className={classes.display}>
+      <Grid container spacing={2} xs={12} md={12} sx={{ p: 3 }} >
+        <Grid item xs={12} className={classes.header}>
+          <Typography variant='h3'>
+            Your Favorite Products
+          </Typography>
+        </Grid>
+      </Grid>
+      {/* <div className={classes.display}> */}
+      <Grid container spacing={2} xs={12} md={12} sx={{ p: 3 }} >
         {favoriteProducts && favoriteProducts.map((item, index) => {
           if(item.product) {
             return (
-              <Card key={index} className={clsx(classes.root, className)} {...other}>
-                <CardActionArea>
-                  <CardMedia
-                    component="img"
-                    alt="Contemplative Reptile"
-                    height="160"
-                    image={item.product.photos[0]}
-                    title="Contemplative Reptile"
-                  />
-                  <CardContent className={classes.text}>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      {item.product.productName}
-                    </Typography>
-                    <Typography variant="body2" color="textSecondary" component="p">
-                      <WeightAndPrice weightAndPrices={item.product.weightAndPrice} />
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-                <CardActions>
-                  <Button variant="outlined" className={classes.button}>
-                    <RouterLink
-                      style={{ textDecoration: 'none' }}
-                      to={`${PATH_APP.root}/productDetail/${item.product._id}`}
-                    >
-                      Order Again
-                    </RouterLink>
-                  </Button>
-                </CardActions>
-              </Card>
+              <Grid item xs={12} sm={6} md={3}>
+                <Card key={index} className={clsx(classes.root, className)} {...other}>
+                  <CardActionArea>
+                    <CardMedia
+                      component="img"
+                      alt="Contemplative Reptile"
+                      height="160"
+                      image={item.product.photos[0]}
+                      title="Contemplative Reptile"
+                    />
+                    <CardContent className={classes.text}>
+                      <Typography gutterBottom variant="h5" component="h2">
+                        {item.product.productName}
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary" component="p">
+                        <WeightAndPrice weightAndPrices={item.product.weightAndPrice} />
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                  <CardActions>
+                    <Button variant="outlined" className={classes.button}>
+                      <RouterLink
+                        style={{ textDecoration: 'none' }}
+                        to={`${PATH_APP.root}/productDetail/${item.product._id}`}
+                      >
+                        Order Again
+                      </RouterLink>
+                    </Button>
+                  </CardActions>
+                </Card>
+              </Grid>
             )}})}
-      </div>
+      </Grid>
+      {/* </div> */}
     </div>
   );
 }

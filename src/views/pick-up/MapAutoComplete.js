@@ -165,7 +165,7 @@ function MapAutoComplete({ themes, className, dispensaries, center, setCenter, .
               fillColor: theme.palette.error.main,
               fillOpacity: 1.0,
               strokeWeight: 0,
-              scale: 3
+              scale: 2
             }}
             position={{ lat: center.lat, lng: center.lng }}
             onClick={() => {
@@ -192,7 +192,7 @@ function MapAutoComplete({ themes, className, dispensaries, center, setCenter, .
                 fillColor: "#3ec4ff",
                 fillOpacity: 1.0,
                 strokeWeight: 0,
-                scale: 3
+                scale: 2
               }}
               title={dispensary.name}
               position={{ lat: dispensary.location.lat, lng: dispensary.location.lng }}

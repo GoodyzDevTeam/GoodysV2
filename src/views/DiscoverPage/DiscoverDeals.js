@@ -53,10 +53,8 @@ const useStyles = makeStyles((theme) => ({
   header: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'flex-start',
-    marginTop: theme.spacing(5),
-    marginBottom: theme.spacing(2),
-    marginLeft: theme.spacing(2)
+    alignItems: 'center',
+    justifyContent:'space-between'
   },
   headerBtnContainer: {
     marginLeft: 'auto',
@@ -144,12 +142,16 @@ function DiscoverDeals({ className, ...other }) {
 
   return (
     <div>
-      <div className={classes.header}>
-        <h1>Deals</h1>
-        <Button className={classes.HeaderBtn} variant="outlined">
-          View
-        </Button>
-      </div>
+      <Grid container spacing={2} xs={12} md={12} sx={{ p: 3 }} >
+        <Grid item xs={12} className={classes.header}>
+          <Typography variant='h3'>
+            Deals
+          </Typography>
+          <Button className={classes.HeaderBtn} variant="outlined">
+            View
+          </Button>
+        </Grid>
+      </Grid>
       {/* <div className={classes.display}> */}
       <Grid container spacing={2} xs={12} md={12} sx={{ p: 3 }} >
         {deal &&
