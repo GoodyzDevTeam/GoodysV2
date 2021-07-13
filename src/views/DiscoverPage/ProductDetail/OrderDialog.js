@@ -47,7 +47,15 @@ const useStyles = makeStyles((theme) => ({
 		left: `calc(50vw - 150px)`,
 		padding: 3,
 		zIndex: 4,
+		[theme.breakpoints.up('sm')]:{
+			left: `calc(35vw - 130px)`,
+			width: '500px'
+		},
 		[theme.breakpoints.up('md')]:{
+			left: `calc(40vw - 130px)`,
+			width: '500px'
+		},
+		[theme.breakpoints.up('lg')]:{
 			left: `calc(50vw - 130px)`,
 			width: '500px'
 		},
@@ -159,7 +167,11 @@ function OrderDialog({
   return (
 		<>
 			<Box className={classes.mask} onClick={onClose}></Box>
-			<Card className={classes.dialog} style={{ height: step == 1 ? 'auto' : '300px', width: '60%', marginLeft: '-5%' }}>	
+			<Card className={classes.dialog} style={{
+				height: step == 1 ? 'auto' : '300px',
+				position: {xs:'none', md:'relative'},
+				left:{xs:'none', md:'1%'}
+			}}>	
 				<IconButton
 					aria-label="add to favorites"
 					sx={{ position: 'absolute', right: '0px', top: '0px' }}
@@ -172,7 +184,7 @@ function OrderDialog({
 						<Typography sx={{ pt: 2 }}>SELECT AN ORDER TYPE</Typography>
 						<Box
 							sx={{
-								width: '80%',
+								width: {xs:'100%', md:'80%'},
 								m: 3,
 								mb: 0,
 								display: 'flex', flexDirection: 'row',
@@ -200,7 +212,7 @@ function OrderDialog({
 						</Box>
 						<Box
 							sx={{
-								width: '80%',
+								width: {xs:'100%', md:'80%'},
 								m: 3,
 								mb: 0,
 								display: 'flex', flexDirection: 'row',
@@ -242,7 +254,7 @@ function OrderDialog({
 								setOrderTime(`${curTime}:00:00 - ${curTime + 1}:00:00`);
 							}}
 							sx={{
-								width: '80%',
+								width: {xs:'100%', md:'80%'},
 								m: 3,
 								mb: 0,
 								display: 'flex', flexDirection: 'row',
@@ -257,7 +269,7 @@ function OrderDialog({
 						<Typography>or</Typography>
 						<Box
 							sx={{
-								width: '80%',
+								width: {xs:'100%', md:'80%'},
 								m: 3,
 								mb: 0,
 								mt: 0,
