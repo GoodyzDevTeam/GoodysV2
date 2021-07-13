@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getProfile } from 'src/redux/slices/user';
 
 const useStyles = makeStyles((theme) => ({
-  active: {
+    active: {
 		backgroundColor: '#00AB55',
 		color: 'white',
 	},
@@ -206,13 +206,13 @@ function Customer({ step, next, orderCancel }) {
 					<Typography>
 						Upload your drivers license or goverment issued ID
 					</Typography>
-					<Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2, mb: 3 }}>
+					<Box sx={{ display: 'flex', flexDirection:{xs:'column', sm:'column', md:'row'},justifyContent: 'space-between', mt: 2, mb: 3 }}>
 						<Button
 							onClick={(e) => {
 								e.preventDefault();
 								setOpen(true)
 							}}
-							sx={{ width: '45%', border: 'solid 2px #b9b7b7', height: '50px', justifyContent: 'left' }}
+							sx={{ width:{ xs:'100%', md:'45%'}, border: 'solid 2px #b9b7b7', height: '50px', justifyContent: 'left' }}
 						>
 							<CameraIcon sx={{ width: '40px', height: '40px' }}/>
 							<Typography sx={{ width: 'calc(100% - 80px)' }}>Camera</Typography>
@@ -220,7 +220,7 @@ function Customer({ step, next, orderCancel }) {
 						
 						<Button
 							component="label"
-							sx={{ width: '45%', border: 'solid 2px #b9b7b7', height: '50px', justifyContent: 'left' }}
+							sx={{ width:{ xs:'100%', md:'45%'}, border: 'solid 2px #b9b7b7', height: '50px', justifyContent: 'left' }}
 						>
 							<UploadIcon sx={{ width: '40px', height: '40px' }}/>
 							<Typography sx={{ width: 'calc(100% - 80px)', textAlign: 'center' }}>Upload</Typography>

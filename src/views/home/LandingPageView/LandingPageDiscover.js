@@ -16,17 +16,10 @@ import { Button, Box, Grid, Container, Typography } from '@material-ui/core';
 // ----------------------------------------------------------------------
 
 const useStyles = makeStyles((theme) => {
-  // const isRTL = theme.direction === 'rtl';
   return {
     root: {
       // backgroundColor: 'green',
       paddingTop: theme.spacing(15),
-      // backgroundImage:
-      //   theme.palette.mode === 'light'
-      //     ? `linear-gradient(180deg, ${alpha(theme.palette.grey[300], 0)} 0%, ${
-      //         theme.palette.grey[300]
-      //       } 100%)`
-      //     : 'none'
     },
     container:{
       display: 'flex',
@@ -50,8 +43,7 @@ const useStyles = makeStyles((theme) => {
       //   alignItems: 'flex-start',
       //   justifyContent: 'center',
       //   paddingRight: theme.spacing(5)
-      },
-    // },
+    },
     screen: {
       bottom: 0,
       maxWidth: 460,
@@ -62,23 +54,23 @@ const useStyles = makeStyles((theme) => {
     screenCenter: {
       position: 'relative',
       zIndex: 2,
-      bottom: 20,
-      // transform: isRTL ? 'translateX(-24%)' : 'translateX(24%)',
-      // [theme.breakpoints.up('sm')]: {
-      //   bottom: 40,
-      //   transform: isRTL ? 'translateX(-32%)' : 'translateX(32%)'
-      // }
+      bottom: 20
     },
     lazyload: {
       // marginLeft: theme.spacing(3),
-      marginTop: theme.spacing(-4),
-      ['@media (min-width:768px) and (max-width: 780px)']: {
-        marginLeft: theme.spacing(-5)
-      },
-      [theme.breakpoints.up('md')]: {
-        marginLeft: theme.spacing(0),
-        marginTop: theme.spacing(0)
-      }
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      // backgroundColor: 'red',
+      width: '100%',
+      // marginTop: theme.spacing(-4),
+      // ['@media (min-width:768px) and (max-width: 780px)']: {
+      //   marginLeft: theme.spacing(-5)
+      // },
+      // [theme.breakpoints.up('md')]: {
+      //   marginLeft: theme.spacing(0),
+      //   marginTop: theme.spacing(0)
+      // }
     },
     img: {
       borderRadius: theme.spacing(2)
@@ -134,8 +126,7 @@ function LandingPageDiscover({ className }) {
   return (
     <div className={clsx(classes.root, className)}>
       <Container maxWidth="lg">
-        <Grid container alignItems="center"
- className={classes.container} spacing={10}>
+        <Grid container spacing={2} alignItems="center" className={classes.container} spacing={10}>
           <Grid item xs={12} md={4} lg={6} xl={5}>
             <div className={classes.content}>
               <MotionInView variants={textAnimate}>
@@ -167,16 +158,11 @@ function LandingPageDiscover({ className }) {
           </Grid>
 
           <Grid
-            // dir="ltr"
             item
             xs={12}
             md={8}
             lg={6}
             xl={7}
-            // sx={{
-            //   position: 'relative',
-            //   pl: { sm: '16% !important', md: '0 !important' }
-            // }}
             className={classes.lazyload}
           >
             <Box
@@ -184,7 +170,7 @@ function LandingPageDiscover({ className }) {
               alt="friends enjoying cannabis"
               src="https://weedmaps.com/learn/wp-content/uploads/2020/07/181008_OutdoorSesh064-1.jpg"
               variants={varFadeInUp}
-              sx={{ width: { xs: '80%', sm: '100%' } }}
+              sx={{ width: { xs: '100%', sm: '100%' } }}
               className={classes.img}
             />
           </Grid>

@@ -54,8 +54,8 @@ function Items({ step, next, product, dispensary, quantity, setQuantity }) {
 					flexDirection: 'row',
 					alignItems: 'center',
 					border: 'solid thin #637381',
-					borderRadius: '12px',
-					width: '100px',
+					borderRadius: {xs:'8px', md:'12px'},
+					width: {xs:'90px', md:'100px'},
 					justifyContent: 'center',
 					p: 1
 				}}
@@ -98,7 +98,7 @@ function Items({ step, next, product, dispensary, quantity, setQuantity }) {
 	}
 	
   return (
-		<Card sx={{ p: 3, mt: 5, zIndex: 10 }}>
+		<Card sx={{display:'flex', flexDirection:'column', alignItems:'center', p: 0, mt: 5, zIndex: 10 }}>
 			<Typography>
 				Items	
 			</Typography>
@@ -131,7 +131,7 @@ function Items({ step, next, product, dispensary, quantity, setQuantity }) {
 					{product.weightAndPrice.map((item, index) => {
 						if (item) return (
 							<TableRow key={index}>
-								<TableCell>{item.weight}</TableCell>
+								<TableCell sx={{ overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>{item.weight}</TableCell>
 								<TableCell>{item.price}</TableCell>
 								<TableCell sx={{ display: 'flex', justifyContent: 'center' }}>
 									<QuantityAndPrice idx={index} />
@@ -141,9 +141,15 @@ function Items({ step, next, product, dispensary, quantity, setQuantity }) {
 					})}
 				</TableBody>
 			</Table>
-
-			<Button onClick={() => next(step + 1)} sx={{ float: 'right' }}>Save & Next</Button>
-			<Button onClick={() => next(step - 1)} sx={{ float: 'left' }}>Back</Button>
+			<Box sx={{
+				display:{xs:'flex', md: 'none'},
+				justifyContent:{xs:'space-between',
+				md:'default'},
+				width:{xs:'100%', md:'default'}
+			}}>
+				<Button onClick={() => next(step - 1)} sx={{ float: { md: 'left'} }}>Back</Button>
+				<Button onClick={() => next(step + 1)} sx={{ float: { md: 'right'} }}>Save & Next</Button>
+			</Box>
 		</Card>
 	)
 }

@@ -19,11 +19,19 @@ import { PATH_APP } from 'src/routes/paths';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    minWidth: 278,
-    maxWidth: 278,
+    // minWidth: 300,
+    maxWidth: 300,
+    // minWidth: 278,
+    // maxWidth: 278,
     minHeight: 325,
     maxHeight: 325,
-    margin: theme.spacing(1),
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    // margin: theme.spacing(1),
+    ['@media (min-width: 1920px)']: {
+      maxWidth: 350,
+      maxHeight: 350
+    },
   },
   button: {
     // marginTop: theme.spacing(-3),

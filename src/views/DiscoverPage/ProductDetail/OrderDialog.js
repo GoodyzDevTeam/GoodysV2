@@ -159,7 +159,7 @@ function OrderDialog({
   return (
 		<>
 			<Box className={classes.mask} onClick={onClose}></Box>
-			<Card className={classes.dialog} style={{ height: step == 1 ? 'auto' : '300px' }}>	
+			<Card className={classes.dialog} style={{ height: step == 1 ? 'auto' : '300px', width: '60%', marginLeft: '-5%' }}>	
 				<IconButton
 					aria-label="add to favorites"
 					sx={{ position: 'absolute', right: '0px', top: '0px' }}

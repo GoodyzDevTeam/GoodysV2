@@ -73,7 +73,26 @@ const useStyles = makeStyles((theme) => ({
     // marginLeft: theme.spacing(2)
   },
   HeaderBtn: {
-    marginLeft: theme.spacing(2)
+    marginLeft: 'auto',
+    marginRight: theme.spacing(1),
+    //tablet
+    ['@media (min-width: 650px) and (max-width: 1175px)']: {
+      marginRight: theme.spacing(0),
+      marginLeft: theme.spacing(3),
+      width: theme.spacing(10)
+    },
+    //desktop
+    ['@media (min-width: 1024px)']: {
+      marginRight: theme.spacing(0),
+      marginLeft: theme.spacing(3),
+      width: theme.spacing(15)
+    },
+    //large desktop
+    ['@media (min-width: 1524px)']: {
+      marginRight: theme.spacing(0),
+      marginLeft: theme.spacing(3),
+      width: theme.spacing(20)
+    }
   },
   display: {
     display: 'flex',

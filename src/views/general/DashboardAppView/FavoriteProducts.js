@@ -19,11 +19,15 @@ import { getFavoriteProducts } from 'src/redux/slices/product';
 // ----------------------------------------------------------------------
 const useStyles = makeStyles((theme) => ({
   root: {
-    minWidth: 278,
+    // minWidth: 278,
     maxWidth: 278,
     minHeight: 325,
     maxHeight: 325,
     margin: theme.spacing(1),
+    ['@media (min-width: 1920px)']: {
+      maxWidth: 350,
+      maxHeight: 350
+    },
   },
   button: {
     marginTop: theme.spacing(-3),
@@ -128,11 +132,21 @@ const WeightAndPrice = ({ weightAndPrices }) => {
   );
 };
 
+function noProducts (props) {
+  return (
+    <Grid item xs={12} sx={{backgroundColor: 'red'}}>
+      <Card>
+        Add something
+      </Card>
+    </Grid>
+  )
+}
+
 FavoriteProducts.propTypes = {
   className: PropTypes.string
 };
 
-function FavoriteProducts({ className, ...other }) {
+function FavoriteProducts(props,{ className, ...other }) {
   const classes = useStyles();
   const theme = useTheme();
   const dispatch = useDispatch();
@@ -151,7 +165,6 @@ function FavoriteProducts({ className, ...other }) {
           </Typography>
         </Grid>
       </Grid>
-      {/* <div className={classes.display}> */}
       <Grid container spacing={2} xs={12} md={12} sx={{ p: 3 }} >
         {favoriteProducts && favoriteProducts.map((item, index) => {
           if(item.product) {
@@ -187,9 +200,12 @@ function FavoriteProducts({ className, ...other }) {
                   </CardActions>
                 </Card>
               </Grid>
-            )}})}
+            )}
+            // else if(!item.product){
+            //   return <noProducts key={index} className={clsx(classes.root, className)} {...other}/>
+            // }
+            })}
       </Grid>
-      {/* </div> */}
     </div>
   );
 }

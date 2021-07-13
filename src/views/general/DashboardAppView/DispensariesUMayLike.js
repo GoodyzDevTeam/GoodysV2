@@ -28,10 +28,14 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: 'auto',
     marginRight: 'auto',
     height: '100%',
-    minWidth: 300,
+    // minWidth: 300,
     maxWidth: 300,
-    minHeight: 450,
-    maxHeight: 450
+    // minHeight: 450,
+    maxHeight: 450,
+    ['@media (min-width: 1920px)']: {
+      maxWidth: 350,
+      maxHeight: 440
+    },  
   },
   titleText: {
     overflow: 'hidden',
@@ -186,7 +190,7 @@ function DispensariesUMayLike({ className, ...other }) {
         {dispensaries && favoriteDispensaries &&
           dispensaries.map(
             (dispensary, index) => (
-              <Grid item>
+              <Grid item xs={12} sm={6} md={3}>
                 <Card key={index} className={classes.root}>
                   <CardHeader
                     avatar={
