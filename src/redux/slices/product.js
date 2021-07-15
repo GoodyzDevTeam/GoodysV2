@@ -108,7 +108,8 @@ const slice = createSlice({
     },
 
     addCart(state, action) {
-      const product = action.payload;
+      const product = action.payload.addingProduct;
+      const dispensary = action.payload.dispensary;
       const isEmptyCart = state.checkout.cart.length === 0;
 
       if (isEmptyCart) {
@@ -121,6 +122,7 @@ const slice = createSlice({
             product.quantity.map((q, idx) => {
               temp.quantity[idx] += q;
             });
+            temp.dispensary = JSON.parse(JSON.stringify(dispensary));
             return temp;
           }
           return _product;

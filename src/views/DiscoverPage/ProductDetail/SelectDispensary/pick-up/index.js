@@ -46,7 +46,7 @@ const compareDistance = (center) => (d1, d2) => {
   else return -1;
 };
 
-function Index({ className = 'dashboard' }) {
+function PickUp({ className = 'dashboard', product, onConfirm }) {
   const classes = useStyles();
   const [location, setLocation] = useState(useLocation()); //GRAB USE LOCATION OBJECT REACT-ROUTER
   const [isOpen, setOpen] = useState(false);
@@ -58,18 +58,21 @@ function Index({ className = 'dashboard' }) {
   useEffect(() => {
     if (dispensaries && center) {
       const temp = JSON.parse(JSON.stringify(dispensaries));
-      console.log(temp.sort(compareDistance(center)).map((dispensary, index) => {
+      console.log(temp.sort(compareDistance(center)).map((_dispensary, index) => {
         return {
-          ...dispensary,
-          distance: getDistance(center, dispensary.location)
+          ..._dispensary,
+          distance: getDistance(center, _dispensary.location)
         }
       }));
-      setDispensaries(temp.sort(compareDistance(center)).map((dispensary, index) => {
-        return {
-          ...dispensary,
-          distance: getDistance(center, dispensary.location)
+      setDispensaries(temp.sort(compareDistance(center))
+        .filter((_dispensary) => _dispensary.products.some((p) => p._id == product._id))
+        .map((_dispensary, index) => {
+          return {
+            ..._dispensary,
+            distance: getDistance(center, _dispensary.location)
+          }
         }
-      }));
+      ));
     }
   }, [dispensaries, center]);
 
@@ -87,12 +90,23 @@ function Index({ className = 'dashboard' }) {
 
   return (
     <div className={classes.container}>
+      <DispensaryPickup
+        product={product}
+        onConfirm={onConfirm}
+        dispensaries={sortedDispensaries}
+      />
       <Card>
-        <GoogleMaps dispensaries={sortedDispensaries} center={center} setCenter={setCenter}/>
+        <GoogleMaps
+          product={product}
+          dispensaries={sortedDispensaries}
+          product={product}
+          center={center}
+          setCenter={setCenter}
+          onConfirm={onConfirm}
+        />
       </Card>
-      <DispensaryPickup dispensaries={sortedDispensaries}/>
     </div>
   );
 }
 
-export default Index;
+export default PickUp;

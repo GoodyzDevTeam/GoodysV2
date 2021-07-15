@@ -5,6 +5,11 @@ import { GoogleMap, Autocomplete, Marker, InfoWindow } from '@react-google-maps/
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { Card, Grid, Button, CardHeader, Avatar, Typography, Rating, OutlinedInput, CardMedia } from '@material-ui/core';
 import StarBorderOutlined from '@material-ui/icons/StarBorderOutlined';
+import { useDispatch } from 'react-redux';
+import { addCart } from 'src/redux/slices/product';
+import Box from '@material-ui/core/Box';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 import { Link as RouterLink } from 'react-router-dom';
 import { PATH_APP } from 'src/routes/paths';
 import { isOptionalCallExpression } from '@babel/types';
@@ -33,12 +38,13 @@ const useStyles = makeStyles((theme) => ({
       borderWidth: `1px !important`,
       borderColor: `${theme.palette.grey[500_32]} !important`
     }
-  }
+  },
 }));
 
 // ----------------------------------------------------------------------
 
-const InfoWindowChild = ({ dispensary, center }) => {
+const InfoWindowChild = ({ dispensary, onConfirm }) => {
+
   return (
     <Card sx={{ display: 'flex', flexDirection: 'column', boxShadow: 'none', minHeight: '250px', width: '200px' }}>
       <CardMedia
@@ -76,13 +82,11 @@ const InfoWindowChild = ({ dispensary, center }) => {
           <Typography sx={{ pl: 3 }}>{dispensary.distance}km</Typography>
         </Grid>
         
-        <Button variant="outlined" sx={{ width: '80px', mt: 1, mb: 1 }}>
-          <RouterLink 
-            style={{ textDecoration: 'none' }}
-            to={`${PATH_APP.root}/dispensaryDetail/${dispensary._id}`}
-          >
-            Visit
-          </RouterLink>
+        <Button
+          onClick={() => onConfirm(dispensary)}
+          variant="outlined" sx={{ width: '80px', mt: 1, mb: 1 }}
+        >
+          Select
         </Button>
       </Grid>
     </Card>
@@ -93,11 +97,13 @@ MapAutoComplete.propTypes = {
   themes: PropTypes.object,
   className: PropTypes.string,
   dispensaries: PropTypes.array,
+  product: PropTypes.any,
   center: PropTypes.any,
   setCenter: PropTypes.func,
+  onConfirm: PropTypes.func,
 };
 
-function MapAutoComplete({ themes, className, dispensaries, center, setCenter, ...other }) {
+function MapAutoComplete({ themes, className, dispensaries, product, onConfirm, center, setCenter, ...other }) {
   const classes = useStyles();
   const [autocomplete, setAutocomplete] = useState(null);
   const theme = useTheme();
@@ -206,7 +212,10 @@ function MapAutoComplete({ themes, className, dispensaries, center, setCenter, .
                   onCloseClick={() => {setOpenInfo(index, false)}}
                 >
                   <div>
-                    <InfoWindowChild dispensary={dispensary} center={center}/>
+                    <InfoWindowChild
+                      dispensary={dispensary}
+                      onConfirm={onConfirm}
+                    />
                   </div>
                 </InfoWindow>
               )}

@@ -97,11 +97,15 @@ const MapAutoComplete = lazy(() => import('./MapAutoComplete'));
 
 GoogleMaps.propTypes = {
   dispensaries: PropTypes.array,
+  product: PropTypes.any,
   center: PropTypes.any,
   setCenter: PropTypes.func,
+  quantity: PropTypes.any,
+  onConfirm: PropTypes.func,
+  onCancel: PropTypes.func,
 };
 
-function GoogleMaps({ dispensaries, center, setCenter }) {
+function GoogleMaps({ dispensaries, product, center, setCenter, quantity, onConfirm, onCancel }) {
   const classes = useStyles();
   const [location, setLocation] = useState(useLocation()); //GRAB USE LOCATION OBJECT REACT-ROUTER
 
@@ -116,8 +120,10 @@ function GoogleMaps({ dispensaries, center, setCenter }) {
                 themes={MAP_THEMES}
                 className={classes.map}
                 dispensaries={dispensaries}
+                product={product}
                 center={center}
                 setCenter={setCenter}
+                onConfirm={onConfirm}
               />
             </Grid>
           </Grid>

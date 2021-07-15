@@ -203,8 +203,10 @@ export default function ProductPreview() {
     addingProduct.weightAndPrice.map((wp, idx) => {
       if (wp) addingProduct.quantity[idx] = quantity[idx];
     });
-    setSelectDispensary(true);
-    // await dispatch(addCart(addingProduct));
+    
+    if (dispensary)
+      await dispatch(addCart({ addingProduct, dispensary }));
+    else setSelectDispensary(true);
   };
 
 	return (
@@ -227,8 +229,8 @@ export default function ProductPreview() {
         <SelectDispensary
           isOpen={isSelectDispensary}
           onClose={handleSelectDispensaryClose}
-          dispensary={dispensary}
           product={product}
+          quantity={quantity}
           quantity={quantity}
         />
       )}

@@ -1,13 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
-import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import ShopIcon from '@material-ui/icons/ShopTwoOutlined';
 import CloseIcon from '@material-ui/icons/Close';
 import { Button, Card, Typography, IconButton, TextField } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
@@ -17,6 +9,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { PATH_APP } from 'src/routes/paths';
 import { SettingsRemoteRounded } from '@material-ui/icons';
 import PickUp from './pick-up/index';
+import ConfirmDialog from './pick-up/ConfirmDialog';
 
 const useStyles = makeStyles((theme) => ({
   active: {
@@ -74,7 +67,6 @@ const activeClassName = (time, orderTime) => {
 SelectDispensary.propTypes = {
 	isOpen: PropTypes.bool,
 	onClose: PropTypes.func,
-	dispensary: PropTypes.any,
 	product: PropTypes.any,
 	quantity: PropTypes.any,
 };
@@ -82,26 +74,37 @@ SelectDispensary.propTypes = {
 function SelectDispensary({
 	isOpen,
 	onClose,
-	dispensary,
 	product,
 	quantity
 }) {
 	const classes = useStyles();
+	const [dispensary, setDispensary] = useState({});
+	const [isConfirmDialog, setConfirmDialog] = useState(false);
 
 	const handleScrollList = (event) => {
 		// console.log(event);
 	};
 
-	const handleConfirm = (event) => {
-		onClose();
-	}
+  const onConfirmDialogShow = (_dispensary) => {
+		setDispensary(_dispensary);
+    setConfirmDialog(true);
+  };
 
-	const isExist = !dispensary
-		? false
-		: dispensary.products.some((p) => p._id == product._id);
-	console.log(dispensary, isExist);
+  const onCloseConfirmDialg = (event) => {
+    setConfirmDialog(false);
+	};
+
   return (
 		<>
+			{isConfirmDialog &&
+				<ConfirmDialog
+					product={product}
+					quantity={quantity}
+					dispensary={dispensary}
+					onAdded={onClose}
+					onClose={onCloseConfirmDialg}
+				/>
+			}
 			<Box className={classes.mask} onClick={onClose}></Box>
 			<Card className={classes.dialog}>	
 				<IconButton
@@ -111,16 +114,14 @@ function SelectDispensary({
 				>
 					<CloseIcon />
 				</IconButton>
-				{isExist && (
-					<Typography variant="h5" sx={{ display: 'flex', mt: 3 }}>
-						You want it from
-						<Typography variant="h5" sx={{ color: '#42966b', ml: 1, mr: 1 }}>{dispensary.name}</Typography>?
-					</Typography>
-				)}
 				<Typography variant="h5" sx={{ color: '#42966b', ml: 1, mr: 1 }}>
-					Select one near you.
+					You should select one dispensary to buy this product.
 				</Typography>
-				<PickUp className="container" />
+				<PickUp
+					product={product}
+					className="container"
+					onConfirm={onConfirmDialogShow}
+				/>
 			</Card>
 		</>
   );
