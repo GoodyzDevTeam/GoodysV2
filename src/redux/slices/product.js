@@ -115,22 +115,23 @@ const slice = createSlice({
         state.checkout.cart = [...state.checkout.cart, product];
       } else {
         state.checkout.cart = map(state.checkout.cart, (_product) => {
-          const isExisted = _product.id === product.id;
+          const isExisted = _product._id === product._id;
           if (isExisted) {
-            return {
-              ..._product,
-              quantity: _product.quantity + 1
-            };
+            let temp = JSON.parse(JSON.stringify(_product));
+            product.quantity.map((q, idx) => {
+              temp.quantity[idx] += q;
+            });
+            return temp;
           }
           return _product;
         });
       }
-      state.checkout.cart = uniqBy([...state.checkout.cart, product], 'id');
+      state.checkout.cart = uniqBy([...state.checkout.cart, product], '_id');
     },
 
     deleteCart(state, action) {
       const updateCart = filter(state.checkout.cart, (item) => {
-        return item.id !== action.payload;
+        return item._id !== action.payload._id;
       });
 
       state.checkout.cart = updateCart;
@@ -157,6 +158,20 @@ const slice = createSlice({
     onGotoStep(state, action) {
       const goToStep = action.payload;
       state.checkout.activeStep = goToStep;
+    },
+
+    updateQuantity(state, action) {
+      const updateCart = map(state.checkout.cart, (product) => {
+        if (product._id === action.payload.product._id) {
+          return {
+            ...action.payload.product,
+            quantity: action.payload.quantity,
+          };
+        }
+        return product;
+      });
+
+      state.checkout.cart = updateCart;
     },
 
     increaseQuantity(state, action) {
@@ -223,6 +238,7 @@ export const {
   createBilling,
   applyShipping,
   applyDiscount,
+  updateQuantity,
   increaseQuantity,
   decreaseQuantity,
   sortByProducts,

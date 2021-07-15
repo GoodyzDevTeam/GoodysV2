@@ -30,10 +30,11 @@ import Page from 'src/components/Page';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getCategory, getProduct, toggleFavoriteProduct } from 'src/redux/slices/product';
+import { getCategory, getProduct, toggleFavoriteProduct, addCart } from 'src/redux/slices/product';
 import ProductPhoto from './ProductPhoto';
 import { PATH_APP, PATH_DISCOVER } from 'src/routes/paths';
 import OrderDialog from './OrderDialog';
+import SelectDispensary from './SelectDispensary/index';
 import Checkout from './CheckoutView';
 
 // routes
@@ -96,12 +97,13 @@ const dateFormat = (date) => {
 export default function ProductPreview() {
 	const classes = useStyles();
   const dispatch = useDispatch();
-  const { product, category, favoriteProducts } = useSelector((state) => state.product);
+  const { product, category, favoriteProducts, checkout } = useSelector((state) => state.product);
   const { dispensary } = useSelector((state) => state.dispensary);
   const { productId } = useParams();
   const [quantity, setQuantity] = useState([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]);
   const [isOrderShow, setOrderShow] = useState(false);
   const [isOrderDialog, setOrderDialog] = useState(false);
+  const [isSelectDispensary, setSelectDispensary] = useState(false);
   const [orderType, setOrderType] = useState('');
 	const [orderTime, setOrderTime] = useState('');
 	const today = dateFormat(`${(new Date()).getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`);
@@ -185,11 +187,25 @@ export default function ProductPreview() {
 				</QuantityButton>
       </Grid>
 		);
-  }
+  };
   
   const handleOrderDialogClose = (event) => {
     setOrderDialog(false);
-  }
+  };
+
+  const handleSelectDispensaryClose = (event) => {
+    setSelectDispensary(false);
+  };
+
+  const addToCart = async () => {
+    let addingProduct = JSON.parse(JSON.stringify(product));
+    addingProduct.quantity=[];
+    addingProduct.weightAndPrice.map((wp, idx) => {
+      if (wp) addingProduct.quantity[idx] = quantity[idx];
+    });
+    setSelectDispensary(true);
+    // await dispatch(addCart(addingProduct));
+  };
 
 	return (
     <>
@@ -206,6 +222,16 @@ export default function ProductPreview() {
           setOrderType={setOrderType}
         />
       )}
+
+      {isSelectDispensary && (
+        <SelectDispensary
+          isOpen={isSelectDispensary}
+          onClose={handleSelectDispensaryClose}
+          dispensary={dispensary}
+          product={product}
+          quantity={quantity}
+        />
+      )}
       
       <Container maxWidth="xl">
         <Grid sx={{ flexDirection: 'row', justifyContent: 'space-between', m: 3, p: 3 }}>
@@ -213,7 +239,7 @@ export default function ProductPreview() {
             {product && product.productName}
           </Typography>
           <ul>
-          {dispensary && <li>
+            {dispensary && <li>
               <MBreadcrumbs
                 sx={{ fontSize: '20px', mb: 3 }}
                 links={[
@@ -301,7 +327,12 @@ export default function ProductPreview() {
                     </Table>
                   </Grid>
                   <Grid sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', mt: 2 }}>
-                    <Button sx={{ width: '120px', backgroundColor: '#00ab55', color: 'white' }} >Add To Cart</Button>
+                    <Button
+                      onClick={addToCart}
+                      sx={{ width: '120px', backgroundColor: '#00ab55', color: 'white' }}
+                    >
+                      Add To Cart
+                    </Button>
                     <Button
                       onClick={() => {
                         if (calcPrice() > 0) setOrderDialog(true);

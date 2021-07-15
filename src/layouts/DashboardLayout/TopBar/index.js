@@ -7,6 +7,7 @@ import Languages from './Languages';
 import { Icon } from '@iconify/react';
 import Notifications from './Notifications';
 import Settings from 'src/layouts/Common/Settings';
+import Cart from './Cart';
 import menu2Fill from '@iconify-icons/eva/menu-2-fill';
 import { alpha, makeStyles } from '@material-ui/core/styles';
 import { Box, AppBar, Hidden, Toolbar, IconButton } from '@material-ui/core';
@@ -81,6 +82,7 @@ function TopBar({ onOpenNav, className }) {
           <Languages />
           <Notifications />
           <Settings />
+          <Cart />
           <Account />
         </Box>
       </Toolbar>
