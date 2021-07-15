@@ -83,7 +83,6 @@ function UserListView() {
             <CardMedia
               className={classes.cover}
               image={mainImage}
-              title="Live from space album cover"
             />
           </Card>
         ))}

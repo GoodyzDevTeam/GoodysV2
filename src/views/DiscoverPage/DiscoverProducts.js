@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTheme, makeStyles } from '@material-ui/core/styles';
-import { Box, Card, Typography } from '@material-ui/core';
+import { Box, Card, Typography, Grid } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
 import { getImgProduct } from 'src/utils/getImages';
 import CardContent from '@material-ui/core/CardContent';
@@ -19,30 +19,31 @@ const useStyles = makeStyles((theme) => ({
   root: {
     // display: 'flex',
     // flexDirection: 'row',
-    margin: theme.spacing(1),
-    width: theme.spacing(50),
+    // margin: theme.spacing(1),
+    width: '100%',
+    // marginLeft: theme.spacing(1),
     height: theme.spacing(20),
     cursor: 'pointer',
     //tablet
-    ['@media (min-width: 650px) and (max-width: 1023px)']: {
-      width: theme.spacing(20),
-      height: theme.spacing(20)
-    },
+    // ['@media (min-width: 650px) and (max-width: 1023px)']: {
+    //   width: theme.spacing(20),
+    //   height: theme.spacing(20)
+    // },
     //desktop
-    ['@media (min-width: 1024px)']: {
-      width: theme.spacing(20),
-      height: theme.spacing(20)
-    },
+    // ['@media (min-width: 1024px)']: {
+    //   width: theme.spacing(20),
+    //   height: theme.spacing(20)
+    // },
     //large desktop
-    ['@media (min-width: 1524px)']: {
-      width: theme.spacing(30),
-      height: theme.spacing(30)
-    }
+    // ['@media (min-width: 1524px)']: {
+    //   width: theme.spacing(30),
+    //   height: theme.spacing(30)
+    // }
   },
   header: {
-    marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(2),
-    marginLeft: theme.spacing(2)
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   display: {
     display: 'flex',
@@ -106,48 +107,57 @@ function DiscoverProducts({ className, ...other }) {
 
   return (
     <div>
-      <div className={classes.header}>
-        <h1>Browse By Category</h1>
-      </div>
-      <div className={classes.display}>
+      <Grid container spacing={2} xs={12} md={12} sx={{ p: 3 }} >
+        <Grid item xs={12} className={classes.header}>
+          <Typography variant='h3'>
+            Browse By Category
+          </Typography>
+        </Grid>
+      </Grid>
+      {/* <div className={classes.display}> */}
+      <Grid container spacing={1} xs={12} md={12} >
         {categories &&
           categories.map((category, index) => (
-            <RouterLink key={index} to={`discover/${category._id}`}>
-              <Card className={clsx(classes.root, className)} {...other}>
-                <Box sx={{ flexGrow: 1 }}>
-                  <Box
-                    sx={{
-                      top: 0,
-                      width: '100%',
-                      height: '100%',
-                      position: 'absolute',
-                      bgcolor: (theme) => alpha(theme.palette.grey[900], 0.12)
-                    }}
-                  />
-                  <Box
-                    component="img"
-                    alt={category.name}
-                    src={category.mainImage}
-                    className={classes.img}
-                  />
-                  <CardContent
-                    sx={{
-                      bottom: 30,
-                      width: '100%',
-                      textAlign: 'center',
-                      position: 'absolute',
-                      color: 'common.white'
-                    }}
-                  >
-                    <Typography variant="h5" gutterBottom noWrap>
-                      {category.name}
-                    </Typography>
-                  </CardContent>
-                </Box>
-              </Card>
-            </RouterLink>            
+            <Grid item xs={12} sm={6} md={3}>
+              <RouterLink key={index} to={`discover/${category._id}`}>
+                <Card className={clsx(classes.root, className)} {...other}>
+                  <Box sx={{ flexGrow: 1 }}>
+                    <Box
+                      sx={{
+                        top: 0,
+                        width: '100%',
+                        height: '100%',
+                        position: 'absolute',
+                        bgcolor: (theme) => alpha(theme.palette.grey[900], 0.12)
+                      }}
+                    />
+                    <Box
+                      component="img"
+                      alt={category.name}
+                      src={category.mainImage}
+                      className={classes.img}
+                    />
+                    <CardContent
+                      sx={{
+                        bottom: 30,
+                        width: '100%',
+                        textAlign: 'center',
+                        position: 'absolute',
+                        color: 'common.white'
+                      }}
+                    >
+                      <Typography variant="h5" gutterBottom noWrap>
+                        {category.name}
+                      </Typography>
+                    </CardContent>
+                  </Box>
+                </Card>
+              </RouterLink>
+            </Grid>          
           ))}
-      </div>
+        </Grid>
+
+      {/* </div> */}
     </div>
   );
 }

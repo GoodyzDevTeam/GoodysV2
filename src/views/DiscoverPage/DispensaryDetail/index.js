@@ -159,9 +159,9 @@ export default function ProductPreview() {
 						{dispensary.name}
 					</Typography>
 					<MBreadcrumbs
-						sx={{ fontSize: '20px', mb: 3 }}
+						sx={{ fontSize: '20px', m: 1 }}
 						links={[
-							{ name: 'Dashboard', href: `${PATH_APP.general.root}` },
+							{ name: 'Home', href: `${PATH_APP.general.root}` },
 							{ name: 'Discover', href: `${PATH_APP.general.discover}` },
 							{ name: `${dispensary.name}`, href: '#' }
 						]}

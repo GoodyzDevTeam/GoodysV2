@@ -250,7 +250,7 @@ export default function ProductPreview() {
                 ]}
               />
             </li>}
-            <li>
+            {/* <li>
               <MBreadcrumbs
                 sx={{ fontSize: '20px', mb: 3 }}
                 links={[
@@ -260,7 +260,7 @@ export default function ProductPreview() {
                   { name: `${product && product.productName}`, href: '#' }
                 ]}
               />
-            </li>
+            </li> */}
           </ul>
         </Grid>
         {product && category && !isOrderShow && (
@@ -280,7 +280,7 @@ export default function ProductPreview() {
                     <StyledRating
                       defaultValue={4.8}
                       getLabelText={(value) => `${value} Heart${value !== 1 ? 's' : ''}`}
-                      icon={<StarBorderOutlined fontSize="inherit" />}
+                      icon={<StarBorderOutlined fontSize="large" />}
                       className={classes.rating}
                       disabled
                       size='medium'
@@ -292,8 +292,8 @@ export default function ProductPreview() {
                       <FavoriteIcon
                         sx={
                           checkIfFavorite(product._id)
-                          ? { color: 'red', width: '50px', height: '50px' }
-                          : { color: 'gray', width: '50px', height: '50px' }
+                          ? { color: 'red', width: '28px', height: '28px' }
+                          : { color: 'gray', width: '28px', height: '28px' }
                         }
                       />
                     </IconButton>
@@ -364,7 +364,7 @@ export default function ProductPreview() {
                 </Grid>
                 <Grid sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'left', p: 1 }}>
                   <Typography sx={{ width: '100px', textAlign: 'left' }}>THC Level:</Typography>
-                  <Typography>{product.thcLevel}</Typography>
+                  <Typography>{product.thcLevel}%</Typography>
                 </Grid>
               </Card>
             </Card>

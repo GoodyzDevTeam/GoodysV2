@@ -169,10 +169,10 @@ function LoginView() {
 
           {method === 'firebase' && <SocialLogin />}
 
-          <Alert severity="info" sx={{ mb: 5 }}>
+          {/* <Alert severity="info" sx={{ mb: 5 }}>
             Use email : <strong>demo@minimals.cc</strong> / password :
             <strong>&nbsp;demo1234</strong>
-          </Alert>
+          </Alert> */}
 
           <LoginForm formik={formik} />
 

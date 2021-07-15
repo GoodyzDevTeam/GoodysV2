@@ -105,16 +105,18 @@ function UserItem({ user, className }) {
     following
   } = user;
 
+  const img='https://images.weedmaps.com/products/000/094/852/avatar/original/1552346633-Copy_of_Connected_Indoor_-_Gelonade.png?w=300&h=300&dpr=1&auto=format&fit=crop&fill=solid'
+
   return (
     <Card className={clsx(classes.root, className)}>
       <div className={classes.cardMediaWrap}>
-        <MIcon
+        {/* <MIcon
           size={144}
           color="paper"
           src="/static/icons/shape-avatar.svg"
           className={classes.avatarShape}
-        />
-        <Avatar
+        /> */}
+        {/* <Avatar
           alt={name}
           src={avatarUrl}
           sx={{
@@ -124,11 +126,11 @@ function UserItem({ user, className }) {
             position: 'absolute',
             transform: 'translateY(-50%)'
           }}
-        />
+        /> */}
         <LazySize
           alt="cover"
-          src={cover.small}
-          size={`${cover.small} 600w, ${cover.medium} 960w`}
+          src={img}
+          size={`${img} 600w, ${img} 960w`}
           sx={{
             top: 0,
             zIndex: 8,
@@ -140,23 +142,23 @@ function UserItem({ user, className }) {
       </div>
 
       <Typography variant="subtitle1" align="center" sx={{ mt: 6 }}>
-        {name}
+        Product Name
       </Typography>
       <Typography
         variant="body2"
         align="center"
         sx={{ color: 'text.secondary' }}
       >
-        {position}
+        Dispensary
       </Typography>
 
-      <Box sx={{ textAlign: 'center', mt: 2, mb: 2.5 }}>
+      {/* <Box sx={{ textAlign: 'center', mt: 2, mb: 2.5 }}>
         {SOCIALS.map((social) => (
           <Tooltip key={social.name} title={social.name}>
             <IconButton>{social.icon}</IconButton>
           </Tooltip>
         ))}
-      </Box>
+      </Box> */}
 
       <Divider />
 

@@ -14,12 +14,10 @@ import { alpha, makeStyles, useTheme } from '@material-ui/core/styles';
 import { Button, Box, Grid, Container, Typography } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => {
-  // const isLTR = theme.direction === 'ltr';
-
   return {
     root: {
       padding: theme.spacing(15, 0),
-      marginTop: theme.spacing(-15),
+      // marginTop: theme.spacing(-15),
       backgroundImage:
         theme.palette.mode === 'light'
           ? `linear-gradient(180deg, ${alpha(theme.palette.grey[300], 0)} 0%, ${
@@ -31,21 +29,21 @@ const useStyles = makeStyles((theme) => {
       }
     },
     content: {
-      maxWidth: 520,
-      margin: 'auto',
-      textAlign: 'center',
-      marginBottom: theme.spacing(10),
-      [theme.breakpoints.up('md')]: {
-        height: '100%',
-        marginBottom: 0,
-        textAlign: 'left',
-        display: 'inline-flex',
-        flexDirection: 'column',
-        alignItems: 'flex-start',
-        justifyContent: 'center',
-        paddingRight: theme.spacing(5)
-      }
+      // maxWidth: 520,
+      // margin: 'auto',
+      // textAlign: 'center',
+      // marginBottom: theme.spacing(10),
+      // [theme.breakpoints.up('md')]: {
+      //   height: '100%',
+      //   marginBottom: 0,
+      //   textAlign: 'left',
+      //   display: 'inline-flex',
+      //   flexDirection: 'column',
+      //   alignItems: 'flex-start',
+      //   justifyContent: 'center',
+      //   paddingRight: theme.spacing(5)
     },
+
     screen: {
       bottom: 0,
       maxWidth: 460,
@@ -64,12 +62,18 @@ const useStyles = makeStyles((theme) => {
       // }
     },
     lazyload: {
-      marginLeft: theme.spacing(-5),
-      marginTop: theme.spacing(-8),
-      [theme.breakpoints.up('md')]: {
-        marginLeft: theme.spacing(0),
-        marginTop: theme.spacing(0)
-      }
+      // marginLeft: theme.spacing(-5),
+      // marginTop: theme.spacing(-8),
+      // [theme.breakpoints.up('md')]: {
+      //   marginLeft: theme.spacing(0),
+      //   marginTop: theme.spacing(0)
+      // }
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      // backgroundColor: 'red',
+      width: '100%',
+      // marginTop: theme.spacing(-4),
     },
     img: {
       borderRadius: theme.spacing(2)
@@ -120,7 +124,7 @@ function LandingPageLearn({ className }) {
   return (
     <div className={clsx(classes.root, className)}>
       <Container maxWidth="lg">
-        <Grid container alignItems="center" spacing={10}>
+        <Grid container spacing={1} alignItems="center" spacing={10}>
           <Grid item xs={12} md={4} lg={6} xl={5}>
             <div className={classes.content}>
               <MotionInView variants={textAnimate}>
@@ -168,7 +172,7 @@ function LandingPageLearn({ className }) {
               alt="friends enjoying cannabis"
               src="https://weedmaps.com/learn/wp-content/uploads/2020/10/CRTV-3440_May-Social-Ask0121-scaled.jpg"
               variants={varFadeInUp}
-              sx={{ width: { xs: '80%', sm: '100%' } }}
+              sx={{ width: { xs: '100%', sm: '100%' } }}
               className={classes.img}
             />
           </Grid>

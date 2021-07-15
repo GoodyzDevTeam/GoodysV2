@@ -157,6 +157,7 @@ function LearnCannabis101({ className, ...other }) {
       <HeaderDashboard
         heading="Learn Topics"
         links={[
+          { name: 'Home', href: `${PATH_APP.general.root}` },
           { name: 'Learn', href: PATH_APP.general.learn },
           { name: 'Learn Topics' }
         ]}

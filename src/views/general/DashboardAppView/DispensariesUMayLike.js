@@ -28,8 +28,14 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: 'auto',
     marginRight: 'auto',
     height: '100%',
+    // minWidth: 300,
     maxWidth: 300,
-    maxHeight: 450
+    // minHeight: 450,
+    maxHeight: 450,
+    ['@media (min-width: 1920px)']: {
+      maxWidth: 350,
+      maxHeight: 440
+    },  
   },
   titleText: {
     overflow: 'hidden',
@@ -38,8 +44,9 @@ const useStyles = makeStyles((theme) => ({
     textOverflow: 'ellipsis'
   },
   header: {
-    marginBottom: theme.spacing(2),
-    marginLeft: theme.spacing(2)
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   display: {
     display: 'flex'
@@ -171,15 +178,19 @@ function DispensariesUMayLike({ className, ...other }) {
 
   return (
     <div>
-      <div className={classes.header}>
-        <h1>Dispensaries You May Like</h1>
-      </div>
+      <Grid container spacing={2} xs={12} md={12} sx={{ p: 3 }} >
+        <Grid item xs={12} className={classes.header}>
+          <Typography variant='h3'>
+            Dispo's You May Like
+          </Typography>
+        </Grid>
+      </Grid>
       {/* <div className={classes.display}> */}
       <Grid container spacing={2} xs={12} md={12} sx={{ p: 3 }} >
         {dispensaries && favoriteDispensaries &&
           dispensaries.map(
             (dispensary, index) => (
-              <Grid item>
+              <Grid item xs={12} sm={6} md={3}>
                 <Card key={index} className={classes.root}>
                   <CardHeader
                     avatar={

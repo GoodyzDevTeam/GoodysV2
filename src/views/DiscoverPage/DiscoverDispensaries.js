@@ -43,7 +43,9 @@ const useStyles = makeStyles((theme) => ({
   },
   header: {
     marginBottom: theme.spacing(2),
-    marginLeft: theme.spacing(2)
+    marginLeft: theme.spacing(2),
+    // fontSize: '5px'
+    // width: '100%'
   },
   display: {
     display: 'flex'
@@ -63,13 +65,34 @@ const useStyles = makeStyles((theme) => ({
   header: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'flex-start',
-    marginTop: theme.spacing(5),
-    marginBottom: theme.spacing(2),
-    marginLeft: theme.spacing(2)
+    alignItems: 'center',
+    justifyContent:'space-between'
+    // justifyContent: 'flex-start',
+    // marginTop: theme.spacing(5),
+    // marginBottom: theme.spacing(2),
+    // marginLeft: theme.spacing(2)
   },
   HeaderBtn: {
-    marginLeft: theme.spacing(2)
+    marginLeft: 'auto',
+    marginRight: theme.spacing(1),
+    //tablet
+    ['@media (min-width: 650px) and (max-width: 1175px)']: {
+      marginRight: theme.spacing(0),
+      marginLeft: theme.spacing(3),
+      width: theme.spacing(10)
+    },
+    //desktop
+    ['@media (min-width: 1024px)']: {
+      marginRight: theme.spacing(0),
+      marginLeft: theme.spacing(3),
+      width: theme.spacing(15)
+    },
+    //large desktop
+    ['@media (min-width: 1524px)']: {
+      marginRight: theme.spacing(0),
+      marginLeft: theme.spacing(3),
+      width: theme.spacing(20)
+    }
   },
   display: {
     display: 'flex',
@@ -122,12 +145,16 @@ function DiscoverDispensaries({ className, ...other }) {
 
   return (
     <div>
-      <div className={classes.header}>
-        <h1>Dispensaries</h1>
-        <Button className={classes.HeaderBtn} variant="outlined">
-          View
-        </Button>
-      </div>
+      <Grid container spacing={2} xs={12} md={12} sx={{ p: 3 }} >
+        <Grid item xs={12} className={classes.header}>
+          <Typography variant='h3'>
+            Dispensaries
+          </Typography>
+          <Button className={classes.HeaderBtn} variant="outlined">
+            View
+          </Button>
+        </Grid>
+      </Grid>
       {/* <div className={classes.display}> */}
       <Grid container spacing={2} xs={12} md={12} sx={{ p: 3 }} >
         {dispensaries && favoriteDispensaries &&

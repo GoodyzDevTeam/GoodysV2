@@ -174,13 +174,13 @@ function ProductsInCategory({ className, ...other }) {
   return (
     <div>
       <Grid item xs={12}>
-				<Typography variant="h3" sx={{ mb: 2 }}>
+				<Typography variant="h3" sx={{ m: 1 }}>
 					{category && category.name}
 				</Typography>
 				<MBreadcrumbs
-					sx={{ fontSize: '20px', mb: 3 }}
+					sx={{ fontSize: '20px', m: 1 }}
 					links={[
-						{ name: 'Dashboard', href: `${PATH_APP.general.root}` },
+						{ name: 'Home', href: `${PATH_APP.general.root}` },
 						{ name: 'Discover', href: `${PATH_APP.general.discover}` },
 						{ name: `${category && category.name}`, href: '#' }
 					]}

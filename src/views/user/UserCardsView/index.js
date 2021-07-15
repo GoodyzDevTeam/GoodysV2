@@ -32,9 +32,9 @@ function UserCardsView() {
           heading="Orders"
           links={[
             { name: 'Home', href: PATH_APP.root },
-            { name: 'Management', href: PATH_APP.management.root },
-            { name: 'User', href: PATH_APP.management.user.root },
-            { name: 'Cards' }
+            // { name: 'Management', href: PATH_APP.management.root },
+            // { name: 'User', href: PATH_APP.management.user.root },
+            { name: 'Orders' }
           ]}
         />
         <UserList users={users} />
