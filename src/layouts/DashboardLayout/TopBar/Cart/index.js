@@ -10,20 +10,24 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import MinusIcon from '@material-ui/icons/Remove';
 import PlusIcon from '@material-ui/icons/Add';
-import { makeStyles, experimentalStyled as styled } from '@material-ui/core/styles';
-import { Box, Drawer, Divider, Typography, Card, Grid } from '@material-ui/core';
+import ArrowForwardIcon from '@material-ui/icons/ArrowForwardIos';
+import DeleteIcon from '@material-ui/icons/DeleteOutline';
+import { makeStyles, experimentalStyled as styled, withStyles } from '@material-ui/core/styles';
+import { Box, Drawer, Divider, Typography, Card, Grid, Avatar } from '@material-ui/core';
 import { CardMedia, CardHeader, CardContent, CardActions } from '@material-ui/core';
 import { Table, TableHead, TableBody, TableRow, TableCell } from '@material-ui/core';
-import { Button, IconButton } from '@material-ui/core';
+import { Button, IconButton, Rating } from '@material-ui/core';
 import { MIconButton } from 'src/theme';
 import { useDispatch, useSelector } from 'react-redux';
-import { toggleFavoriteProduct, deleteCart, updateQuantity } from 'src/redux/slices/product';
+import { toggleFavoriteProduct, deleteCart, updateQuantity, getCart } from 'src/redux/slices/product';
 import { useParams, Link as RouterLink } from 'react-router-dom';
 import { PATH_APP, PATH_DISCOVER } from 'src/routes/paths';
+import StarBorderOutlined from '@material-ui/icons/StarBorderOutlined';
+import Summary from './Summary';
 
 // ----------------------------------------------------------------------
 
-const DRAWER_WIDTH = 600;
+const DRAWER_WIDTH = '50vw';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -36,16 +40,25 @@ const useStyles = makeStyles((theme) => ({
       width: DRAWER_WIDTH
     },
   },
+  cartHolder: {
+    display: 'flex',
+    flexDirection: 'column',
+    [theme.breakpoints.up('md')]: {
+      flexDirection: 'row',
+    }
+  },
+  rating: {
+    marginTop: '10px',
+    marginBottom: '10px',
+  },
   media: {
-    height: 0,
-    marginTop: theme.spacing(6),
-    paddingTop: '56.25%',
+    width: '180px',
+    height: 'auto',
+    maxHeight: '300px',
     //tablet
     ['@media (min-width: 650px) and (max-width: 1175px)']: {
-      width: '100%',
-      height: theme.spacing(10),
-      marginTop: theme.spacing(1),
-      paddingTop: 0
+      width: '300px',
+      height: 'auto',
     }
   },
   tableHolder: {
@@ -64,6 +77,14 @@ const QuantityButton = styled(Button)(({ theme }) => ({
   borderRadius: '50%'
 }));
 
+const StyledRating = withStyles({
+  iconFilled: {
+    color: '#ff6d75',
+  },
+  iconHover: {
+    color: '#ff3d47',
+	},
+})(Rating);
 // ----------------------------------------------------------------------
 
 const WeightAndPrice = ({ product }) => {
@@ -185,6 +206,24 @@ function Cart({ className }) {
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
   const { checkout, favoriteProducts } = useSelector((state) => state.product);
+  const [cartDispensaries, setCartDispensaries] = useState([]);
+
+  useEffect(() => {
+    let temp = [];
+    if (checkout.cart) {
+      checkout.cart.map((product) => {
+        if (!temp.some(dispensary => dispensary._id == product.dispensary._id )) {
+          temp.push(product.dispensary);
+        }
+      });
+    }
+    setCartDispensaries(temp);
+    // dispatch(getSubTotal());
+  }, [checkout, checkout.cart]);
+
+  useEffect(() => {
+    dispatch(getCart(checkout.cart));
+  }, [checkout.cart]);
 
   const handleOpenSettings = () => {
     setOpen(true);
@@ -242,59 +281,104 @@ function Cart({ className }) {
         </Box>
         <Divider />
 
-        <Box sx={{ p: 2.5 }}>
-          {checkout && checkout.cart && checkout.cart.map((product, idx) => (
-            <>
-              <Card sx={{ display: 'flex', m: 3, mb: 5 }}>
-                <CardMedia
-                  sx={{ width: '200px'}}
-                  image={product.photos[0]}
-                />
-                <Box>
-                  <CardContent>
-                    <WeightAndPrice product={product} />
-                  </CardContent>
-                  <Box sx={{ pl: 3, pr: 4 }}>
-                    <IconButton
-                      aria-label="add to favorites"
-                      onClick={() => onHandleFavorite(product._id)}
-                    >
-                      <FavoriteIcon
-                        sx={
-                          checkIfFavorite(product._id)
-                          ? { color: 'red' }
-                          : { color: 'gray' }
-                        }
+        <Grid xs={12} md={12} className={classes.cartHolder}>
+          {checkout && checkout.cart && <Grid xs={12} md={8}>
+            {cartDispensaries && cartDispensaries.map((dispensary, index) => {
+              const products = checkout.cart.filter((product) => product.dispensary._id == dispensary._id);
+              return (
+                <Card sx={{ m: 2 }}>
+                  <Box sx={{ p: 2.5 }}>
+                    <Card key={index} sx={{ flexDirection: 'row', display: 'flex', height: 'auto' }}>
+                      <CardMedia
+                        className={classes.media}
+                        image={dispensary.mainImage}
+                        title="Paella dish"
                       />
-                    </IconButton>
-                    <IconButton aria-label="share">
-                      <ShareIcon />
-                    </IconButton>
-                    <Button
-                      variant="outlined"
-                      onClick={() => handleRemove(product)}
-                      sx={{ float: 'right', ml: 1 }}
-                    >
-                      Remove
-                    </Button>
-                    <Button
-                      variant="outlined"
-                      sx={{ float: 'right', ml: 1 }}
-                    >
-                      <RouterLink
-                        style={{ textDecoration: 'none' }}
-                        to={`${PATH_APP.root}/productDetail/${product._id}`}
-                      >
-                        View
-                      </RouterLink>
-                    </Button>
+                      <CardContent sx={{ display: 'flex', flexDirection: 'column' }}>
+                        <Typography variant="h4">{dispensary.name}</Typography>
+                        <Typography sx={{ mt: 1, mb: 1 }}>{dispensary.type}</Typography>
+
+                        <StyledRating
+                          defaultValue={4.8}
+                          getLabelText={(value) => `${value} Heart${value !== 1 ? 's' : ''}`}
+                          icon={<StarBorderOutlined fontSize="large" />}
+                          className={classes.rating}
+                          disabled
+                          size='medium'
+                        />
+                        <Button variant="outlined">
+                          <RouterLink 
+                            style={{ textDecoration: 'none' }}
+                            to={`${PATH_APP.root}/dispensaryDetail/${dispensary._id}`}
+                          >
+                            Go on Shopping
+                            <ArrowForwardIcon sx={{ paddingTop: '10px', marginBottom: '-3px' }}/>
+                          </RouterLink>
+                        </Button>
+                      </CardContent>
+                    </Card>
                   </Box>
-                </Box>
-              </Card>
-            </>
-          ))}
-        </Box>
-      </Drawer>
+                  <Box sx={{ p: 2.5 }}>
+                    {products && products.map((product, idx) => (
+                      <>
+                        <Card sx={{ display: 'flex', m: 3, mb: 5 }}>
+                          <CardMedia
+                            sx={{ width: '200px'}}
+                            image={product.photos[0]}
+                          />
+                          <Box>
+                            <CardContent>
+                              <WeightAndPrice product={product} />
+                            </CardContent>
+                            <Box sx={{ pl: 3, pr: 4 }}>
+                              <IconButton
+                                aria-label="add to favorites"
+                                onClick={() => onHandleFavorite(product._id)}
+                              >
+                                <FavoriteIcon
+                                  sx={
+                                    checkIfFavorite(product._id)
+                                    ? { color: 'red' }
+                                    : { color: 'gray' }
+                                  }
+                                />
+                              </IconButton>
+                              <IconButton aria-label="share">
+                                <ShareIcon />
+                              </IconButton>
+                              <Button sx={{ float: 'right' }}>
+                                Purchase
+                              </Button>
+                              <Button sx={{ float: 'right' }}>
+                                <RouterLink
+                                  style={{ textDecoration: 'none' }}
+                                  to={`${PATH_APP.root}/productDetail/${product._id}`}
+                                >
+                                  View
+                                </RouterLink>
+                              </Button>
+                              <Button
+                                onClick={() => handleRemove(product)}
+                                sx={{ float: 'right', color: 'gray' }}
+                              >
+                                <DeleteIcon />
+                              </Button>
+                            </Box>
+                          </Box>
+                        </Card>
+                      </>
+                    ))}
+                  </Box>
+                </Card>
+              );
+            })}
+          </Grid>}
+
+          <Grid item xs={12} md={4} sx={{ p: 3 }}>
+            <Summary total={checkout.total} subtotal={checkout.subtotal}/>
+          </Grid>
+        </Grid>
+      </Drawer>  
     </div>
   );
 }

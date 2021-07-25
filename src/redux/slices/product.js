@@ -91,9 +91,18 @@ const slice = createSlice({
     // CHECKOUT
     getCart(state, action) {
       const cart = action.payload;
-
+      console.log(cart);
       const subtotal = sum(
-        cart.map((product) => product.price * product.quantity)
+        cart.map((product) => {
+          let s = 0;
+          for (let i = 0; i < product.quantity.length; i++) {
+            if (product.quantity[i]) {
+              s += Number(product.quantity[i]) * Number(product.weightAndPrice[i].price);
+            }
+          }
+          console.log(s);
+          return s;
+        })
       );
       const discount = cart.length === 0 ? 0 : state.checkout.discount;
       const shipping = cart.length === 0 ? 0 : state.checkout.shipping;
@@ -113,7 +122,7 @@ const slice = createSlice({
       const isEmptyCart = state.checkout.cart.length === 0;
 
       if (isEmptyCart) {
-        state.checkout.cart = [...state.checkout.cart, product];
+        state.checkout.cart = [...state.checkout.cart, {...product, dispensary: {...dispensary}}];
       } else {
         state.checkout.cart = map(state.checkout.cart, (_product) => {
           const isExisted = _product._id === product._id;
@@ -128,7 +137,7 @@ const slice = createSlice({
           return _product;
         });
       }
-      state.checkout.cart = uniqBy([...state.checkout.cart, product], '_id');
+      state.checkout.cart = uniqBy([...state.checkout.cart, {...product, dispensary: {...dispensary}}], '_id');
     },
 
     deleteCart(state, action) {
