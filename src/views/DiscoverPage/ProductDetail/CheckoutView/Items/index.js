@@ -37,16 +37,16 @@ const QuantityButton = styled(Button)(({ theme }) => ({
 Items.propTypes = {
 	step: PropTypes.number,
 	next: PropTypes.func,
-	product: PropTypes.object,
+	orderProducts: PropTypes.object,
 	dispensary: PropTypes.object,
 	quantity: PropTypes.array,
 	setQuantity: PropTypes.func,
 };
 
-function Items({ step, next, product, dispensary, quantity, setQuantity }) {
+function Items({ step, next, orderProducts, dispensary, quantity, setQuantity }) {
 	const classes = useStyles();
 	
-	const QuantityAndPrice = ({ idx }) => {
+	const QuantityAndPrice = ({ productIdx, idx }) => {
 		return (
 			<Grid
 				sx={{
@@ -63,8 +63,8 @@ function Items({ step, next, product, dispensary, quantity, setQuantity }) {
 				<QuantityButton
           onClick={() => {
             let temp = JSON.parse(JSON.stringify(quantity));
-            if (temp[idx] == undefined || temp[idx] == null) temp[idx] = 0;
-            temp[idx] = Math.max(0, temp[idx] - 1);
+            if (temp[productIdx][idx] == undefined || temp[productIdx][idx] == null) temp[productIdx][idx] = 0;
+            temp[productIdx][idx] = Math.max(0, temp[productIdx][idx] - 1);
             setQuantity(temp);
           }}
           size="small" 
@@ -74,7 +74,7 @@ function Items({ step, next, product, dispensary, quantity, setQuantity }) {
 				<input
           type="number"
           disabled
-          value={(quantity[idx] == undefined || quantity[idx] == null) ? 0 : quantity[idx]}
+          value={(quantity[productIdx][idx] == undefined || quantity[productIdx][idx] == null) ? 0 : quantity[productIdx][idx]}
           style={{
             border: 'none',
             width: '50px',
@@ -85,8 +85,8 @@ function Items({ step, next, product, dispensary, quantity, setQuantity }) {
 				<QuantityButton
           onClick={() => {
             let temp = JSON.parse(JSON.stringify(quantity));
-            if (temp[idx] == undefined || temp[idx] == null) temp[idx] = 0;
-            temp[idx] = temp[idx] + 1;
+            if (temp[productIdx][idx] == undefined || temp[productIdx][idx] == null) temp[productIdx][idx] = 0;
+            temp[productIdx][idx] = temp[productIdx][idx] + 1;
             setQuantity(temp);
           }}
           size="small"
@@ -111,38 +111,43 @@ function Items({ step, next, product, dispensary, quantity, setQuantity }) {
 					{dispensary.name}
 				</Typography>
 			</Box>}
-			<Box sx={{ display: 'flex', mt: 3, mb: 3 }}>
-				<Typography>
-					Product Name:
-				</Typography>
-				<Typography>
-					{product.productName}
-				</Typography>
-			</Box>
-			<Table>
-				<TableHead>
-					<TableRow>
-						<TableCell>Weight</TableCell>
-						<TableCell>Price</TableCell>
-						<TableCell sx={{ textAlign: 'center' }}>Quantity</TableCell>
-					</TableRow>
-				</TableHead>
-				<TableBody>
-					{product.weightAndPrice.map((item, index) => {
-						if (item) return (
-							<TableRow key={index}>
-								<TableCell sx={{ overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>{item.weight}</TableCell>
-								<TableCell>{item.price}</TableCell>
-								<TableCell sx={{ display: 'flex', justifyContent: 'center' }}>
-									<QuantityAndPrice idx={index} />
-								</TableCell>
+			{orderProducts.map((product, productIdx) => (
+				<>
+					<Box sx={{ display: 'flex', mt: 3, mb: 3 }}>
+						<Typography>
+							Product Name:
+						</Typography>
+						<Typography>
+							{product.productName}
+						</Typography>
+					</Box>
+					<Table>
+						<TableHead>
+							<TableRow>
+								<TableCell>Weight</TableCell>
+								<TableCell>Price</TableCell>
+								<TableCell sx={{ textAlign: 'center' }}>Quantity</TableCell>
 							</TableRow>
-						)
-					})}
-				</TableBody>
-			</Table>
+						</TableHead>
+						<TableBody>
+							{product.weightAndPrice.map((item, index) => {
+								if (item) return (
+									<TableRow key={index}>
+										<TableCell sx={{ overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>{item.weight}</TableCell>
+										<TableCell>{item.price}</TableCell>
+										<TableCell sx={{ display: 'flex', justifyContent: 'center' }}>
+											<QuantityAndPrice productIdx={productIdx} idx={index} />
+										</TableCell>
+									</TableRow>
+								)
+							})}
+						</TableBody>
+					</Table>
+				</>
+			))}
+			
 			<Box sx={{
-				display:{xs:'flex', md: 'none'},
+				display:{xs:'flex', md: 'flex'},
 				justifyContent:{xs:'space-between',
 				md:'default'},
 				width:{xs:'100%', md:'default'}

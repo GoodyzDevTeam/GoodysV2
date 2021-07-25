@@ -16,7 +16,7 @@ import { makeStyles, experimentalStyled as styled, withStyles } from '@material-
 import { Box, Drawer, Divider, Typography, Card, Grid, Avatar } from '@material-ui/core';
 import { CardMedia, CardHeader, CardContent, CardActions } from '@material-ui/core';
 import { Table, TableHead, TableBody, TableRow, TableCell } from '@material-ui/core';
-import { Button, IconButton, Rating } from '@material-ui/core';
+import { Button, IconButton, Rating, TextField } from '@material-ui/core';
 import { MIconButton } from 'src/theme';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleFavoriteProduct, deleteCart, updateQuantity, getCart } from 'src/redux/slices/product';
@@ -24,7 +24,7 @@ import { useParams, Link as RouterLink } from 'react-router-dom';
 import { PATH_APP, PATH_DISCOVER } from 'src/routes/paths';
 import StarBorderOutlined from '@material-ui/icons/StarBorderOutlined';
 import Summary from './Summary';
-
+import CartDialog from './CartDialog';
 // ----------------------------------------------------------------------
 
 const DRAWER_WIDTH = '50vw';
@@ -87,116 +87,6 @@ const StyledRating = withStyles({
 })(Rating);
 // ----------------------------------------------------------------------
 
-const WeightAndPrice = ({ product }) => {
-  const classes = useStyles();
-  const [quantity, setQuantity] = useState(product.quantity);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (quantity) {
-      dispatch(updateQuantity({
-        product: product,
-        quantity: quantity,
-      }));
-    }
-  }, [quantity]);
-
-  let subTotal = 0;
-
-  product.weightAndPrice.map((wp, idx) => {
-    if (wp) subTotal += wp.price * quantity[idx];
-  });
-
-  const QuantityAndPrice = ({ idx }) => {
-		return (
-			<Grid
-				sx={{
-					display: 'flex',
-					flexDirection: 'row',
-					alignItems: 'center',
-					border: 'solid thin #637381',
-					borderRadius: '12px',
-					width: '100px',
-					justifyContent: 'center',
-					p: 1
-				}}
-			>
-				<QuantityButton
-          onClick={() => {
-            let temp = JSON.parse(JSON.stringify(quantity));
-            if (temp[idx] == undefined || temp[idx] == null) temp[idx] = 0;
-            temp[idx] = Math.max(0, temp[idx] - 1);
-            setQuantity(temp);
-          }}
-          size="small" 
-        >
-					<MinusIcon />
-				</QuantityButton>
-				<input
-          type="number"
-          disabled
-          value={(quantity[idx] == undefined || quantity[idx] == null) ? 0 : quantity[idx]}
-          style={{
-            border: 'none',
-            width: '50px',
-            textAlign: 'center',
-            backgroundColor: 'white'
-          }}
-        />
-				<QuantityButton
-          onClick={() => {
-            let temp = JSON.parse(JSON.stringify(quantity));
-            if (temp[idx] == undefined || temp[idx] == null) temp[idx] = 0;
-            temp[idx] = temp[idx] + 1;
-            setQuantity(temp);
-          }}
-          size="small"
-        >
-					<PlusIcon />
-				</QuantityButton>
-      </Grid>
-		);
-  };
-
-  return (
-    <>
-      <Box
-        fullWidth
-        sx={{ display: 'flex', justifyContent: 'space-around', mb: 2 }}
-      >
-        <Typography>{product.productName}</Typography>
-        <Typography sx={{ color: '#00AB55' }}>SubTotal: $ {subTotal}</Typography>
-      </Box>
-      <div className={classes.tableHolder}>
-        <Table className={classes.table}>
-          {/* <TableHead>
-            <TableCell>Price</TableCell>
-            <TableCell>Weight</TableCell>
-            <TableCell>Quantity</TableCell>
-            <TableCell>Sum</TableCell>
-          </TableHead> */}
-          {product && quantity && product.weightAndPrice.map((wp, idx) => {
-            return (
-              <>
-                {wp && (
-                  <TableRow>
-                    <TableCell>$ {wp.price}</TableCell>
-                    <TableCell>{wp.weight}</TableCell>
-                    <TableCell>
-                      <QuantityAndPrice idx={idx} />
-                    </TableCell>
-                    <TableCell>$ {wp.price * quantity[idx]}</TableCell>
-                  </TableRow>
-                )}
-              </>
-            )
-          })}
-        </Table>
-      </div>
-    </>
-  );
-};
-
 Cart.propTypes = {
   className: PropTypes.string
 };
@@ -207,6 +97,8 @@ function Cart({ className }) {
   const dispatch = useDispatch();
   const { checkout, favoriteProducts } = useSelector((state) => state.product);
   const [cartDispensaries, setCartDispensaries] = useState([]);
+  const [isCheckout, setIsCheckout] = useState(false);
+  const [orderProducts, setOrderProducts] = useState([]);
 
   useEffect(() => {
     let temp = [];
@@ -248,137 +140,34 @@ function Cart({ className }) {
     return false;
   };
 
+  const handlePurchaseProduct = (product) => {
+    setOrderProducts([product]);
+    setIsCheckout(true);
+  };
+
+  const handleOrderSuccess = (products) => {
+    products.map((product) => {
+      dispatch(deleteCart(product));
+    })
+  };
+
   return (
     <div className={clsx(classes.root, className)}>
       <MIconButton onClick={handleOpenSettings}>
         {/* <Icon icon={CartIcon} width={20} height={20} /> */}
         <CartIcon />
       </MIconButton>
-
-      <Drawer
-        open={open}
-        anchor="right"
-        onClose={handleCloseSettings}
-        classes={{
-          root: classes.drawer,
-          paper: classes.drawerPaper
-        }}
-      >
-        <Box
-          sx={{
-            py: 2,
-            pr: 1,
-            pl: 2.5,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between'
-          }}
-        >
-          <Typography variant="subtitle1">Your Cart</Typography>
-          <MIconButton onClick={handleCloseSettings}>
-            <Icon icon={closeFill} width={20} height={20} />
-          </MIconButton>
-        </Box>
-        <Divider />
-
-        <Grid xs={12} md={12} className={classes.cartHolder}>
-          {checkout && checkout.cart && <Grid xs={12} md={8}>
-            {cartDispensaries && cartDispensaries.map((dispensary, index) => {
-              const products = checkout.cart.filter((product) => product.dispensary._id == dispensary._id);
-              return (
-                <Card sx={{ m: 2 }}>
-                  <Box sx={{ p: 2.5 }}>
-                    <Card key={index} sx={{ flexDirection: 'row', display: 'flex', height: 'auto' }}>
-                      <CardMedia
-                        className={classes.media}
-                        image={dispensary.mainImage}
-                        title="Paella dish"
-                      />
-                      <CardContent sx={{ display: 'flex', flexDirection: 'column' }}>
-                        <Typography variant="h4">{dispensary.name}</Typography>
-                        <Typography sx={{ mt: 1, mb: 1 }}>{dispensary.type}</Typography>
-
-                        <StyledRating
-                          defaultValue={4.8}
-                          getLabelText={(value) => `${value} Heart${value !== 1 ? 's' : ''}`}
-                          icon={<StarBorderOutlined fontSize="large" />}
-                          className={classes.rating}
-                          disabled
-                          size='medium'
-                        />
-                        <Button variant="outlined">
-                          <RouterLink 
-                            style={{ textDecoration: 'none' }}
-                            to={`${PATH_APP.root}/dispensaryDetail/${dispensary._id}`}
-                          >
-                            Go on Shopping
-                            <ArrowForwardIcon sx={{ paddingTop: '10px', marginBottom: '-3px' }}/>
-                          </RouterLink>
-                        </Button>
-                      </CardContent>
-                    </Card>
-                  </Box>
-                  <Box sx={{ p: 2.5 }}>
-                    {products && products.map((product, idx) => (
-                      <>
-                        <Card sx={{ display: 'flex', m: 3, mb: 5 }}>
-                          <CardMedia
-                            sx={{ width: '200px'}}
-                            image={product.photos[0]}
-                          />
-                          <Box>
-                            <CardContent>
-                              <WeightAndPrice product={product} />
-                            </CardContent>
-                            <Box sx={{ pl: 3, pr: 4 }}>
-                              <IconButton
-                                aria-label="add to favorites"
-                                onClick={() => onHandleFavorite(product._id)}
-                              >
-                                <FavoriteIcon
-                                  sx={
-                                    checkIfFavorite(product._id)
-                                    ? { color: 'red' }
-                                    : { color: 'gray' }
-                                  }
-                                />
-                              </IconButton>
-                              <IconButton aria-label="share">
-                                <ShareIcon />
-                              </IconButton>
-                              <Button sx={{ float: 'right' }}>
-                                Purchase
-                              </Button>
-                              <Button sx={{ float: 'right' }}>
-                                <RouterLink
-                                  style={{ textDecoration: 'none' }}
-                                  to={`${PATH_APP.root}/productDetail/${product._id}`}
-                                >
-                                  View
-                                </RouterLink>
-                              </Button>
-                              <Button
-                                onClick={() => handleRemove(product)}
-                                sx={{ float: 'right', color: 'gray' }}
-                              >
-                                <DeleteIcon />
-                              </Button>
-                            </Box>
-                          </Box>
-                        </Card>
-                      </>
-                    ))}
-                  </Box>
-                </Card>
-              );
-            })}
-          </Grid>}
-
-          <Grid item xs={12} md={4} sx={{ p: 3 }}>
-            <Summary total={checkout.total} subtotal={checkout.subtotal}/>
-          </Grid>
-        </Grid>
-      </Drawer>  
+      
+      {open &&
+        <CartDialog
+          open={open}
+          setOpen={setOpen}
+          cartDispensaries={cartDispensaries}
+          setCartDispensaries={setCartDispensaries}
+          orderProducts={orderProducts}
+          setOrderProducts={setOrderProducts}
+        />
+      }
     </div>
   );
 }

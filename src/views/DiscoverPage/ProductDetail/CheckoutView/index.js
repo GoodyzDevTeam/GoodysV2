@@ -106,6 +106,7 @@ function QontoStepIcon({ active, completed }) {
 }
 
 function Checkout({
+  orderProducts,
   quantity,
   setQuantity,
   orderType,
@@ -114,13 +115,15 @@ function Checkout({
   setOrderType,
   setOrderTime,
   setOrderDate,
+  orderSuccess = () => {},
   orderCancel,
 }) {
+  console.log(quantity);
   const classes = useStyles();
   const dispatch = useDispatch();
   const isMountedRef = useIsMountedRef();
   const history = useHistory();
-  const { checkout, product } = useSelector((state) => state.product);
+  const { checkout } = useSelector((state) => state.product);
   const { dispensary } = useSelector((state) => state.dispensary);
   const {
     cart,
@@ -138,11 +141,12 @@ function Checkout({
 
   useEffect(() => {
     let sum = 0;
-    product.weightAndPrice.map((item, index) => {
-      if (item) {
-        sum += item.price * quantity[index];
-      }
-    })
+    orderProducts.map((product, idx) => {
+      product.weightAndPrice.map((item, index) => {
+        if (item) {
+          sum += item.price * quantity[idx][index];
+        }
+      })});
     setSubTotal(sum);
   }, [quantity]);
 
@@ -151,6 +155,10 @@ function Checkout({
       dispatch(getCart(cart));
     }
   }, [dispatch, isMountedRef, cart]);
+
+  useEffect(() => {
+    if (isComplete) orderSuccess(orderProducts);
+  }, [isComplete]);
 
   const handleNextStep = () => {
     dispatch(onNextStep());
@@ -249,7 +257,7 @@ function Checkout({
         <Items
           step={3}
           next={setActiveStep}
-          product={product}
+          orderProducts={orderProducts}
           dispensary={dispensary}
           quantity={quantity}
           setQuantity={setQuantity}

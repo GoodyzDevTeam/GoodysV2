@@ -1,24 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
-import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
-import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
 import ShopIcon from '@material-ui/icons/ShopTwoOutlined';
 import TimeIcon from '@material-ui/icons/AccessTime';
-import CloseIcon from '@material-ui/icons/Close';
-import CameraIcon from '@material-ui/icons/CameraAlt';
-import UploadIcon from '@material-ui/icons/Computer';
-import { Button, Card, Typography, IconButton, TextField } from '@material-ui/core';
+import { Button, Card, Typography, IconButton, TextField, MenuItem } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
-import Grid from '@material-ui/core/Grid';
 import PropTypes from 'prop-types';
-import { Link as RouterLink } from 'react-router-dom';
-import { PATH_APP } from 'src/routes/paths';
-import { SettingsRemoteRounded } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
   option: {
@@ -29,6 +15,7 @@ const useStyles = makeStyles((theme) => ({
 		marginBottom: '3px',
 		cursor: 'pointer',
 		borderRadius: '10px',
+		zIndex: 100,
 		"&:hover": {
 			background: '#00ab55',
 		},
@@ -68,6 +55,7 @@ function TypeAndOrder({
 			<Typography>
 				Type & Order
 			</Typography>
+			
 			<Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 3, mb: 3 }}>
 				<TextField
 					select
@@ -78,12 +66,13 @@ function TypeAndOrder({
 					InputLabelProps={{
 						shrink: true,
 					}}
+					error={false}
 					InputProps={{
 						startAdornment: (
 							<ShopIcon sx={{ width: '30px', height: '30px', mr: 3}} />
 						),
 					}}
-					sx={{ cursor: 'pointer' }}
+					sx={{ cursor: 'pointer', zIndex: 100 }}
 				>
 					<option key={0} value="pickup" className={classes.option}>
 						Pick Up
@@ -103,6 +92,7 @@ function TypeAndOrder({
 					InputLabelProps={{
 						shrink: true,
 					}}
+					error={false}
 					InputProps={{
 						startAdornment: (
 							<TimeIcon sx={{ width: '30px', height: '30px', mr: 3}} />
@@ -117,6 +107,7 @@ function TypeAndOrder({
 					))}
 				</TextField>
 			</Box>
+
 			<Button onClick={() => next(step + 1)} sx={{ float: 'right' }}>Save & Next</Button>
 			<Button onClick={() => next(step - 1)} sx={{ float: 'left' }}>Back</Button>
 		</Card>

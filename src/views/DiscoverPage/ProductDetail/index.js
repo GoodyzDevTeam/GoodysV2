@@ -128,6 +128,10 @@ export default function ProductPreview() {
     return false;
   };
 
+  const setProductQuantity = (q) => {
+    setQuantity(q[0]);
+  };
+
   const calcPrice = () => {
     let sum = 0;
     product.weightAndPrice.map((item, index) => {
@@ -375,8 +379,9 @@ export default function ProductPreview() {
         {product && category && isOrderShow && (
           <Grid container>
             <Checkout
-              quantity={quantity}
-              setQuantity={setQuantity}
+              orderProducts={[product]}
+              quantity={[quantity]}
+              setQuantity={setProductQuantity}
               orderType={orderType}
               orderDate={orderDate}
               orderTime={orderTime}
