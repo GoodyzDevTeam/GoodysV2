@@ -24,6 +24,7 @@ import {
   Typography
 } from '@material-ui/core';
 import { MIconButton } from 'src/theme';
+import { ReactComponent as LogoIcon } from "src/icons/Goodies_icon_vivid_green.svg";
 
 // ----------------------------------------------------------------------
 
@@ -116,9 +117,12 @@ function LoginView() {
         <RouterLink
           to="/"
           style={{
-            textDecoration: 'none'
+            textDecoration: 'none',
+            display: 'flex',
+            alignItems: 'center',
           }}
         >
+          <LogoIcon style={{ width: '30px', height: '30px', marginRight: '20px', marginLeft: '20px' }}/>
           Goody'z
         </RouterLink>
         <Hidden smDown>

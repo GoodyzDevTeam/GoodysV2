@@ -19,6 +19,7 @@ import {
   Typography,
   ListSubheader
 } from '@material-ui/core';
+import { ReactComponent as LogoIcon } from "src/icons/Goodies_icon_vivid_green.svg";
 
 // ----------------------------------------------------------------------
 
@@ -144,9 +145,12 @@ function NavBar({ isOpenNav, onCloseNav }) {
           style={{
             textDecoration: 'none',
             marginLeft: 'auto',
-            marginRight: 'auto'
+            marginRight: 'auto',
+            display: 'flex',
+            alignItems: 'center',
           }}
         >
+          <LogoIcon style={{ width: '30px', height: '30px', marginRight: '20px', marginLeft: '20px' }}/>
           Goody'z
         </RouterLink>
       </Box>

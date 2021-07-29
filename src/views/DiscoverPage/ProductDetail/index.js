@@ -123,7 +123,7 @@ export default function ProductPreview() {
 
   const checkIfFavorite = (id) => {
     if (!favoriteProducts) return false;
-    let filtered = favoriteProducts.filter((item) => item.product._id == id);
+    let filtered = favoriteProducts.filter((item) => item.product && item.product._id == id);
     if (filtered.length > 0) return true;
     return false;
   };

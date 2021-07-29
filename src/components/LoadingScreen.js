@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { motion } from 'framer-motion';
 import Logo from 'src/components/Logo';
 import { makeStyles, alpha } from '@material-ui/core/styles';
+import { ReactComponent as LogoIcon } from "src/icons/Goodies_icon_vivid_green.svg";
 
 // ----------------------------------------------------------------------
 
@@ -58,7 +59,8 @@ function LoadingScreen({ className, ...other }) {
           repeatDelay: 1
         }}
       >
-        <Logo sx={{ height: 64 }} />
+        {/* <Logo sx={{ height: 64 }} /> */}
+        <LogoIcon style={{ width: '60px', height: '60px' }}/>
       </motion.div>
 
       <motion.div
@@ -71,6 +73,7 @@ function LoadingScreen({ className, ...other }) {
         transition={TRANSITION}
         className={clsx(classes.box, classes.inner)}
       />
+
 
       <motion.div
         animate={{

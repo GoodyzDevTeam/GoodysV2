@@ -35,6 +35,7 @@ import {
 import { MIconButton } from 'src/theme';
 import DarkMode from 'src/views/home/LandingPageView/DarkMode';
 import { LinkedCamera } from '@material-ui/icons';
+import { ReactComponent as LogoIcon } from "src/icons/Goodies_icon_vivid_green.svg";
 
 // ----------------------------------------------------------------------
 
@@ -182,7 +183,9 @@ function TopBar() {
               underline="none"
               variant="h4"
               // sx={{ color: 'common.white' }}
+              sx={{ display: 'flex', alignItems: 'center' }}
             >
+              <LogoIcon style={{ width: '30px', height: '30px', marginRight: '20px', marginLeft: '20px' }}/>
               Goody's
             </Typography>
           </RouterLink>
