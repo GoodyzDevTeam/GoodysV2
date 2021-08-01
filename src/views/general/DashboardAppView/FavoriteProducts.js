@@ -204,7 +204,21 @@ function FavoriteProducts(props,{ className, ...other }) {
             // else if(!item.product){
             //   return <noProducts key={index} className={clsx(classes.root, className)} {...other}/>
             // }
-            })}
+        })}
+        {!favoriteProducts.filter(product => product.product).length && (
+          <Card
+            sx={{ width: '100%', minHeight: '200px', display: 'flex',
+              justifyContent: 'center', alignItems: 'center', flexDirection: 'column'
+            }}
+          >
+            <Typography>
+              Add The Products You Love Here. Lets Heart Some Products
+            </Typography>
+            <Button>
+              <a href="#products">Explore</a> 
+            </Button>
+          </Card>
+        )}
       </Grid>
     </div>
   );

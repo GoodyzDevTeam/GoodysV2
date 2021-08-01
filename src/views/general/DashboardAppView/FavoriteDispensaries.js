@@ -178,6 +178,20 @@ function FavoriteDispensaries({ className, ...other }) {
             </Card>
           </Grid>
         ))}
+        {!favoriteDispensaries.filter(dispensary => dispensary.dispensary).length && (
+          <Card
+            sx={{ width: '100%', minHeight: '200px', display: 'flex',
+              justifyContent: 'center', alignItems: 'center', flexDirection: 'column'
+            }}
+          >
+            <Typography>
+              Add The Dispensaries You Love Here. Lets Heart Some Dispensaries
+            </Typography>
+            <Button>
+              <a href="#dispensaries">Explore</a> 
+            </Button>
+          </Card>
+        )}
         </Grid>
       {/* </div> */}
     </div>

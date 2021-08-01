@@ -177,7 +177,7 @@ function DispensariesUMayLike({ className, ...other }) {
   }
 
   return (
-    <div>
+    <div id="dispensaries">
       <Grid container spacing={2} xs={12} md={12} sx={{ p: 3 }} >
         <Grid item xs={12} className={classes.header}>
           <Typography variant='h3'>

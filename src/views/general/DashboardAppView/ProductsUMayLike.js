@@ -231,7 +231,7 @@ function ProductsUMayLike({ className, ...other }) {
     <div>
       <Grid container spacing={2} xs={12} md={12} sx={{ p: 3 }} >
         <Grid item xs={12} className={classes.header}>
-          <Typography variant='h3'>
+          <Typography id="products" variant='h3'>
             Products You May Like
           </Typography>
         </Grid>
