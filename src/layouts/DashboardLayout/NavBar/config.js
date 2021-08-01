@@ -49,7 +49,7 @@ const navConfig = [
         items: [
           {
             title: 'Home',
-            href: PATH_APP.general.root
+            href: PATH_APP.general.dashboard
           },
           {
             title: 'Discover',

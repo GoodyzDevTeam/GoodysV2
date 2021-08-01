@@ -276,7 +276,7 @@ function ProductsUMayLike({ className, ...other }) {
                     <Button variant="outlined" className={classes.button}>
                       <RouterLink
                         style={{ textDecoration: 'none' }}
-                        to={`${PATH_APP.root}/productDetail/${product._id}`}
+                        to={`${PATH_APP.general.discover}/productDetail/${product._id}`}
                       >
                         View
                       </RouterLink>

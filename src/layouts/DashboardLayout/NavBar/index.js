@@ -85,6 +85,7 @@ function reduceChild({ array, item, pathname, level }) {
         href={item.href}
         title={item.title}
         open={Boolean(match)}
+        // open={true}
       >
         {renderNavItems({
           pathname,
@@ -125,17 +126,17 @@ NavBar.propTypes = {
   isOpenNav: PropTypes.bool
 };
 
-function NavBar({ isOpenNav, onCloseNav }) {
+function NavBar({ isOpenNav = true, onCloseNav }) {
   const classes = useStyles();
   const { pathname } = useLocation();
   const { user } = useAuth();
 
-  useEffect(() => {
-    if (isOpenNav && onCloseNav) {
-      onCloseNav();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname]);
+  // useEffect(() => {
+  //   if (isOpenNav && onCloseNav) {
+  //     onCloseNav();
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [pathname]);
 
   const renderContent = (
     <Scrollbars>

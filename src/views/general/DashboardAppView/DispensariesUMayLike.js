@@ -235,7 +235,7 @@ function DispensariesUMayLike({ className, ...other }) {
                     <Button variant="outlined" className={classes.visitBtn}>
                       <RouterLink 
                         style={{ textDecoration: 'none' }}
-                        to={`${PATH_APP.root}/dispensaryDetail/${dispensary._id}`}
+                        to={`${PATH_APP.general.discover}/dispensaryDetail/${dispensary._id}`}
                       >
                         Visit
                       </RouterLink>

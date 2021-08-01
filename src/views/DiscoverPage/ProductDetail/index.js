@@ -251,7 +251,7 @@ export default function ProductPreview() {
                 links={[
                   { name: 'Dashboard', href: `${PATH_APP.general.root}` },
                   { name: 'Discover', href: `${PATH_APP.general.discover}` },
-                  { name: `${dispensary.name}`, href: `${PATH_APP.root}/dispensaryDetail/${dispensary._id}`},
+                  { name: `${dispensary.name}`, href: `${PATH_APP.general.discover}/dispensaryDetail/${dispensary._id}`},
                   { name: `${category && category.name}/${product && product.productName}`, href: '#' },
                 ]}
               />

@@ -14,6 +14,11 @@ const AppRoutes = {
   routes: [
     // GENERAL
     // ----------------------------------------------------------------------
+    {
+      exact: true,
+      path: PATH_APP.general.root,
+      component: lazy(() => import('src/views/general/DashboardAppView'))
+    },
 
     //GOODY'S HUB DASHBOARD ROUTE
     {

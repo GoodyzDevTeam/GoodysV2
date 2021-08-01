@@ -94,7 +94,7 @@ function NavItem({
   ...other
 }) {
   const classes = useStyles();
-  const [show, setShow] = useState(open);
+  const [show, setShow] = useState(true);
   const isSubItem = level > 0;
 
   const handleShow = () => {

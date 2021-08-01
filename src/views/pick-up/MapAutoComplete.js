@@ -79,7 +79,7 @@ const InfoWindowChild = ({ dispensary, center }) => {
         <Button variant="outlined" sx={{ width: '80px', mt: 1, mb: 1 }}>
           <RouterLink 
             style={{ textDecoration: 'none' }}
-            to={`${PATH_APP.root}/dispensaryDetail/${dispensary._id}`}
+            to={`${PATH_APP.general.discover}/dispensaryDetail/${dispensary._id}`}
           >
             Visit
           </RouterLink>

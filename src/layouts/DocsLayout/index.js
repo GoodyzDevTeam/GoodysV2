@@ -23,12 +23,12 @@ DocsLayout.propTypes = {
 
 function DocsLayout({ children }) {
   const classes = useStyles();
-  const [openNav, setOpenNav] = useState(false);
+  const [openNav, setOpenNav] = useState(true);
 
   return (
     <div className={classes.root}>
       <TopBar onOpenNav={() => setOpenNav(true)} />
-      <NavBar onCloseNav={() => setOpenNav(false)} isOpenNav={openNav} />
+      <NavBar onCloseNav={() => setOpenNav(true)} isOpenNav={openNav} />
 
       <Container
         maxWidth="md"

@@ -353,7 +353,7 @@ function CartDialog({ open, setOpen, cartDispensaries, setCartDispensaries, orde
 													<Button variant="outlined">
 														<RouterLink 
 															style={{ textDecoration: 'none' }}
-															to={`${PATH_APP.root}/dispensaryDetail/${dispensary._id}`}
+															to={`${PATH_APP.general.discover}/dispensaryDetail/${dispensary._id}`}
 														>
 															Go on Shopping
 															<ArrowForwardIcon sx={{ paddingTop: '10px', marginBottom: '-3px' }}/>
@@ -397,7 +397,7 @@ function CartDialog({ open, setOpen, cartDispensaries, setCartDispensaries, orde
 																<Button sx={{ float: 'right' }}>
 																	<RouterLink
 																		style={{ textDecoration: 'none' }}
-																		to={`${PATH_APP.root}/productDetail/${product._id}`}
+																		to={`${PATH_APP.general.discover}/productDetail/${product._id}`}
 																	>
 																		View
 																	</RouterLink>

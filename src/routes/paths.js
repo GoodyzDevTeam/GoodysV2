@@ -46,15 +46,15 @@ export const PATH_APP = {
   root: ROOTS.app,
   general: {
     root: path(ROOTS.app, '/dashboard'), // GOODYS-HUB MAIN USER DASHBOARD PATH
-    dashboard: path(ROOTS.app, '/dashboard'),
-    discover: path(ROOTS.app, '/general/discover'), // DISCOVER PATH FOR USERS GOODY'S HUB(DASHBOARD)
-    productInCategory: path(ROOTS.app, '/general/discover/:categoryId'),
-    productDetail: path(ROOTS.app, '/productDetail/:productId'),
-    dispensaryDetail: path(ROOTS.app, '/dispensaryDetail/:dispensaryId'),
-    learn: path(ROOTS.app, '/management/blog/learn'), // LEARN PATH FOR USERS GOODY'S HUB(DASHBOARD)
+    dashboard: path(ROOTS.app, '/dashboard/home'),
+    discover: path(ROOTS.app, '/dashboard/discover'), // DISCOVER PATH FOR USERS GOODY'S HUB(DASHBOARD)
+    productInCategory: path(ROOTS.app, '/dashboard/discover/:categoryId'),
+    productDetail: path(ROOTS.app, '/dashboard/discover/productDetail/:productId'),
+    dispensaryDetail: path(ROOTS.app, '/dashboard/discover/dispensaryDetail/:dispensaryId'),
+    learn: path(ROOTS.app, '/dashboard/blog/learn'), // LEARN PATH FOR USERS GOODY'S HUB(DASHBOARD)
     learnTopics: path(ROOTS.app, '/management/learn/topics'),
     posts: path(ROOTS.app, '/management/blog'),
-    pickup: path(ROOTS.app, '/managment/pickup'), // PICK UP PATH FOR USERS GOODY'S HUB(DASHBOARD)
+    pickup: path(ROOTS.app, '/dashboard/pickup'), // PICK UP PATH FOR USERS GOODY'S HUB(DASHBOARD)
     analytics: path(ROOTS.app, '/dashboard/analytics')
   },
   management: {
@@ -62,7 +62,7 @@ export const PATH_APP = {
     user: {
       root: path(ROOTS.app, '/management/user'),
       profile: path(ROOTS.app, '/management/user/profile'),
-      cards: path(ROOTS.app, '/management/user/card'),
+      cards: path(ROOTS.app, '/dashboard/card'),
       list: path(ROOTS.app, '/management/user/list'),
       account: path(ROOTS.app, '/management/user/account')
     },
@@ -81,7 +81,7 @@ export const PATH_APP = {
     },
     blog: {
       root: path(ROOTS.app, '/management/blog'),
-      learn: path(ROOTS.app, '/management/blog/learn'),
+      learn: path(ROOTS.app, '/dashboard/blog/learn'),
       learnTopics: path(ROOTS.app, '/management/learn/topics'),
       learnArticles: path(ROOTS.app, '/management/learn/articles'),
       post: path(ROOTS.app, '/management/blog/post/:title'),
