@@ -126,11 +126,11 @@ function DiscoverDeliveryService({ className, ...other }) {
   const [delivery, setDelivery] = useState([]);
 
   useEffect(async () => {
-    const curAccessToken = window.localStorage.getItem('accessToken');
-    if (curAccessToken && isValidToken(curAccessToken)) {
-      setSession(curAccessToken);
-      const response = await axios.get(`${ajaxUrl}/api/delivery/`);
-      setDelivery(response.data);
+    const response = await axios.get(`${ajaxUrl}/api/delivery/`);
+    setDelivery(response.data);
+  
+    return () => {
+      setDelivery([]);
     }
   }, []);
 

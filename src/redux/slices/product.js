@@ -48,6 +48,11 @@ const slice = createSlice({
       state.error = action.payload;
     },
 
+    setError(state) {
+      state.isLoading = false;
+      state.error = null;
+    },
+
     // GET PRODUCTS
     getProductsSuccess(state, action) {
       state.isLoading = false;
@@ -253,21 +258,140 @@ export const {
   increaseQuantity,
   decreaseQuantity,
   sortByProducts,
-  filterProducts
+  filterProducts,
+  setError,
 } = slice.actions;
 
 // ----------------------------------------------------------------------
+
+// export function getProducts() {
+//   return async (dispatch) => {
+//     dispatch(slice.actions.startLoading());
+//     try {
+//       const curAccessToken = window.localStorage.getItem('accessToken');
+//       if (curAccessToken && isValidToken(curAccessToken)) {
+//         setSession(curAccessToken);
+//         const response = await axios.get(`${ajaxUrl}/api/product/`);
+//         dispatch(slice.actions.getProductsSuccess(response.data));
+//       }
+//     } catch (error) {
+//       dispatch(slice.actions.hasError(error));
+//     }
+//   };
+// }
+
+// export function getProductsByCategory(categoryId) {
+//   return async (dispatch) => {
+//     dispatch(slice.actions.startLoading());
+//     try {
+//       const curAccessToken = window.localStorage.getItem('accessToken');
+//       if (curAccessToken && isValidToken(curAccessToken)) {
+//         setSession(curAccessToken);
+//         const response = await axios.get(`${ajaxUrl}/api/product/by-category/${categoryId}`);
+//         dispatch(slice.actions.getProductsSuccess(response.data));
+//       }
+//     } catch (error) {
+//       dispatch(slice.actions.hasError(error));
+//     }
+//   };
+// }
+
+// export function getCategory(categoryId) {
+//   return async (dispatch) => {
+//     dispatch(slice.actions.startLoading());
+//     try {
+//       const curAccessToken = window.localStorage.getItem('accessToken');
+//       if (curAccessToken && isValidToken(curAccessToken)) {
+//         setSession(curAccessToken);
+//         const response = await axios.get(`${ajaxUrl}/api/product/category/${categoryId}`);
+//         dispatch(slice.actions.getCategorySuccess(response.data));
+//       }
+//     } catch (error) {
+//       dispatch(slice.actions.hasError(error));
+//     }
+//   };
+// }
+
+// // ----------------------------------------------------------------------
+
+// export function getProduct(id) {
+//   return async (dispatch) => {
+//     dispatch(slice.actions.startLoading());
+//     try {
+//       const curAccessToken = window.localStorage.getItem('accessToken');
+//       if (curAccessToken && isValidToken(curAccessToken)) {
+//         setSession(curAccessToken);
+//         const response = await axios.get(`${ajaxUrl}/api/product/by-id/${id}`);
+//         dispatch(slice.actions.getProductSuccess(response.data));
+//       }
+//     } catch (error) {
+//       console.error(error);
+//       dispatch(slice.actions.hasError(error));
+//     }
+//   };
+// }
+
+// export function getCategories() {
+//   return async (dispatch) => {
+//     dispatch(slice.actions.startLoading());
+//     try {
+//       const curAccessToken = window.localStorage.getItem('accessToken');
+//       if (curAccessToken && isValidToken(curAccessToken)) {
+//         setSession(curAccessToken);
+//         const response = await axios.get(`${ajaxUrl}/api/product/category/all`);
+//         dispatch(slice.actions.getCategoriesSuccess(response.data));
+//       }
+//     } catch (error) {
+//       console.error(error);
+//       dispatch(slice.actions.hasError(error));
+//     }
+//   };
+// }
+
+// export function getFavoriteProducts() {
+//   return async (dispatch) => {
+//     dispatch(slice.actions.startLoading());
+//     try {
+//       const curAccessToken = window.localStorage.getItem('accessToken');
+//       if (curAccessToken && isValidToken(curAccessToken)) {
+//         setSession(curAccessToken);
+//         const response = await axios.get(
+//           `${ajaxUrl}/api/product/favorite-products`
+//         );
+//         dispatch(slice.actions.getFavoriteProductsSuccess(response.data));
+//       }
+//     } catch (error) {
+//       dispatch(slice.actions.hasError(error));
+//     }
+//   };
+// }
+
+// export function toggleFavoriteProduct(id) {
+//   return async (dispatch) => {
+//     dispatch(slice.actions.startLoading());
+//     try {
+//       const curAccessToken = window.localStorage.getItem('accessToken');
+//       if (curAccessToken && isValidToken(curAccessToken)) {
+//         setSession(curAccessToken);
+//         const response = await axios.post(
+//           `${ajaxUrl}/api/product/favorite-products`,
+//           { productId: id }
+//         );
+//         dispatch(slice.actions.getFavoriteProductsSuccess(response.data));
+//       }
+//     } catch (error) {
+//       dispatch(slice.actions.hasError(error));
+//     }
+//   };
+// }
+
 
 export function getProducts() {
   return async (dispatch) => {
     dispatch(slice.actions.startLoading());
     try {
-      const curAccessToken = window.localStorage.getItem('accessToken');
-      if (curAccessToken && isValidToken(curAccessToken)) {
-        setSession(curAccessToken);
-        const response = await axios.get(`${ajaxUrl}/api/product/`);
-        dispatch(slice.actions.getProductsSuccess(response.data));
-      }
+      const response = await axios.get(`${ajaxUrl}/api/product/`);
+      dispatch(slice.actions.getProductsSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }
@@ -278,12 +402,8 @@ export function getProductsByCategory(categoryId) {
   return async (dispatch) => {
     dispatch(slice.actions.startLoading());
     try {
-      const curAccessToken = window.localStorage.getItem('accessToken');
-      if (curAccessToken && isValidToken(curAccessToken)) {
-        setSession(curAccessToken);
-        const response = await axios.get(`${ajaxUrl}/api/product/by-category/${categoryId}`);
-        dispatch(slice.actions.getProductsSuccess(response.data));
-      }
+      const response = await axios.get(`${ajaxUrl}/api/product/by-category/${categoryId}`);
+      dispatch(slice.actions.getProductsSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }
@@ -294,12 +414,8 @@ export function getCategory(categoryId) {
   return async (dispatch) => {
     dispatch(slice.actions.startLoading());
     try {
-      const curAccessToken = window.localStorage.getItem('accessToken');
-      if (curAccessToken && isValidToken(curAccessToken)) {
-        setSession(curAccessToken);
-        const response = await axios.get(`${ajaxUrl}/api/product/category/${categoryId}`);
-        dispatch(slice.actions.getCategorySuccess(response.data));
-      }
+      const response = await axios.get(`${ajaxUrl}/api/product/category/${categoryId}`);
+      dispatch(slice.actions.getCategorySuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }
@@ -312,12 +428,8 @@ export function getProduct(id) {
   return async (dispatch) => {
     dispatch(slice.actions.startLoading());
     try {
-      const curAccessToken = window.localStorage.getItem('accessToken');
-      if (curAccessToken && isValidToken(curAccessToken)) {
-        setSession(curAccessToken);
-        const response = await axios.get(`${ajaxUrl}/api/product/by-id/${id}`);
-        dispatch(slice.actions.getProductSuccess(response.data));
-      }
+      const response = await axios.get(`${ajaxUrl}/api/product/by-id/${id}`);
+      dispatch(slice.actions.getProductSuccess(response.data));
     } catch (error) {
       console.error(error);
       dispatch(slice.actions.hasError(error));
@@ -329,12 +441,8 @@ export function getCategories() {
   return async (dispatch) => {
     dispatch(slice.actions.startLoading());
     try {
-      const curAccessToken = window.localStorage.getItem('accessToken');
-      if (curAccessToken && isValidToken(curAccessToken)) {
-        setSession(curAccessToken);
-        const response = await axios.get(`${ajaxUrl}/api/product/category/all`);
-        dispatch(slice.actions.getCategoriesSuccess(response.data));
-      }
+      const response = await axios.get(`${ajaxUrl}/api/product/category/all`);
+      dispatch(slice.actions.getCategoriesSuccess(response.data));
     } catch (error) {
       console.error(error);
       dispatch(slice.actions.hasError(error));
@@ -353,6 +461,9 @@ export function getFavoriteProducts() {
           `${ajaxUrl}/api/product/favorite-products`
         );
         dispatch(slice.actions.getFavoriteProductsSuccess(response.data));
+      } else {
+        console.log('hey');
+        dispatch(slice.actions.hasError({ message: "unsigned user" }));
       }
     } catch (error) {
       dispatch(slice.actions.hasError(error));
@@ -372,6 +483,9 @@ export function toggleFavoriteProduct(id) {
           { productId: id }
         );
         dispatch(slice.actions.getFavoriteProductsSuccess(response.data));
+      } else {
+        console.log('hey1');
+        dispatch(slice.actions.hasError({ message: "unsigned user" }));
       }
     } catch (error) {
       dispatch(slice.actions.hasError(error));

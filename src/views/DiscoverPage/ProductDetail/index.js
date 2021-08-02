@@ -30,12 +30,13 @@ import Page from 'src/components/Page';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getCategory, getProduct, toggleFavoriteProduct, addCart } from 'src/redux/slices/product';
+import { getCategory, getProduct, toggleFavoriteProduct, addCart, setError } from 'src/redux/slices/product';
 import ProductPhoto from './ProductPhoto';
 import { PATH_APP, PATH_DISCOVER } from 'src/routes/paths';
 import OrderDialog from './OrderDialog';
 import SelectDispensary from './SelectDispensary/index';
 import Checkout from './CheckoutView';
+import SignInAdviceDialog from 'src/views/DiscoverPage/SignInAdviceDialog';
 
 // routes
 import { PATH_DASHBOARD } from 'src/routes/paths';
@@ -97,7 +98,7 @@ const dateFormat = (date) => {
 export default function ProductPreview() {
 	const classes = useStyles();
   const dispatch = useDispatch();
-  const { product, category, favoriteProducts, checkout } = useSelector((state) => state.product);
+  const { product, category, favoriteProducts, checkout, error } = useSelector((state) => state.product);
   const { dispensary } = useSelector((state) => state.dispensary);
   const { productId } = useParams();
   const [quantity, setQuantity] = useState([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]);
@@ -108,6 +109,7 @@ export default function ProductPreview() {
 	const [orderTime, setOrderTime] = useState('');
 	const today = dateFormat(`${(new Date()).getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`);
 	const [orderDate, setOrderDate] = useState(today);
+  const isAppView = window.location.href.indexOf('app');
 
   useEffect(() => {
     dispatch(getProduct(productId));
@@ -215,6 +217,8 @@ export default function ProductPreview() {
 
 	return (
     <>
+      {!!error && <SignInAdviceDialog onClose={() => dispatch(setError())} />}
+
       {isOrderDialog && (
         <OrderDialog
           isOpen={isOrderDialog}
@@ -239,7 +243,15 @@ export default function ProductPreview() {
         />
       )}
       
-      <Container maxWidth="xl">
+      <Container
+        maxWidth="xl"
+        sx={isAppView
+          ? {
+            pt: [3, 15, 15]
+          }
+          : {}
+        }
+      >
         <Grid sx={{ flexDirection: 'row', justifyContent: 'space-between', m: 3, p: 3 }}>
           <Typography gutterBottom variant="h4" sx={{ width: 'auto' }}>
             {product && product.productName}

@@ -34,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
     ['@media (min-width: 1280px)']: {
       width: `calc(100% - 310px)`
     },
+    justifyContent: 'center',
   },
   map: {
     // position: 'sticky'
@@ -112,7 +113,7 @@ function Index() {
   return (
     <div
       className={
-        location.pathname == '/app/managment/pickup'
+        location.pathname == '/app/dashboard/pickup'
           ? classes.dashboard
           : classes.container
       }
@@ -120,7 +121,7 @@ function Index() {
       <GoogleMaps dispensaries={sortedDispensaries} center={center} setCenter={setCenter}/>
       <Button
         onClick={handleShow}
-        sx={{ float: 'right' }}
+        sx={{ml: location.pathname == '/app/dashboard/pickup' ? `calc(50vw - 190px)` : `calc(50vw - 40px)`}}
       >
         View
       </Button>

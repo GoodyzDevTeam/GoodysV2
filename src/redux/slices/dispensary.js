@@ -115,12 +115,8 @@ export function getDispensaries() {
   return async (dispatch) => {
     dispatch(slice.actions.startLoading());
     try {
-      const curAccessToken = window.localStorage.getItem('accessToken');
-      if (curAccessToken && isValidToken(curAccessToken)) {
-        setSession(curAccessToken);
-        const response = await axios.get(`${ajaxUrl}/api/dispensary/all`);
-        dispatch(slice.actions.getDispensariesSuccess(response.data));
-      }
+      const response = await axios.get(`${ajaxUrl}/api/dispensary/all`);
+      dispatch(slice.actions.getDispensariesSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }
@@ -133,12 +129,8 @@ export function getDispensary(id) {
   return async (dispatch) => {
     dispatch(slice.actions.startLoading());
     try {
-      const curAccessToken = window.localStorage.getItem('accessToken');
-      if (curAccessToken && isValidToken(curAccessToken)) {
-        setSession(curAccessToken);
-        const response = await axios.get(`${ajaxUrl}/api/dispensary/by-id/${id}`);
-        dispatch(slice.actions.getDispensarySuccess(response.data));
-      }
+      const response = await axios.get(`${ajaxUrl}/api/dispensary/by-id/${id}`);
+      dispatch(slice.actions.getDispensarySuccess(response.data));
     } catch (error) {
       console.error(error);
       dispatch(slice.actions.hasError(error));

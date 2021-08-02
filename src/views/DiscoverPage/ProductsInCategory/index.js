@@ -1,25 +1,17 @@
 /* eslint-disable */
-import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { fNumber, fPercent } from 'src/utils/formatNumber';
 import { useTheme, makeStyles } from '@material-ui/core/styles';
 import { Box, Button, Card, Typography, IconButton } from '@material-ui/core';
-import { getImgProduct } from 'src/utils/getImages';
 import { Grid, Collapse, CardMedia, CardHeader, CardContent, CardActions } from '@material-ui/core';
 import FavoriteIcon from '@material-ui/icons/Favorite';
-import Block from 'src/components/Block';
 import { MBreadcrumbs } from 'src/theme';
-import HomeIcon from '@material-ui/icons/Home';
-import GrainIcon from '@material-ui/icons/Grain';
-import WhatshotIcon from '@material-ui/icons/Whatshot';
 import ShareIcon from '@material-ui/icons/Share';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProductsByCategory, getCategory, toggleFavoriteProduct } from 'src/redux/slices/product';
+import { getProductsByCategory, getCategory, toggleFavoriteProduct, setError } from 'src/redux/slices/product';
 import { useParams, Link as RouterLink } from 'react-router-dom';
 import { PATH_APP, PATH_DISCOVER } from 'src/routes/paths';
+import SignInAdviceDialog from 'src/views/DiscoverPage/SignInAdviceDialog';
 
 // ----------------------------------------------------------------------
 
@@ -150,15 +142,23 @@ ProductsInCategory.propTypes = {
 
 function ProductsInCategory({ className, ...other }) {
   const classes = useStyles();
-  const { products, category, favoriteProducts } = useSelector((state) => state.product);
+  const { error, products, category, favoriteProducts } = useSelector((state) => state.product);
 	const [deal, setDeal] = useState([]);
 	const dispatch = useDispatch();
-	const { categoryId } = useParams();
+  const { categoryId } = useParams();
+  const isAppView = window.location.href.indexOf('app');
 
   useEffect(() => {
 		dispatch(getProductsByCategory(categoryId));
 		dispatch(getCategory(categoryId));
   }, [dispatch]);
+
+  // useEffect(() => {
+  //   if (error) {
+  //     console.log(error, error.message);
+  //     dispatch(setError());
+  //   }
+  // }, [error]);
 
   const onHandleFavorite = (id) => {
     dispatch(toggleFavoriteProduct(id));
@@ -171,8 +171,14 @@ function ProductsInCategory({ className, ...other }) {
     return false;
   };
 
+  const handleCloseAdviceModal = (e) => {
+    console.log('hey', !!error);
+    dispatch(setError());
+  };
+
   return (
-    <div>
+    <Grid sx={ isAppView == -1 ? {mt: 10, pl: 10, pr: 10 } : { mt: 1 }}>
+      {!!error && <SignInAdviceDialog onClose={handleCloseAdviceModal} />}
       <Grid item xs={12}>
 				<Typography variant="h3" sx={{ m: 1 }}>
 					{category && category.name}
@@ -223,7 +229,10 @@ function ProductsInCategory({ className, ...other }) {
 									>
 										<RouterLink
                       style={{ textDecoration: 'none' }}
-                      to={`${PATH_APP.general.discover}/productDetail/${product._id}`}
+                      to={isAppView == -1
+                        ?`${PATH_DISCOVER.general1.discover}/productDetail/${product._id}`
+                        :`${PATH_APP.general.discover}/productDetail/${product._id}`
+                      }
                     >
 											View
 										</RouterLink>
@@ -234,7 +243,7 @@ function ProductsInCategory({ className, ...other }) {
 					)
 				)}
       </div>
-    </div>
+    </Grid>
   );
 }
 

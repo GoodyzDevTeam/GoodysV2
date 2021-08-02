@@ -191,6 +191,24 @@ const routes = [
   },
   {
     exact: true,
+    path: PATH_DISCOVER.general1.productInCategory,
+    layout: HomeLayout,
+    component: lazy(() => import('src/views/DiscoverPage/ProductsInCategory/index'))
+  },
+  {
+    exact: true,
+    path: PATH_DISCOVER.general1.productDetail,
+    layout: HomeLayout,
+    component: lazy(() => import('src/views/DiscoverPage/ProductDetail/index'))
+  },
+  {
+    exact: true,
+    path: PATH_DISCOVER.general1.dispensaryDetail,
+    layout: HomeLayout,
+    component: lazy(() => import('src/views/DiscoverPage/DispensaryDetail/index'))
+  },
+  {
+    exact: true,
     path: PATH_DISCOVER.general1.products,
     layout: HomeLayout,
     component: lazy(() => import('src/views/e-commerce/ShopView'))

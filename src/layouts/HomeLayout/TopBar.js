@@ -114,23 +114,24 @@ function TopBar() {
 
   const renderMenuDesktop = (
     <div className={classes.display}>
-      {MENU_LINKS.map((link) => (
-        <Link
-          exact
-          to={link.href}
-          key={link.title}
-          underline="none"
-          variant="subtitle2"
-          component={RouterLink}
-          activeClassName={classes.isDesktopActive}
-          className={clsx({
-            [classes.isHome]: isHome
-          })}
-          sx={{ mr: 5, color: 'text.primary' }}
-        >
-          {link.title}
-        </Link>
-      ))}
+      {MENU_LINKS.map((link) => {
+        return (
+          <Link
+            exact
+            to={link.href}
+            key={link.title}
+            underline="none"
+            variant="subtitle2"
+            component={RouterLink}
+            activeClassName={classes.isDesktopActive}
+            className={clsx({
+              [classes.isHome]: isHome
+            })}
+            sx={{ mr: 5, color: 'text.primary' }}
+          >
+            {link.title}
+          </Link>
+        )})}
     </div>
   );
 

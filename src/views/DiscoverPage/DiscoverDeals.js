@@ -122,11 +122,11 @@ function DiscoverDeals({ className, ...other }) {
   const [deal, setDeal] = useState([]);
 
   useEffect(async () => {
-    const curAccessToken = window.localStorage.getItem('accessToken');
-    if (curAccessToken && isValidToken(curAccessToken)) {
-      setSession(curAccessToken);
-      const response = await axios.get(`${ajaxUrl}/api/deal/`);
-      setDeal(response.data);
+    const response = await axios.get(`${ajaxUrl}/api/deal/`);
+    setDeal(response.data);
+
+    return () => {
+      setDeal([]);
     }
   }, []);
 
