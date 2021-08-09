@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Card, Button, Typography } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 import { addCart } from 'src/redux/slices/product';
+import { setDispensary } from 'src/redux/slices/dispensary';
 import Box from '@material-ui/core/Box';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
@@ -34,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 
 // ----------------------------------------------------------------------
 
-const ConfirmDialog = ({ product, quantity, dispensary, onAdded, onClose }) => {
+const ConfirmDialog = ({ product, quantity, dispensary, onAdded, onClose, type }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -46,7 +47,9 @@ const ConfirmDialog = ({ product, quantity, dispensary, onAdded, onClose }) => {
       if (wp) addingProduct.quantity[idx] = quantity[idx];
     });
     
-    await dispatch(addCart({ addingProduct, dispensary }));
+    if (type =='add_cart')
+      await dispatch(addCart({ addingProduct, dispensary }));
+    else await dispatch(setDispensary(dispensary));
     onAdded();
   };
 

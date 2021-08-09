@@ -118,7 +118,6 @@ function Checkout({
   orderSuccess = () => {},
   orderCancel,
 }) {
-  console.log(quantity);
   const classes = useStyles();
   const dispatch = useDispatch();
   const isMountedRef = useIsMountedRef();
@@ -139,6 +138,16 @@ function Checkout({
   const [deliveryFee, setDeliveryFee] = useState(0);
   const [subTotal, setSubTotal] = useState(0);
 
+  const [customer, setCustomer] = useState();
+  const [payment, setPayment] = useState();
+
+  useEffect(() => {
+    return () => {
+      setCustomer();
+      setPayment();
+    }
+  }, []);
+
   useEffect(() => {
     let sum = 0;
     orderProducts.map((product, idx) => {
@@ -157,7 +166,10 @@ function Checkout({
   }, [dispatch, isMountedRef, cart]);
 
   useEffect(() => {
-    if (isComplete) orderSuccess(orderProducts);
+    if (isComplete) {
+      console.log('order complete, ', customer, payment, orderType, orderDate, orderProducts, dispensary);
+      orderSuccess(orderProducts);
+    }
   }, [isComplete]);
 
   const handleNextStep = () => {
@@ -205,10 +217,14 @@ function Checkout({
   const renderContent = () => {
     if (activeStep === 0) {
       return (
-        <Customer step={0} next={setActiveStep} orderCancel={orderCancel}/>
+        <Customer step={0} next={setActiveStep} orderCancel={orderCancel} setCustomer={setCustomer}/>
       );
     }
     if (activeStep === 1) {
+      if (orderType) {
+        // setActiveStep(2);
+        // return (<></>);
+      }
       return (
         <TypeAndOrder
           step={1}
@@ -249,6 +265,8 @@ function Checkout({
           onComplete={handleNextStep}
           onGotoStep={handleGotoStep}
           onApplyShipping={handleApplyShipping}
+          orderType={orderType}
+          setPayment={setPayment}
         />
       );
     }

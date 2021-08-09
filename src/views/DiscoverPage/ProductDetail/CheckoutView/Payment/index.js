@@ -71,7 +71,9 @@ function Payment({
   onComplete,
   onGotoStep,
   onApplyShipping,
-  className
+  className,
+  orderType,
+  setPayment,
 }) {
   const classes = useStyles();
 
@@ -87,12 +89,11 @@ function Payment({
     validationSchema: PaymentSchema,
     onSubmit: async (values, { setErrors, setSubmitting }) => {
       try {
-        console.log(values);
+        setPayment(values);
         setDeliveryFee(values.delivery);
         next(step + 1);
         setSubmitting(true);
       } catch (error) {
-        console.error(error);
         setSubmitting(false);
         setErrors(error.message);
       }
@@ -107,11 +108,11 @@ function Payment({
         <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
           <Card sx={{ p: 3, mt: 5, zIndex: 10 }}>
             <Grid item xs={12} md={12}>
-              <Delivery
+              {orderType === 'delivery' && <Delivery
                 formik={formik}
                 onApplyShipping={onApplyShipping}
                 deliveryOptions={DELIVERY_OPTIONS}
-              />
+              />}
               <PaymentMethods
                 formik={formik}
                 cardOptions={CARDS_OPTIONS}

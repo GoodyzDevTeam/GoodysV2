@@ -61,11 +61,12 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent:'space-between'
+    justifyContent:'flex-start'
   },
   HeaderBtn: {
     marginLeft: 'auto',
     marginRight: theme.spacing(1),
+    marginTop: '5px',
     //tablet
     ['@media (min-width: 650px) and (max-width: 1175px)']: {
       marginRight: theme.spacing(0),
@@ -121,17 +122,21 @@ const useStyles = makeStyles((theme) => ({
 // ----------------------------------------------------------------------
 
 DiscoverBrands.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
+  viewAll: PropTypes.any,
+  setViewAll: PropTypes.func,
 };
 
-function DiscoverBrands({ className, ...other }) {
+function DiscoverBrands({ className, viewAll, setViewAll, ...other }) {
   const classes = useStyles();
   const theme = useTheme();
   const [brand, setBrand] = useState([]);
 
   useEffect(async () => {
     const response = await axios.get(`${ajaxUrl}/api/brand/`);
-    setBrand(response.data);
+    if (viewAll == '')
+      setBrand(response.data.slice(0, 4));
+    else setBrand(response.data);
     
     return () => {
       setBrand([]);
@@ -151,6 +156,12 @@ function DiscoverBrands({ className, ...other }) {
     setExpanded(!expanded);
   };
 
+  const handleViewAll = (e) => {
+    if (viewAll == '') {
+      setViewAll('brands');
+    } else setViewAll('');
+  };
+
   return (
     <div>
       <Grid container spacing={2} xs={12} md={12} sx={{ p: 3 }} >
@@ -158,8 +169,12 @@ function DiscoverBrands({ className, ...other }) {
           <Typography variant='h3'>
             Brands
           </Typography>
-          <Button className={classes.HeaderBtn} variant="outlined">
-            View
+          <Button
+            className={classes.HeaderBtn}
+            variant="outlined"
+            onClick={handleViewAll}
+          >
+            {viewAll == '' ? "View" : "Back"}
           </Button>
         </Grid>
       </Grid>

@@ -73,9 +73,19 @@ const useStyles = makeStyles((theme) => ({
   tableHolder: {
     "& table": {
       borderRadius: "10px",
-      background: '#F4F6F8',
-    }
-  }
+			background: '#F4F6F8',
+			width: '300px',
+		},
+		"& td": {
+			paddingLeft: '0px !important',
+			paddingRight: '0px !important',
+			width: 'auto',
+			textAlign: 'center'
+		}
+	},
+	table: {
+		width: '300px',
+	}
 }));
 
 const QuantityButton = styled(Button)(({ theme }) => ({
@@ -125,7 +135,7 @@ const WeightAndPrice = ({ product }) => {
 					alignItems: 'center',
 					border: 'solid thin #637381',
 					borderRadius: '12px',
-					width: '100px',
+					width: '80px',
 					justifyContent: 'center',
 					p: 1
 				}}
@@ -147,7 +157,7 @@ const WeightAndPrice = ({ product }) => {
           value={(quantity[idx] == undefined || quantity[idx] == null) ? 0 : quantity[idx]}
           style={{
             border: 'none',
-            width: '50px',
+            width: '30px',
             textAlign: 'center',
             backgroundColor: 'white'
           }}

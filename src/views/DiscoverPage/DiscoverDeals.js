@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent:'space-between'
+    justifyContent:'flex-start'
   },
   headerBtnContainer: {
     marginLeft: 'auto',
@@ -66,6 +66,7 @@ const useStyles = makeStyles((theme) => ({
   HeaderBtn: {
     marginLeft: 'auto',
     marginRight: theme.spacing(1),
+    marginTop: '5px',
     //tablet
     ['@media (min-width: 650px) and (max-width: 1175px)']: {
       marginRight: theme.spacing(0),
@@ -113,17 +114,21 @@ const useStyles = makeStyles((theme) => ({
 // ----------------------------------------------------------------------
 
 DiscoverDeals.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
+  viewAll: PropTypes.any,
+  setViewAll: PropTypes.func,
 };
 
-function DiscoverDeals({ className, ...other }) {
+function DiscoverDeals({ className, viewAll, setViewAll, ...other }) {
   const classes = useStyles();
   const theme = useTheme();
   const [deal, setDeal] = useState([]);
 
   useEffect(async () => {
     const response = await axios.get(`${ajaxUrl}/api/deal/`);
-    setDeal(response.data);
+    if (viewAll == '')
+      setDeal(response.data.slice(0, 4));
+    else setDeal(response.data);
 
     return () => {
       setDeal([]);
@@ -140,6 +145,14 @@ function DiscoverDeals({ className, ...other }) {
     setExpanded(!expanded);
   };
 
+  const handleViewAll = (e) => {
+    if (viewAll == '') {
+      setViewAll('deals');
+    } else {
+      setViewAll('');
+    }
+  };
+
   return (
     <div>
       <Grid container spacing={2} xs={12} md={12} sx={{ p: 3 }} >
@@ -147,7 +160,11 @@ function DiscoverDeals({ className, ...other }) {
           <Typography variant='h3'>
             Deals
           </Typography>
-          <Button className={classes.HeaderBtn} variant="outlined">
+          <Button
+            className={classes.HeaderBtn}
+            variant="outlined"
+            onClick={handleViewAll}
+          >
             View
           </Button>
         </Grid>

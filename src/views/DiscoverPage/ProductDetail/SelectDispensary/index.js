@@ -69,13 +69,15 @@ SelectDispensary.propTypes = {
 	onClose: PropTypes.func,
 	product: PropTypes.any,
 	quantity: PropTypes.any,
+	type: PropTypes.any,
 };
 
 function SelectDispensary({
 	isOpen,
 	onClose,
 	product,
-	quantity
+	quantity,
+	type,
 }) {
 	const classes = useStyles();
 	const [dispensary, setDispensary] = useState({});
@@ -103,6 +105,7 @@ function SelectDispensary({
 					dispensary={dispensary}
 					onAdded={onClose}
 					onClose={onCloseConfirmDialg}
+					type={type}
 				/>
 			}
 			<Box className={classes.mask} onClick={onClose}></Box>

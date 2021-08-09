@@ -48,6 +48,12 @@ const AppRoutes = {
 
     {
       exact: true,
+      path: PATH_APP.general.productDetail1,
+      component: lazy(() => import('src/views/DiscoverPage/ProductDetail/index'))
+    },
+
+    {
+      exact: true,
       path: PATH_APP.general.dispensaryDetail,
       component: lazy(() => import('src/views/DiscoverPage/DispensaryDetail/index'))
     },
@@ -201,6 +207,12 @@ const AppRoutes1 = {
     {
       exact: true,
       path: PATH_APP.general.productDetail,
+      component: lazy(() => import('src/views/DiscoverPage/ProductDetail/index'))
+    },
+
+    {
+      exact: true,
+      path: PATH_APP.general.productDetail1,
       component: lazy(() => import('src/views/DiscoverPage/ProductDetail/index'))
     },
 

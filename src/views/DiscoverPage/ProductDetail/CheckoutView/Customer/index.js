@@ -105,11 +105,12 @@ Customer.propTypes = {
 	step: PropTypes.number,
 	next: PropTypes.func,
 	orderCancel: PropTypes.func,
+	setCustomer: PropTypes.func,
 	// setOrderDateTime: PropTypes.func,
 	// setOrderShow: PropTypes.func,
 };
 
-function Customer({ step, next, orderCancel }) {
+function Customer({ step, next, orderCancel, setCustomer }) {
 	const { myProfile } = useSelector((state) => state.user);
 	const dispatch = useDispatch();
 
@@ -144,7 +145,7 @@ function Customer({ step, next, orderCancel }) {
     },
     validationSchema: validationSchema,
     onSubmit: async (values, { setSubmitting, resetForm, setErrors }) => {
-			console.log(values);
+			setCustomer(values);
 			next(step + 1);
     }
 	});

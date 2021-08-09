@@ -66,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent:'space-between'
+    justifyContent: 'flex-start'
     // justifyContent: 'flex-start',
     // marginTop: theme.spacing(5),
     // marginBottom: theme.spacing(2),
@@ -75,6 +75,7 @@ const useStyles = makeStyles((theme) => ({
   HeaderBtn: {
     marginLeft: 'auto',
     marginRight: theme.spacing(1),
+    marginTop: '5px',
     //tablet
     ['@media (min-width: 650px) and (max-width: 1175px)']: {
       marginRight: theme.spacing(0),
@@ -118,10 +119,12 @@ const useStyles = makeStyles((theme) => ({
 // ----------------------------------------------------------------------
 
 DiscoverDispensaries.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
+  viewAll: PropTypes.any,
+  setViewAll: PropTypes.func,
 };
 
-function DiscoverDispensaries({ className, ...other }) {
+function DiscoverDispensaries({ className, viewAll, setViewAll, ...other }) {
   const classes = useStyles();
   const theme = useTheme();
   const dispatch = useDispatch();
@@ -132,6 +135,9 @@ function DiscoverDispensaries({ className, ...other }) {
     dispatch(getFavoriteDispensaries());
   }, [dispatch]);
 
+  const _dispensaries = viewAll == '' ? dispensaries.slice(0, 4) : dispensaries;
+
+
   const checkIfFavorite = (id) => {
     if (!favoriteDispensaries) return false;
     let filtered = favoriteDispensaries.filter((item) => item.dispensary._id == id);
@@ -141,83 +147,96 @@ function DiscoverDispensaries({ className, ...other }) {
 
   const onHandleFavorite = (id) => {
     dispatch(toggleFavoriteDispensary(id));
-  }
+  };
+
+  const handleViewAll = (e) => {
+    if (viewAll == '') {
+      setViewAll('dispensaries');
+    } else {
+      setViewAll('');
+    }
+  };
 
   return (
-    <div>
-      <Grid container spacing={2} xs={12} md={12} sx={{ p: 3 }} >
-        <Grid item xs={12} className={classes.header}>
-          <Typography variant='h3'>
-            Dispensaries
-          </Typography>
-          <Button className={classes.HeaderBtn} variant="outlined">
-            View
-          </Button>
-        </Grid>
-      </Grid>
-      {/* <div className={classes.display}> */}
-      <Grid container spacing={2} xs={12} md={12} sx={{ p: 3 }} >
-        {dispensaries && favoriteDispensaries &&
-          dispensaries.map(
-            (dispensary, index) => (
-              <Grid item xs={12} sm={6} md={3}>
-                <Card key={index} className={classes.root}>
-                  <CardHeader
-                    avatar={
-                      <Avatar aria-label="recipe" className={classes.avatar}>
-                        {dispensary.name[0]}
-                      </Avatar>
-                    }
-                    action={
-                      <IconButton aria-label="settings">
-                        <MoreVertIcon />
-                      </IconButton>
-                    }
-                    title={dispensary.name}
-                    subheader={dispensary.rating}
-                    className={classes.titleText}
-                  />
-                  <CardMedia
-                    className={classes.media}
-                    image={dispensary.mainImage}
-                    title="Paella dish"
-                  />
-                  <CardContent>
-                    <Typography>{dispensary.type}</Typography>
-                    <Typography>{dispensary.distance}</Typography>
-                  </CardContent>
-                  <CardActions disableSpacing>
-                    <IconButton
-                      onClick={() => onHandleFavorite(dispensary._id)}
-                      aria-label="add to favorites"
-                    >
-                      <FavoriteIcon
-                        sx={
-                          checkIfFavorite(dispensary._id)
-                          ? { color: 'red' }
-                          : { color: 'gray' }
-                        }
-                      />
-                    </IconButton>
-                    <IconButton aria-label="share">
-                      <ShareIcon />
-                    </IconButton>
-                    <Button variant="outlined" className={classes.visitBtn}>
-                      <RouterLink 
-                        style={{ textDecoration: 'none' }}
-                        to={`${PATH_APP.general.discover}/dispensaryDetail/${dispensary._id}`}
-                      >
-                        Visit
-                      </RouterLink>
-                    </Button>
-                  </CardActions>
-                </Card>
-              </Grid>
-            )
-          )}
+    <>
+      <div>
+        <Grid container spacing={2} xs={12} md={12} sx={{ p: 3 }} >
+          <Grid item xs={12} className={classes.header}>
+            <Typography variant='h3'>
+              Dispensaries
+            </Typography>
+            <Button
+              className={classes.HeaderBtn}
+              variant="outlined"
+              onClick={handleViewAll}
+            >
+              {viewAll == '' ? "View" : "Back"}
+            </Button>
           </Grid>
-      {/* </div> */}
-    </div>
+        </Grid>
+
+        <Grid container spacing={2} xs={12} md={12} sx={{ p: 3 }} >
+          {_dispensaries && favoriteDispensaries &&
+            _dispensaries.map(
+              (dispensary, index) => (
+                <Grid item xs={12} sm={6} md={3}>
+                  <Card key={index} className={classes.root}>
+                    <CardHeader
+                      avatar={
+                        <Avatar aria-label="recipe" className={classes.avatar}>
+                          {dispensary.name[0]}
+                        </Avatar>
+                      }
+                      action={
+                        <IconButton aria-label="settings">
+                          <MoreVertIcon />
+                        </IconButton>
+                      }
+                      title={dispensary.name}
+                      subheader={dispensary.rating}
+                      className={classes.titleText}
+                    />
+                    <CardMedia
+                      className={classes.media}
+                      image={dispensary.mainImage}
+                      title="Paella dish"
+                    />
+                    <CardContent>
+                      <Typography>{dispensary.type}</Typography>
+                      <Typography>{dispensary.distance}</Typography>
+                    </CardContent>
+                    <CardActions disableSpacing>
+                      <IconButton
+                        onClick={() => onHandleFavorite(dispensary._id)}
+                        aria-label="add to favorites"
+                      >
+                        <FavoriteIcon
+                          sx={
+                            checkIfFavorite(dispensary._id)
+                            ? { color: 'red' }
+                            : { color: 'gray' }
+                          }
+                        />
+                      </IconButton>
+                      <IconButton aria-label="share">
+                        <ShareIcon />
+                      </IconButton>
+                      <Button variant="outlined" className={classes.visitBtn}>
+                        <RouterLink 
+                          style={{ textDecoration: 'none' }}
+                          to={`${PATH_APP.general.discover}/dispensaryDetail/${dispensary._id}`}
+                        >
+                          Visit
+                        </RouterLink>
+                      </Button>
+                    </CardActions>
+                  </Card>
+                </Grid>
+              )
+            )}
+          </Grid>
+      </div>
+    </>
   );
 }
 

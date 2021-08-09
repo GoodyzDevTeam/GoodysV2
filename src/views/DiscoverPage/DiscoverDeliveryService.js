@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent:'space-between'
+    justifyContent:'space-start'
     // marginTop: theme.spacing(5),
     // marginBottom: theme.spacing(2),
     // marginLeft: theme.spacing(2)
@@ -62,6 +62,7 @@ const useStyles = makeStyles((theme) => ({
   HeaderBtn: {
     marginLeft: 'auto',
     marginRight: theme.spacing(1),
+    marginTop: '5px',
     //tablet
     ['@media (min-width: 650px) and (max-width: 1175px)']: {
       marginRight: theme.spacing(0),
@@ -117,23 +118,34 @@ const useStyles = makeStyles((theme) => ({
 // ----------------------------------------------------------------------
 
 DiscoverDeliveryService.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
+  viewAll: PropTypes.any,
+  setViewAll: PropTypes.func,
 };
 
-function DiscoverDeliveryService({ className, ...other }) {
+function DiscoverDeliveryService({ className, viewAll, setViewAll, ...other }) {
   const classes = useStyles();
   const theme = useTheme();
   const [delivery, setDelivery] = useState([]);
 
   useEffect(async () => {
     const response = await axios.get(`${ajaxUrl}/api/delivery/`);
-    setDelivery(response.data);
+    if (viewAll == '')
+      setDelivery(response.data.slice(0, 4));
+    else setDelivery(response.data);
   
     return () => {
       setDelivery([]);
     }
   }, []);
 
+  const handleViewAll = (e) => {
+    if (viewAll == '') {
+      setViewAll('deliveries');
+    } else {
+      setViewAll('');
+    }
+  };
 
   const image = {
     small: getImgProduct(600),
@@ -155,8 +167,12 @@ function DiscoverDeliveryService({ className, ...other }) {
           <Typography variant='h3'>
             Delivery
           </Typography>
-          <Button className={classes.HeaderBtn} variant="outlined">
-            View
+          <Button
+            className={classes.HeaderBtn}
+            variant="outlined"
+            onClick={handleViewAll}
+          >
+            {viewAll == '' ? "View" : "Back"}
           </Button>
         </Grid>
       </Grid>

@@ -104,7 +104,7 @@ export default function ProductPreview() {
   const [quantity, setQuantity] = useState([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]);
   const [isOrderShow, setOrderShow] = useState(false);
   const [isOrderDialog, setOrderDialog] = useState(false);
-  const [isSelectDispensary, setSelectDispensary] = useState(false);
+  const [selectDispensary, setSelectDispensary] = useState('');
   const [orderType, setOrderType] = useState('');
 	const [orderTime, setOrderTime] = useState('');
 	const today = dateFormat(`${(new Date()).getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`);
@@ -200,7 +200,9 @@ export default function ProductPreview() {
   };
 
   const handleSelectDispensaryClose = (event) => {
-    setSelectDispensary(false);
+    if (selectDispensary == 'buy_now' && calcPrice() > 0)
+      setOrderDialog(true);
+    setSelectDispensary('');
   };
 
   const addToCart = async () => {
@@ -212,7 +214,7 @@ export default function ProductPreview() {
     
     if (dispensary)
       await dispatch(addCart({ addingProduct, dispensary }));
-    else setSelectDispensary(true);
+    else setSelectDispensary('add_cart');
   };
 
 	return (
@@ -233,13 +235,14 @@ export default function ProductPreview() {
         />
       )}
 
-      {isSelectDispensary && (
+      {selectDispensary !== '' && (
         <SelectDispensary
-          isOpen={isSelectDispensary}
+          isOpen={selectDispensary}
           onClose={handleSelectDispensaryClose}
           product={product}
           quantity={quantity}
           quantity={quantity}
+          type={selectDispensary}
         />
       )}
       
@@ -353,7 +356,9 @@ export default function ProductPreview() {
                     </Button>
                     <Button
                       onClick={() => {
-                        if (calcPrice() > 0) setOrderDialog(true);
+                        if (!dispensary) {
+                          setSelectDispensary('buy_now');
+                        } else if (calcPrice() > 0) setOrderDialog(true);
                       }}
                       sx={{ width: '120px', backgroundColor: '#00ab55', color: 'white' }}
                     >
