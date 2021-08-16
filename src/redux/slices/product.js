@@ -492,3 +492,19 @@ export function toggleFavoriteProduct(id) {
     }
   };
 }
+
+export function addOrder(order) {
+  return async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const response = await axios.post(
+        `${ajaxUrl}/api/orders`,
+        order
+      );
+      dispatch(slice.actions.addOrder(response.data));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+

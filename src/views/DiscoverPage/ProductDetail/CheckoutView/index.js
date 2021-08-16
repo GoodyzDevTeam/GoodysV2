@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import useIsMountedRef from 'src/hooks/useIsMountedRef';
 import checkmarkFill from '@iconify-icons/eva/checkmark-fill';
 import {
+  addOrder,
   getCart,
   resetCart,
   onGotoStep,
@@ -140,11 +141,13 @@ function Checkout({
 
   const [customer, setCustomer] = useState();
   const [payment, setPayment] = useState();
+	const [formData, setFormData] = useState(new FormData(this));
 
   useEffect(() => {
     return () => {
       setCustomer();
       setPayment();
+      setFormData();
     }
   }, []);
 
@@ -165,9 +168,28 @@ function Checkout({
     }
   }, [dispatch, isMountedRef, cart]);
 
-  useEffect(() => {
+  useEffect(async () => {
     if (isComplete) {
-      console.log('order complete, ', customer, payment, orderType, orderDate, orderProducts, dispensary);
+      console.log('order complete, ', customer, payment, orderType, orderDate, orderTime, orderProducts, quantity, dispensary);
+      
+      let order = {
+        merchantId: orderProducts[0].merchant,
+        customerId: customer?._id,
+        anonymous: JSON.stringify(customer),
+        dispensaryId: dispensary._id,
+        requestedTime: `${orderDate} ${orderTime.split(' - ')[0]}`,
+        orderType,
+        quantity: JSON.stringify(quantity),
+        products: JSON.stringify(orderProducts)
+      };
+
+      for (let key in order) {
+        formData.append(key, order[key]);
+      }
+
+      await dispatch(addOrder(formData));
+      setFormData(new FormData(this));
+
       orderSuccess(orderProducts);
     }
   }, [isComplete]);
@@ -217,7 +239,7 @@ function Checkout({
   const renderContent = () => {
     if (activeStep === 0) {
       return (
-        <Customer step={0} next={setActiveStep} orderCancel={orderCancel} setCustomer={setCustomer}/>
+        <Customer step={0} next={setActiveStep} orderCancel={orderCancel} setCustomer={setCustomer} formData={formData} />
       );
     }
     if (activeStep === 1) {

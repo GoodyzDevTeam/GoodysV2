@@ -106,11 +106,12 @@ Customer.propTypes = {
 	next: PropTypes.func,
 	orderCancel: PropTypes.func,
 	setCustomer: PropTypes.func,
+	formData: PropTypes.any,
 	// setOrderDateTime: PropTypes.func,
 	// setOrderShow: PropTypes.func,
 };
 
-function Customer({ step, next, orderCancel, setCustomer }) {
+function Customer({ step, next, orderCancel, setCustomer, formData }) {
 	const { myProfile } = useSelector((state) => state.user);
 	const dispatch = useDispatch();
 
@@ -229,6 +230,10 @@ function Customer({ step, next, orderCancel, setCustomer }) {
 								type='file'
 								style={{ display: 'none' }}
 								{...getFieldProps('license')}
+								onChange={(e) => {
+									console.log(e, e.target, e.target.value);
+									formData.set(`image_license`, e.target.value);
+								}}
 								error={Boolean(touched.license && errors.license)}
 							/>
 						</Button>
