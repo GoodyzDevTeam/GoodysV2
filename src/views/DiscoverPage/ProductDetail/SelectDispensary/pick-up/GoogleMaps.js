@@ -2,7 +2,7 @@ import ControlStyle from './styles';
 import { mapConfig } from 'src/config';
 import Page from 'src/components/Page';
 import { PATH_APP } from 'src/routes/paths';
-import React, { Suspense, lazy, useState } from 'react';
+import React, { Suspense, lazy, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { LoadScript } from '@react-google-maps/api';
 import { HeaderDashboard } from 'src/layouts/Common';
@@ -108,6 +108,12 @@ GoogleMaps.propTypes = {
 function GoogleMaps({ dispensaries, product, center, setCenter, quantity, onConfirm, onCancel }) {
   const classes = useStyles();
   const [location, setLocation] = useState(useLocation()); //GRAB USE LOCATION OBJECT REACT-ROUTER
+
+  useEffect(() => {
+		return () => {
+			setLocation();
+		}
+  }, []);
 
   return (
     <Page title="Pick Up | Goody'z">

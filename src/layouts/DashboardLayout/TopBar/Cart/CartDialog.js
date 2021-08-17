@@ -120,6 +120,12 @@ const WeightAndPrice = ({ product }) => {
     }
   }, [quantity]);
 
+  useEffect(() => {
+		return () => {
+			setQuantity();
+		}
+  }, []);
+
   let subTotal = 0;
 
   product.weightAndPrice.map((wp, idx) => {

@@ -108,6 +108,12 @@ export default function ProductPreview() {
 	const { dispensaryId } = useParams();
 	const [curCategory, setCurCategory] = useState(null);
 
+	useEffect(() => {
+		return () => {
+			setCurCategory();
+		}
+  }, []);
+
   useEffect(() => {
 		dispatch(getDispensary(dispensaryId));
 		dispatch(getCategories());

@@ -110,6 +110,12 @@ function MapAutoComplete({ themes, className, dispensaries, product, onConfirm, 
   const [userInfo, setUserInfo] = useState(false);
   const [dispensaryInfoOpen, setDispensaryInfoOpen] = useState([]);
 
+  useEffect(() => {
+		return () => {
+			setDispensaryInfoOpen();
+		}
+  }, []);
+
   const mapOptions = {
     zoom: 13,
     minZoom: 2,

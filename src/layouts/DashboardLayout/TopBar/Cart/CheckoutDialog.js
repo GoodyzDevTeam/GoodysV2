@@ -38,6 +38,12 @@ const CheckoutDialog = ({ products, onSuccess, onClose }) => {
   useEffect(() => {
     setOrderType('pickup');
     setOrderTime('10:00:00 - 11:00:00');
+
+    return () => {
+      setQuantity();
+      setOrderType();
+      setOrderTime();
+    }
   }, []);
 
   return (

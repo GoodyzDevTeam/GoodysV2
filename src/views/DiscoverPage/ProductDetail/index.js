@@ -112,6 +112,16 @@ export default function ProductPreview() {
   const isAppView = window.location.href.indexOf('app');
 
   useEffect(() => {
+    console.log("hello this is advice error", error);
+  }, [error]);
+
+  useEffect(() => {
+		return () => {
+      setQuantity();
+		}
+  }, []);
+
+  useEffect(() => {
     dispatch(getProduct(productId));
   }, [dispatch]);
 

@@ -83,6 +83,12 @@ function SelectDispensary({
 	const [dispensary, setDispensary] = useState({});
 	const [isConfirmDialog, setConfirmDialog] = useState(false);
 
+	useEffect(() => {
+		return () => {
+			setDispensary();
+		}
+  }, []);
+
 	const handleScrollList = (event) => {
 		// console.log(event);
 	};

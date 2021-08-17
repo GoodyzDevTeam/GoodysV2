@@ -7,7 +7,7 @@ import { Container, Grid } from '@material-ui/core';
 import useAuth from 'src/hooks/useAuth';
 import { useLocation } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
-import { getDispensaries } from 'src/redux/slices/dispensary';
+import { getDispensaries, setDispensary } from 'src/redux/slices/dispensary';
 import { Button } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
@@ -79,6 +79,12 @@ function Index() {
   const { dispensaries } = useSelector((state) => state.dispensary);
   const [center, setCenter] = useState({ lat: 34.052235, lng: -118.243683 });
   const [sortedDispensaries, setDispensaries] = useState([]);
+
+  useEffect(() => {
+		return () => {
+			setDispensaries();
+		}
+  }, []);
 
   useEffect(() => {
     if (dispensaries && center) {

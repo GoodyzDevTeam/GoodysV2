@@ -12,6 +12,7 @@ const initialState = {
   products: [],
   favoriteProducts: [],
   product: null,
+  order: null,
   categories: [],
   category: null,
   sortBy: null,
@@ -235,6 +236,11 @@ const slice = createSlice({
       state.checkout.shipping = shipping;
       state.checkout.total =
         state.checkout.subtotal - state.checkout.discount + shipping;
+    },
+
+    addOrder(state, action) {
+      state.isLoading = false;
+      state.order = action.payload;
     }
   }
 });

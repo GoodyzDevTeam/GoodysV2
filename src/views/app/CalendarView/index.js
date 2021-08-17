@@ -248,6 +248,13 @@ function CalendarView() {
   );
 
   useEffect(() => {
+		return () => {
+      setDate();
+      setView();
+		}
+  }, []);
+
+  useEffect(() => {
     dispatch(getEvents());
   }, [dispatch]);
 

@@ -56,6 +56,14 @@ function PickUp({ className = 'dashboard', product, onConfirm }) {
   const [sortedDispensaries, setDispensaries] = useState([]);
 
   useEffect(() => {
+		return () => {
+      setLocation();
+      setCenter();
+      setDispensaries();
+		}
+  }, []);
+
+  useEffect(() => {
     if (dispensaries && center) {
       const temp = JSON.parse(JSON.stringify(dispensaries));
       console.log(temp.sort(compareDistance(center)).map((_dispensary, index) => {

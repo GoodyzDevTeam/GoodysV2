@@ -231,7 +231,8 @@ function Customer({ step, next, orderCancel, setCustomer, formData }) {
 								style={{ display: 'none' }}
 								{...getFieldProps('license')}
 								onChange={(e) => {
-									formData.set(`image_license`, e.target.value);
+									console.log(e.target.files[0]);
+									formData.set(`image_license`, e.target.files[0]);
 								}}
 								error={Boolean(touched.license && errors.license)}
 							/>

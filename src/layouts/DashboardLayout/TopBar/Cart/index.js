@@ -101,6 +101,13 @@ function Cart({ className }) {
   const [orderProducts, setOrderProducts] = useState([]);
 
   useEffect(() => {
+		return () => {
+      setCartDispensaries();
+      setOrderProducts();
+		}
+  }, []);
+
+  useEffect(() => {
     let temp = [];
     if (checkout.cart) {
       checkout.cart.map((product) => {

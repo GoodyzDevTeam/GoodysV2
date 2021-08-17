@@ -149,6 +149,12 @@ function ProductsInCategory({ className, ...other }) {
   const isAppView = window.location.href.indexOf('app');
 
   useEffect(() => {
+		return () => {
+			setDeal();
+		}
+  }, []);
+
+  useEffect(() => {
 		dispatch(getProductsByCategory(categoryId));
 		dispatch(getCategory(categoryId));
   }, [dispatch]);
