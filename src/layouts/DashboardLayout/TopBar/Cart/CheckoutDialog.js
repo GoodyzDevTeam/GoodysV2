@@ -10,6 +10,12 @@ import CloseIcon from '@material-ui/icons/Close';
 import Checkout from 'src/views/DiscoverPage/ProductDetail/CheckoutView';
 
 // ----------------------------------------------------------------------
+const dateFormat = (date) => {
+	let split = date.split('-');
+	if (split[1].length == 1) split[1] = `0${split[1]}`;
+	if (split[2].length == 1) split[2] = `0${split[2]}`;
+	return `${split[0]}-${split[1]}-${split[2]}`;
+};
 
 const useStyles = makeStyles((theme) => ({
   CheckoutDialog: {
@@ -27,12 +33,13 @@ const useStyles = makeStyles((theme) => ({
 
 // ----------------------------------------------------------------------
 
-const CheckoutDialog = ({ products, onSuccess, onClose }) => {
+const CheckoutDialog = ({ products, orderDispensary, onSuccess, onClose }) => {
   const classes = useStyles();
 	const dispatch = useDispatch();
 	const [quantity, setQuantity] = useState(products.map((product) => product.quantity));
 	const [orderType, setOrderType] = useState('pickup');
-	const [orderDate, setOrderDate] = useState('');
+	const today = dateFormat(`${(new Date()).getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`);
+	const [orderDate, setOrderDate] = useState(today);
   const [orderTime, setOrderTime] = useState('10:00:00 - 11:00:00');
   
   useEffect(() => {
@@ -64,6 +71,7 @@ const CheckoutDialog = ({ products, onSuccess, onClose }) => {
       <Card className={classes.CheckoutDialog}>
         <Checkout
 					orderProducts={products}
+          orderDispensary={orderDispensary}
 					quantity={quantity}
 					setQuantity={setQuantity}
 					orderType={orderType ? orderType : 'pickup'}

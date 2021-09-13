@@ -21,6 +21,7 @@ import {
   FormHelperText,
   FormControlLabel
 } from '@material-ui/core';
+import CardSection from './CardSection';
 
 // ----------------------------------------------------------------------
 
@@ -89,11 +90,13 @@ function PaymentMethods({ paymentOptions, cardOptions, formik, className }) {
                             sx={{ color: 'text.secondary' }}
                           >
                             {description}
+
                           </Typography>
                         </Box>
                       }
                       sx={{ flexGrow: 1, py: 3 }}
                     />
+                    {hasChildren && <div style={{width: '100%'}}><CardSection /></div>}
                     <Hidden smDown>
                       <Box
                         sx={{
@@ -114,7 +117,7 @@ function PaymentMethods({ paymentOptions, cardOptions, formik, className }) {
                       </Box>
                     </Hidden>
 
-                    {hasChildren && (
+                    {/* {hasChildren && (
                       <Collapse
                         in={values.payment === 'credit_card'}
                         sx={{ width: '100%' }}
@@ -144,7 +147,7 @@ function PaymentMethods({ paymentOptions, cardOptions, formik, className }) {
                           Add new card
                         </Button>
                       </Collapse>
-                    )}
+                    )} */}
                   </div>
                 </Grid>
               );

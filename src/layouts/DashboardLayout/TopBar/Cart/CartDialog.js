@@ -238,6 +238,7 @@ function CartDialog({ open, setOpen, cartDispensaries, setCartDispensaries, orde
   const dispatch = useDispatch();
   const { checkout, favoriteProducts } = useSelector((state) => state.product);
   const [isCheckout, setIsCheckout] = useState(false);
+	const [orderDispensary, setOrderDispensary] = useState();
 
   useEffect(() => {
     let temp = [];
@@ -279,8 +280,9 @@ function CartDialog({ open, setOpen, cartDispensaries, setCartDispensaries, orde
     return false;
   };
 
-  const handlePurchaseProduct = (product) => {
+  const handlePurchaseProduct = (product, dispensary) => {
     setOrderProducts([product]);
+		setOrderDispensary(dispensary);
     setIsCheckout(true);
   };
 
@@ -335,6 +337,7 @@ function CartDialog({ open, setOpen, cartDispensaries, setCartDispensaries, orde
 				{isCheckout &&
 					<CheckoutDialog
 						products={orderProducts}
+						orderDispensary={orderDispensary}
 						onSuccess={handleOrderSuccess}
 						onClose={() => {setIsCheckout(false)}}
 					/>
@@ -407,7 +410,7 @@ function CartDialog({ open, setOpen, cartDispensaries, setCartDispensaries, orde
 																<IconButton aria-label="share">
 																	<ShareIcon />
 																</IconButton>
-																<Button onClick={() => handlePurchaseProduct(product)} sx={{ float: 'right' }}>
+																<Button onClick={() => handlePurchaseProduct(product, dispensary)} sx={{ float: 'right' }}>
 																	Purchase
 																</Button>
 																<Button sx={{ float: 'right' }}>

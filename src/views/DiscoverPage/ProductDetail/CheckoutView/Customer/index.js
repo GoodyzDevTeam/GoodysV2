@@ -127,6 +127,7 @@ function Customer({ step, next, orderCancel, setCustomer, formData }) {
 	}
 
 	const validationSchema = Yup.object().shape({
+		accessToken: Yup.string(),
 		firstName: Yup.string().required('First Name is required'),
 		lastName: Yup.string().required('Last Name is required'),
 		phone: Yup.string().required('Phone Number is required'),
@@ -138,6 +139,7 @@ function Customer({ step, next, orderCancel, setCustomer, formData }) {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
+			accessToken: localStorage.getItem('accessToken')?`Bearer ${localStorage.getItem('accessToken')}`:'',
 			firstName: myProfile && myProfile.displayName.split(' ')[0],
 			lastName: myProfile && myProfile.displayName.split(' ')[1],
 			phone: myProfile && myProfile.phoneNumber,
@@ -161,6 +163,10 @@ function Customer({ step, next, orderCancel, setCustomer, formData }) {
 						Customer
 					</Typography>
 					<Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2, mb: 3 }}>
+						<TextField
+							style={{display: 'none'}}
+							{...getFieldProps('accessToken')}
+						/>
 						<TextField
 							label="First Name"
 							required

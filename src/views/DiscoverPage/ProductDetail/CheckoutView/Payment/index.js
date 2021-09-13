@@ -11,7 +11,8 @@ import arrowIosBackFill from '@iconify-icons/eva/arrow-ios-back-fill';
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid, Button, Card } from '@material-ui/core';
 import { LoadingButton } from '@material-ui/lab';
-
+import {useStripe, useElements, CardElement, CardExpiryElement} from '@stripe/react-stripe-js';
+import CardSection from './CardSection';
 // ----------------------------------------------------------------------
 
 const DELIVERY_OPTIONS = [
@@ -75,8 +76,9 @@ function Payment({
   orderType,
   setPayment,
 }) {
+  const stripe = useStripe();
+  const elements = useElements();
   const classes = useStyles();
-
   const PaymentSchema = Yup.object().shape({
     payment: Yup.mixed().required('Payment is required')
   });
@@ -88,6 +90,9 @@ function Payment({
     },
     validationSchema: PaymentSchema,
     onSubmit: async (values, { setErrors, setSubmitting }) => {
+      const cardElement = elements.getElement(CardElement);
+      console.log('here card element', cardElement);
+
       try {
         setPayment(values);
         setDeliveryFee(values.delivery);
@@ -102,10 +107,15 @@ function Payment({
 
   const { isSubmitting, handleSubmit } = formik;
 
+  const handleSubmit1 = (e) => {
+    const cardElement = elements.getElement(CardElement);
+    console.log(cardElement);
+  };
+
   return (
     <div className={clsx(classes.root, className)}>
       <FormikProvider value={formik}>
-        <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+        <form autoComplete="off" noValidate onSubmit={handleSubmit}>
           <Card sx={{ p: 3, mt: 5, zIndex: 10 }}>
             <Grid item xs={12} md={12}>
               {orderType === 'delivery' && <Delivery
@@ -113,6 +123,7 @@ function Payment({
                 onApplyShipping={onApplyShipping}
                 deliveryOptions={DELIVERY_OPTIONS}
               />}
+              {/* <CardSection style={{width: '100%'}} /> */}
               <PaymentMethods
                 formik={formik}
                 cardOptions={CARDS_OPTIONS}
@@ -145,7 +156,7 @@ function Payment({
               </Button>
             </Grid>
           </Card>
-        </Form>
+        </form>
       </FormikProvider>
     </div>
   );

@@ -39,10 +39,14 @@ import {
   StepLabel,
   StepConnector
 } from '@material-ui/core';
+import {Elements} from '@stripe/react-stripe-js';
+import {loadStripe} from '@stripe/stripe-js';
+
+const stripePromise = loadStripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
 
 // ----------------------------------------------------------------------
 
-const STEPS = ['Customer', 'Type & Time', 'Payment', 'Items'];
+const STEPS = ['Customer', 'Type & Time', 'Items', 'Payment'];
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -108,6 +112,7 @@ function QontoStepIcon({ active, completed }) {
 
 function Checkout({
   orderProducts,
+  orderDispensary,
   quantity,
   setQuantity,
   orderType,
@@ -168,30 +173,42 @@ function Checkout({
     }
   }, [dispatch, isMountedRef, cart]);
 
-  useEffect(async () => {
-    if (isComplete) {
-      console.log('order complete, ', customer, payment, orderType, orderDate, orderTime, orderProducts, quantity, dispensary);
-      
-      let order = {
-        merchantId: orderProducts[0].merchant,
-        customerId: customer?._id,
-        anonymous: JSON.stringify(customer),
-        dispensaryId: dispensary._id,
-        requestedTime: `${orderDate} ${orderTime.split(' - ')[0]}`,
-        orderType,
-        quantity: JSON.stringify(quantity),
-        products: JSON.stringify(orderProducts)
-      };
-
-      for (let key in order) {
-        formData.append(key, order[key]);
+  useEffect(() => {
+    const todo = async () => {
+      if (isComplete) {
+        // console.log('order complete, ', customer, payment, orderType, orderDate, orderTime, orderProducts, quantity, dispensary);
+        console.log(payment);
+        return;
+        let dispensaryId;
+        if (orderDispensary) {
+          dispensaryId = orderDispensary._id;
+        } else if (dispensary) {
+          dispensaryId = dispensary._id;
+        }
+        let order = {
+          merchantId: orderProducts[0].merchant,
+          customerId: customer?._id,
+          anonymous: JSON.stringify(customer),
+          dispensaryId: dispensaryId,
+          requestedTime: `${orderDate} ${orderTime.split(' - ')[0]}`,
+          orderType,
+          quantity: JSON.stringify(quantity),
+          products: JSON.stringify(orderProducts)
+        };
+        console.log('here order: ', order);
+        for (let key in order) {
+          formData.append(key, order[key]);
+        }
+  
+        await dispatch(addOrder(formData));
+        setFormData(new FormData(this));
+  
+        orderSuccess(orderProducts);
       }
+    };
 
-      await dispatch(addOrder(formData));
-      setFormData(new FormData(this));
-
-      orderSuccess(orderProducts);
-    }
+    todo();
+    
   }, [isComplete]);
 
   const handleNextStep = () => {
@@ -275,13 +292,25 @@ function Checkout({
     // }
     if (activeStep === 2) {
       return (
-        <Payment
+        <Items
+          step={2}
+          next={setActiveStep}
+          orderProducts={orderProducts}
+          dispensary={dispensary}
+          quantity={quantity}
+          setQuantity={setQuantity}
+        />
+      );
+    }
+    if (activeStep === 3) {
+      return (
+         <Payment
           total={total}
           billing={billing}
           subtotal={subtotal}
           discount={discount}
           shipping={shipping}
-          step={2}
+          step={3}
           next={setActiveStep}
           setDeliveryFee={setDeliveryFee}
           onComplete={handleNextStep}
@@ -292,60 +321,50 @@ function Checkout({
         />
       );
     }
-    if (activeStep === 3) {
-      return (
-        <Items
-          step={3}
-          next={setActiveStep}
-          orderProducts={orderProducts}
-          dispensary={dispensary}
-          quantity={quantity}
-          setQuantity={setQuantity}
-        />
-      );
-    }
     return;
   };
 
   return (
-    <Grid
-      title="Checkout-Ecommerce-Management | Minimal-UI"
-      xs={12} md={12}
-    >
-      <Container>
+    <Elements stripe={stripePromise}>
+      <Grid
+        title="Checkout-Ecommerce-Management | Minimal-UI"
+        xs={12} md={12}
+      >
+        <Container>
 
-        <Grid container justifyContent={isComplete ? 'center' : 'flex-start'}>
-          <Grid item xs={12} md={8} sx={{ p: 3, zIndex: 2 }}>
-            <Stepper
-              alternativeLabel
-              activeStep={activeStep}
-              connector={<QontoConnector />}
-            >
-              {STEPS.map((label) => (
-                <Step key={label}>
-                  <StepLabel
-                    StepIconComponent={QontoStepIcon}
-                    classes={{ label: classes.label }}
-                  >
-                    {label}
-                  </StepLabel>
-                </Step>
-              ))}
-            </Stepper>
-            {isComplete ? (
-              <OrderComplete isComplete={isComplete} onReset={handleResetStep} />
-            ) : (
-              renderContent()
-            )}
-          </Grid>
-          {!isComplete && 
-            <Grid item xs={12} md={4} sx={{ p: 3 }}>
-              <Summary total={subTotal + deliveryFee} subtotal={subTotal + deliveryFee}/>
+          <Grid container justifyContent={isComplete ? 'center' : 'flex-start'}>
+            <Grid item xs={12} md={8} sx={{ p: 3, zIndex: 2 }}>
+              <Stepper
+                alternativeLabel
+                activeStep={activeStep}
+                connector={<QontoConnector />}
+              >
+                {STEPS.map((label) => (
+                  <Step key={label}>
+                    <StepLabel
+                      StepIconComponent={QontoStepIcon}
+                      classes={{ label: classes.label }}
+                    >
+                      {label}
+                    </StepLabel>
+                  </Step>
+                ))}
+              </Stepper>
+              {isComplete ? (
+                <OrderComplete isComplete={isComplete} onReset={handleResetStep} />
+              ) : (
+                renderContent()
+              )}
             </Grid>
-          }
-        </Grid>
-      </Container>
-    </Grid>
+            {!isComplete && 
+              <Grid item xs={12} md={4} sx={{ p: 3 }}>
+                <Summary total={subTotal + deliveryFee} subtotal={subTotal + deliveryFee}/>
+              </Grid>
+            }
+          </Grid>
+        </Container>
+      </Grid>
+    </Elements>
   );
 }
 
